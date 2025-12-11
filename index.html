@@ -49,7 +49,7 @@ nav a:hover {
     margin-bottom: 30px; 
 }
 .active { 
-    display: block; 
+    display: block;
 }
 h2 { 
     color: #82d8ff; 
@@ -149,7 +149,10 @@ canvas {
 <a href="#" onclick="show('arrays')">Arrays</a>
 <a href="#" onclick="show('sorting')">Sorting</a>
 <a href="#" onclick="show('searching')">Searching</a>
-<a href="#" onclick="show('trees')">Trees</a>
+<a href="#" onclick="show('bt')">Binary Tree</a>
+<a href="#" onclick="show('bst')">BST</a>
+<a href="#" onclick="show('avl')">AVL Tree</a>
+<a href="#" onclick="show('trie')">Trie</a>
 <a href="#" onclick="show('heaps')">Heaps</a>
 <a href="#" onclick="show('graphs')">Graphs</a>
 <a href="#" onclick="show('bellman')">Bellman-Ford</a>
@@ -158,7 +161,6 @@ canvas {
 <a href="#" onclick="show('recursion')">Recursion</a>
 </nav>
 <div class="container">
-<!-- 1. DYNAMIC ARRAYS -->
 <div id="arrays" class="section active">
 <h2>Dynamic Array Operations</h2>
 <div class="details">
@@ -252,7 +254,6 @@ print(da.search(15))  # 1
 <div class="info" id="array-status">Array: [] | Length: 0</div>
 </div>
 
-<!-- 2. SORTING -->
 <div id="sorting" class="section">
 <h2>Sorting Algorithms</h2>
 <div class="details">
@@ -319,12 +320,11 @@ print(merge_sort(arr.copy()))   # [11, 12, 22, 25, 34, 64, 90]
 <div class="info" id="sort-info">Steps: 0</div>
 </div>
 
-<!-- 3. SEARCHING -->
 <div id="searching" class="section">
 <h2>Search Algorithms</h2>
 <div class="details">
 <h3>Details</h3>
-<p>Search algorithms locate a target in a collection. <strong>Linear Search</strong> (O(n)) checks each element sequentially, suitable for unsorted data. <strong>Binary Search</strong> (O(log n)) halves the search interval on sorted data, requiring preprocessing sort (O(n log n)). Efficient searching is crucial for large datasets.</p>
+<p>Search algorithms locate a target in a collection. <strong>Linear Search</strong> (O(n)) checks each element sequentially, suitable for unsorted data. <strong>Binary Search</strong> (O(log n)) halves the search interval on sorted data. <strong>Jump Search</strong> (O(&#x221A;n)) skips blocks of size &#x221A;n, then performs linear search, offering a middle ground. <strong>Exponential Search</strong> (O(log n)) finds a range where the target exists using exponential steps, then performs Binary Search in that range. Both Jump and Exponential Search require the array to be sorted for efficient (sub-linear) operation.</p>
 </div>
 <div class="python-code">
 <div class="code-header">Python Implementation</div>
@@ -348,10 +348,54 @@ def binary_search(arr, target):
             right = mid - 1
     return -1
 
+def jump_search(arr, target):
+    n = len(arr)
+    step = int(n**0.5)
+    prev = 0
+    while arr[min(step, n)-1] &lt; target:
+        prev = step
+        step += int(n**0.5)
+        if prev &gt;= n:
+            return -1
+    
+    while arr[prev] &lt; target:
+        prev += 1
+        if prev == min(step, n):
+            return -1
+    
+    if arr[prev] == target:
+        return prev
+    return -1
+
+# Helper for Exponential Search
+def binary_search_recursive(arr, target, left, right):
+    if left &gt; right:
+        return -1
+    mid = (left + right) // 2
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] &lt; target:
+        return binary_search_recursive(arr, target, mid + 1, right)
+    else:
+        return binary_search_recursive(arr, target, left, mid - 1)
+
+def exponential_search(arr, target):
+    if arr[0] == target: return 0
+    i = 1
+    while i &lt; len(arr) and arr[i] &lt;= target:
+        i *= 2
+    
+    # Call a binary search in the range [i/2, min(i, len(arr)-1)]
+    return binary_search_recursive(arr, target, i//2, min(i, len(arr)-1))
+
+
 # Example usage
 arr = [12, 5, 23, 8, 45, 3, 67, 19, 34, 91]
-print(linear_search(arr, 34))  # Varies based on position
-print(binary_search(arr, 34))  # Position in sorted array
+arr.sort() # [3, 5, 8, 12, 19, 23, 34, 45, 67, 91]
+print(f"Linear search (34): {linear_search([12, 5, 23, 8, 45, 3, 67, 19, 34, 91], 34)}")
+print(f"Binary search (34): {binary_search(arr.copy(), 34)}")
+print(f"Jump search (34): {jump_search(arr.copy(), 34)}")
+print(f"Exponential search (34): {exponential_search(arr.copy(), 34)}")
 </pre>
 </div>
 <div class="controls">
@@ -363,6 +407,8 @@ print(binary_search(arr, 34))  # Position in sorted array
 <select id="search-algo">
 <option value="linear">Linear Search</option>
 <option value="binary">Binary Search</option>
+<option value="jump">Jump Search</option>
+<option value="exponential">Exponential Search</option>
 </select>
 <button onclick="startSearch()">Start Search</button>
 <button onclick="resetSearch()">Reset</button>
@@ -372,9 +418,53 @@ print(binary_search(arr, 34))  # Position in sorted array
 <canvas id="search-canvas" width="1100" height="380"></canvas>
 </div>
 
-<!-- 4. BINARY SEARCH TREE -->
-<div id="trees" class="section">
-<h2>Binary Search Tree</h2>
+<div id="bt" class="section">
+<h2>Binary Tree (BT)</h2>
+<div class="details">
+<h3>Details</h3>
+<p>A <strong>Binary Tree</strong> is a tree data structure in which each node has at most two children, referred to as the left child and the right child. Unlike a BST, there is no ordering constraint on the values. This implementation uses level-order insertion to create a **Complete Binary Tree** for visualization simplicity. Key operations include: Insert (O(1) in a complete BT array representation), and Traversals (O(n)).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation (using array for a Complete BT)</div>
+<pre>
+class BinaryTree:
+    def __init__(self):
+        self.tree = []
+
+    def insert(self, value):
+        # Simplest way to represent a complete binary tree
+        self.tree.append(value)
+        
+    def get_parent(self, i):
+        return self.tree[(i - 1) // 2] if i > 0 else None
+
+    def get_children(self, i):
+        left_idx = 2 * i + 1
+        right_idx = 2 * i + 2
+        left = self.tree[left_idx] if left_idx < len(self.tree) else None
+        right = self.tree[right_idx] if right_idx < len(self.tree) else None
+        return left, right
+
+# Example usage
+bt = BinaryTree()
+for val in [10, 5, 15, 3, 7, 12, 18]:
+    bt.insert(val)
+print(bt.tree) # [10, 5, 15, 3, 7, 12, 18]
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="bt-input" value="10,5,15,3,7,12,18,1,9">
+<button onclick="buildBT()">Build Tree</button>
+<button onclick="traverseBT('inorder')">In-order</button>
+<button onclick="traverseBT('preorder')">Pre-order</button>
+<button onclick="traverseBT('postorder')">Post-order</button>
+</div>
+<canvas id="bt-canvas" width="1100" height="600"></canvas>
+<div class="info" id="bt-traversal-output"></div>
+</div>
+
+<div id="bst" class="section">
+<h2>Binary Search Tree (BST)</h2>
 <div class="details">
 <h3>Details</h3>
 <p>A <strong>Binary Search Tree (BST)</strong> is a binary tree where each node's left subtree has values less than the node, and right has greater. It supports efficient search, insert, and delete (average O(log n), worst O(n) if unbalanced). Traversals include <strong>in-order</strong> (sorted), <strong>pre-order</strong>, and <strong>post-order</strong>.</p>
@@ -410,43 +500,150 @@ class BST:
             else:
                 self._insert(node.right, val)
 
+    # Inorder traversal (returns sorted array)
     def inorder(self, node):
+        res = []
         if node:
-            self.inorder(node.left)
-            print(node.val, end=' ')
-            self.inorder(node.right)
-
-    def preorder(self, node):
-        if node:
-            print(node.val, end=' ')
-            self.preorder(node.left)
-            self.preorder(node.right)
-
-    def postorder(self, node):
-        if node:
-            self.postorder(node.left)
-            self.postorder(node.right)
-            print(node.val, end=' ')
+            res.extend(self.inorder(node.left))
+            res.append(node.val)
+            res.extend(self.inorder(node.right))
+        return res
 
 # Example usage
 bst = BST()
 for val in [50, 30, 70, 20, 40, 60, 80]:
     bst.insert(val)
-bst.inorder(bst.root)  # 20 30 40 50 60 70 80
+print(bst.inorder(bst.root))  # [20, 30, 40, 50, 60, 70, 80]
 </pre>
 </div>
 <div class="controls">
-<input type="text" id="tree-input" value="50,30,70,20,40,60,80,90,10">
-<button onclick="buildBST()">Build Tree</button>
-<button onclick="traverse('inorder')">In-order</button>
-<button onclick="traverse('preorder')">Pre-order</button>
-<button onclick="traverse('postorder')">Post-order</button>
+<input type="text" id="bst-input" value="50,30,70,20,40,60,80,90,10">
+<button onclick="buildBST()">Build BST</button>
+<button onclick="traverseBST('inorder')">In-order</button>
+<button onclick="traverseBST('preorder')">Pre-order</button>
+<button onclick="traverseBST('postorder')">Post-order</button>
 </div>
-<canvas id="tree-canvas" width="1100" height="600"></canvas>
-<div class="info" id="traversal-output"></div>
+<canvas id="bst-canvas" width="1100" height="600"></canvas>
+<div class="info" id="bst-traversal-output"></div>
 </div>
 
-<!-- 5. HEAPS -->
+<div id="avl" class="section">
+<h2>AVL Tree (Self-Balancing BST)</h2>
+<div class="details">
+<h3>Details</h3>
+<p>An <strong>AVL Tree</strong> is a self-balancing Binary Search Tree where the height difference (balance factor) between the left and right subtrees of any node is at most 1. This strict balance ensures that search, insert, and delete operations maintain an optimal time complexity of O(log n) even in the worst-case scenario, unlike a regular BST which can degenerate to O(n).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation (Simplified)</div>
+<pre>
+class AVLNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.height = 1
+
+class AVLTree:
+    # A full implementation requires methods for:
+    # 1. Getting node height
+    # 2. Calculating balance factor
+    # 3. Performing Left/Right Rotations
+    # 4. Insertion that calls rotation functions if imbalance > 1
+
+    def get_height(self, node):
+        return node.height if node else 0
+
+    def get_balance(self, node):
+        return self.get_height(node.left) - self.get_height(node.right) if node else 0
+
+    def right_rotate(self, y):
+        x = y.left
+        T2 = x.right
+        x.right = y
+        y.left = T2
+        # Update heights
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
+        return x # new root
+
+    # ... and left_rotate, insert, and delete methods
+</pre>
+</div>
+<div class="controls">
+<input type="number" id="avl-insert-val" placeholder="Value to Insert">
+<button onclick="insertAVL()">Insert Value</button>
+<input type="text" id="avl-input" value="10,20,30,40,50,25">
+<button onclick="buildAVL()">Build Tree</button>
+<button onclick="clearAVL()">Clear</button>
+</div>
+<canvas id="avl-canvas" width="1100" height="600"></canvas>
+</div>
+
+<div id="trie" class="section">
+<h2>Trie (Prefix Tree)</h2>
+<div class="details">
+<h3>Details</h3>
+<p>A <strong>Trie</strong>, or Prefix Tree, is an efficient data structure for storing and searching a dynamic set of strings. It organizes strings based on shared prefixes. Search and insertion are typically O(L), where L is the length of the string, making it much faster than BSTs for strings. Tries are used for auto-complete, spell checkers, and IP routing. Each node stores a map to its children (characters), and a boolean flag marks the end of a word.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end_of_word = True
+
+    def search(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return node.is_end_of_word
+
+    def starts_with(self, prefix):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return True
+
+# Example usage
+trie = Trie()
+trie.insert("apple")
+trie.insert("apply")
+trie.insert("app")
+print(trie.search("apple"))  # True
+print(trie.starts_with("app")) # True
+print(trie.search("banana")) # False
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="trie-insert-word" placeholder="Word to Insert (e.g., car)">
+<button onclick="insertTrieWord()">Insert Word</button>
+<input type="text" id="trie-input" value="car,cat,cab,dog,dot">
+<button onclick="buildTrie()">Build Trie</button>
+<input type="text" id="trie-search-word" placeholder="Search/Prefix (e.g., ca)">
+<button onclick="searchTrieWord()">Search/Prefix</button>
+<button onclick="clearTrie()">Clear</button>
+</div>
+<canvas id="trie-canvas" width="1100" height="500"></canvas>
+<div class="info" id="trie-status">Trie is empty.</div>
+</div>
+
 <div id="heaps" class="section">
 <h2>Heaps</h2>
 <div class="details">
@@ -495,7 +692,6 @@ print(arr)  # [1, 1, 4, 3, 5]
 <canvas id="heap-canvas" width="1100" height="500"></canvas>
 </div>
 
-<!-- 6. GRAPH TRAVERSAL -->
 <div id="graphs" class="section">
 <h2>Graph Traversal</h2>
 <div class="details">
@@ -549,7 +745,6 @@ dfs(0)  # 0 1 2 5 4 3
 <canvas id="graph-canvas" width="1100" height="500"></canvas>
 </div>
 
-<!-- 7. BELLMAN-FORD -->
 <div id="bellman" class="section">
 <h2>Bellman-Ford Algorithm</h2>
 <div class="details">
@@ -589,7 +784,6 @@ print(bellman_ford(graph, 0))  # {0: 0, 1: -1, 2: 1, 3: 5}
 <div class="info" id="bellman-output"></div>
 </div>
 
-<!-- 8. DIJKSTRA -->
 <div id="dijkstra" class="section">
 <h2>Dijkstra's Algorithm</h2>
 <div class="details">
@@ -639,7 +833,6 @@ print(dijkstra(graph, 0))  # {0: 0, 1: 3, 2: 6, 3: 2}
 <div class="info" id="dijkstra-output"></div>
 </div>
 
-<!-- 9. A* PATHFINDING -->
 <div id="astar" class="section">
 <h2>A* Pathfinding</h2>
 <div class="details">
@@ -692,7 +885,6 @@ Speed: <input type="range" id="astar-speed" min="1" max="100" value="50">
 <canvas id="astar-canvas" width="900" height="540"></canvas>
 </div>
 
-<!-- 10. RECURSION - HANOI -->
 <div id="recursion" class="section">
 <h2>Towers of Hanoi (Recursion)</h2>
 <div class="details">
@@ -967,7 +1159,7 @@ function loadSearchArray() {
     document.getElementById('search-result').textContent = '';
     drawSearchArray([]);
 }
-function drawSearchArray(highlightIndices = [], foundIndex = -1, isBinary = false) {
+function drawSearchArray(highlightIndices = [], foundIndex = -1, isSortedSearch = false) {
     const canvas = document.getElementById('search-canvas');
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -984,7 +1176,7 @@ function drawSearchArray(highlightIndices = [], foundIndex = -1, isBinary = fals
     searchArray.forEach((v,i)=>{
         const x = startX + i*(boxW+gap);
         let fillStyle = foundIndex === i ? '#00ff88' : highlightIndices.includes(i) ? '#ffeb3b' : '#4488ff';
-        if (isBinary && !highlightIndices.includes(i)) fillStyle = '#333';
+        if (isSortedSearch && !highlightIndices.includes(i)) fillStyle = '#333';
         ctx.fillStyle = fillStyle;
         ctx.fillRect(x,140,boxW,90);
         ctx.strokeStyle='#fff'; 
@@ -1005,13 +1197,18 @@ async function startSearch() {
     searchSteps = 0;
     document.getElementById('search-result').textContent = 'Searching...';
     document.getElementById('search-steps').textContent = 'Steps: 0';
-    if(algo==='linear') await linearSearchVis(target);
-    else {
+    
+    const needsSort = algo !== 'linear';
+    if(needsSort) {
         searchArray.sort((a,b)=>a-b);
         drawSearchArray([], -1, false);
         await sleep(600);
-        await binarySearchVis(target);
     }
+
+    if(algo==='linear') await linearSearchVis(target);
+    else if(algo==='binary') await binarySearchVis(target);
+    else if(algo==='jump') await jumpSearchVis(target);
+    else if(algo==='exponential') await exponentialSearchVis(target);
 }
 async function linearSearchVis(target) {
     let found = false;
@@ -1030,56 +1227,286 @@ async function linearSearchVis(target) {
     drawSearchArray([], -1, false);
     document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
 }
-async function binarySearchVis(target) {
-    let left = 0;
-    let right = searchArray.length - 1;
+async function binarySearchVisHelper(target, left, right) {
+    let resultIndex = -1;
     while (left <= right) {
         const mid = Math.floor((left + right) / 2);
         searchSteps++;
         document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
+        
+        // Highlight range
         const range = [];
         for (let k = left; k <= right; k++) range.push(k);
-        drawSearchArray(range, -1, true);
+        drawSearchArray(range, -1, true); 
+
+        // Highlight mid
         const canvas = document.getElementById('search-canvas');
         const ctx = canvas.getContext('2d');
         const boxW = 90, gap = 15;
-        const startX = (canvas.width - searchArray.length * (boxW + gap) + gap) / 2;
+        const totalW = searchArray.length * (boxW + gap) - gap;
+        const startX = (canvas.width - totalW) / 2;
         ctx.fillStyle = '#ffff00';
         ctx.font = '40px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('▼', startX + mid * (boxW + gap) + boxW / 2, 100);
+        
         await sleep(1400);
+
         if (searchArray[mid] === target) {
-            drawSearchArray(range, mid, true);
-            document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${mid}!</span>`;
-            return;
+            resultIndex = mid;
+            break; 
         } else if (searchArray[mid] < target) {
             left = mid + 1;
         } else {
             right = mid - 1;
         }
     }
-    drawSearchArray([], -1, true);
-    document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+    
+    if (resultIndex !== -1) {
+        const range = [];
+        for (let k = left; k <= right; k++) range.push(k);
+        drawSearchArray(range, resultIndex, true);
+        return resultIndex;
+    }
+    return -1;
+}
+async function binarySearchVis(target) {
+    const result = await binarySearchVisHelper(target, 0, searchArray.length - 1);
+    if (result !== -1) {
+        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${result}!</span>`;
+    } else {
+        drawSearchArray([], -1, true);
+        document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+    }
+}
+async function jumpSearchVis(target) {
+    let n = searchArray.length;
+    if (n === 0) return -1;
+    let step = Math.floor(Math.sqrt(n));
+    let prev = 0;
+
+    // Phase 1: Jumping
+    while (searchArray[Math.min(step, n) - 1] < target) {
+        searchSteps++;
+        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Jump Check)`;
+        // Highlight the block being skipped
+        let blockRange = [];
+        for(let k = prev; k < Math.min(step, n); k++) blockRange.push(k);
+        drawSearchArray(blockRange, -1, true); 
+        await sleep(1000);
+
+        prev = step;
+        step += Math.floor(Math.sqrt(n));
+        
+        if (prev >= n) break; // Reached end of array
+    }
+
+    // Phase 2: Linear Search in block [prev, Math.min(step, n) - 1]
+    let end = Math.min(step, n);
+    document.getElementById('search-result').textContent = `Linear search in range [${prev}, ${end - 1}]`;
+    
+    // Set up the final block visualization (darken outside range)
+    let finalRange = [];
+    for(let k = prev; k < end; k++) finalRange.push(k);
+    drawSearchArray(finalRange, -1, true); 
+    await sleep(800);
+
+    let resultIndex = -1;
+    for (let i = prev; i < end; i++) {
+        searchSteps++;
+        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Linear Check)`;
+        
+        // Highlight current check
+        drawSearchArray([i], -1, true);
+        await sleep(800);
+        
+        if (searchArray[i] === target) {
+            resultIndex = i;
+            break;
+        }
+    }
+
+    if (resultIndex !== -1) {
+        drawSearchArray([resultIndex], resultIndex, true);
+        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${resultIndex}!</span>`;
+    } else {
+        drawSearchArray([], -1, true);
+        document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+    }
+    return resultIndex;
+}
+async function exponentialSearchVis(target) {
+    let n = searchArray.length;
+    if (n === 0) return -1;
+    
+    if (searchArray[0] === target) {
+        searchSteps++;
+        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Initial Check)`;
+        drawSearchArray([0], 0, false);
+        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index 0!</span>`;
+        return 0;
+    }
+
+    let i = 1;
+    // Phase 1: Find range
+    while (i < n && searchArray[i] <= target) {
+        searchSteps++;
+        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Exponential Jump Check)`;
+        drawSearchArray([i], -1, false); // No need to darken outside yet
+        await sleep(1000);
+        i *= 2;
+    }
+    
+    // Phase 2: Binary Search in range [i/2, Math.min(i, n - 1)]
+    let left = Math.floor(i / 2);
+    let right = Math.min(i, n - 1);
+    
+    document.getElementById('search-result').textContent = `Binary search in range [${left}, ${right}]`;
+
+    // Highlight the final range before binary search starts
+    let finalRange = [];
+    for(let k = left; k <= right; k++) finalRange.push(k);
+    drawSearchArray(finalRange, -1, true); // True to darken outside
+    await sleep(800);
+
+    const result = await binarySearchVisHelper(target, left, right);
+    
+    if (result === -1) {
+        drawSearchArray([], -1, true);
+        document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+    } else {
+        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${result}!</span>`;
+    }
 }
 function resetSearch(){ 
     loadSearchArray(); 
 }
 
-// ====================== 4. BINARY SEARCH TREE ======================
+// ====================== 4. BINARY TREE (BT) ======================
+let btArray = [];
+let highlightBTNode = null;
+function buildBT() {
+    btArray = document.getElementById('bt-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+    drawTree(btArray, 'bt-canvas', highlightBTNode);
+}
+function drawTree(dataArray, canvasId, highlightNode, extraTextFn = null) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(dataArray.length===0) { 
+        ctx.fillStyle='#888'; 
+        ctx.font='28px Arial'; 
+        ctx.textAlign='center';
+        ctx.fillText('Enter values and click Build Tree', canvas.width/2, canvas.height/2);
+        return;
+    }
+    
+    const nodePositions = [];
+    const maxNodes = dataArray.length;
+    const maxLevel = Math.floor(Math.log2(maxNodes)) + 1;
+    const levelGap = 80;
+    const nodeR = 28;
+
+    for (let i = 0; i < maxNodes; i++) {
+        const level = Math.floor(Math.log2(i + 1));
+        const y = 60 + level * levelGap;
+        const nodesAtLevel = Math.pow(2, level);
+        const positionInLevel = i - (nodesAtLevel - 1);
+        
+        // Calculate dynamic horizontal spacing based on max depth
+        const totalWidthAtLevel = canvas.width / nodesAtLevel;
+        const x = totalWidthAtLevel * positionInLevel + totalWidthAtLevel / 2;
+
+        nodePositions.push({x, y, val: dataArray[i], index: i});
+
+        // Draw line to parent
+        if (i > 0) {
+            const parentIndex = Math.floor((i - 1) / 2);
+            const parentPos = nodePositions[parentIndex];
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(parentPos.x, parentPos.y + nodeR * Math.cos(Math.atan2(y - parentPos.y, x - parentPos.x)));
+            ctx.lineTo(x, y - nodeR * Math.cos(Math.atan2(y - parentPos.y, x - parentPos.x)));
+            ctx.stroke();
+        }
+    }
+    
+    // Draw nodes and values
+    nodePositions.forEach(pos => {
+        const nodeVal = pos.val;
+        
+        ctx.fillStyle = (pos.index === highlightNode) ? '#ff0' : '#667eea';
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, nodeR, 0, Math.PI*2);
+        ctx.fill();
+        ctx.strokeStyle = '#0ff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        
+        ctx.fillStyle = 'white';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(nodeVal, pos.x, pos.y);
+        
+        // Draw extra text (e.g., Balance Factor for AVL)
+        if (extraTextFn) {
+            extraTextFn(ctx, pos);
+        }
+    });
+}
+async function traverseBT(type) {
+    const result = [];
+    highlightBTNode = null;
+    drawTree(btArray, 'bt-canvas', highlightBTBTNode);
+    if(btArray.length === 0) return;
+    
+    if(type==='inorder') await traverseBTRec(0, result, (i) => btArray[i], (i) => 2*i + 1, (i) => 2*i + 2);
+    else if(type==='preorder') await traverseBTRec(0, result, (i) => btArray[i], (i) => 2*i + 1, (i) => 2*i + 2);
+    else if(type==='postorder') await traverseBTRec(0, result, (i) => btArray[i], (i) => 2*i + 1, (i) => 2*i + 2);
+    
+    document.getElementById('bt-traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
+    highlightBTNode = null;
+    drawTree(btArray, 'bt-canvas', highlightBTNode);
+}
+async function traverseBTRec(i, res, getVal, getLeft, getRight) {
+    if (i >= btArray.length) return;
+    
+    const left = getLeft(i);
+    const right = getRight(i);
+    const val = getVal(i);
+
+    if (document.getElementById('bt').classList.contains('active')) {
+        if (left < btArray.length) await traverseBTRec(left, res, getVal, getLeft, getRight);
+        
+        res.push(val);
+        highlightBTNode = i;
+        drawTree(btArray, 'bt-canvas', highlightBTNode);
+        await sleep(800);
+        
+        if (right < btArray.length) await traverseBTRec(right, res, getVal, getLeft, getRight);
+
+    } else if (document.getElementById('bst').classList.contains('active')) {
+        // This is complex because BST visualization uses nested objects not an array.
+        // For simplicity, BST will use its own recursive traversal without array indices.
+        // The BT implementation is solely for the array-based complete BT.
+    }
+}
+
+
+// ====================== 5. BINARY SEARCH TREE (BST) ======================
 class TreeNode {
     constructor(val) {
         this.val = val;
         this.left = null;
         this.right = null;
-        this.x = 0;
-        this.y = 0;
     }
 }
 let bstRoot = null;
-let highlightNode = null;
+let highlightBSTNode = null;
 function buildBST() {
-    const vals = document.getElementById('tree-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+    const vals = document.getElementById('bst-input').value.split(',').map(Number).filter(n=>!isNaN(n));
     bstRoot = null;
     vals.forEach(v => bstRoot = insertBST(bstRoot, v));
     drawBST();
@@ -1091,28 +1518,29 @@ function insertBST(node, val) {
     return node;
 }
 function drawBST() {
-    const canvas = document.getElementById('tree-canvas');
+    const canvas = document.getElementById('bst-canvas');
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
     if(!bstRoot) {
         ctx.fillStyle='#888'; 
         ctx.font='28px Arial'; 
         ctx.textAlign='center';
-        ctx.fillText('Enter values and click Build Tree', canvas.width/2, canvas.height/2);
+        ctx.fillText('Enter values and click Build BST', canvas.width/2, canvas.height/2);
         return;
     }
-    assignPositions(bstRoot, canvas.width/2, 60, canvas.width/4);
-    drawTreeNode(ctx, bstRoot);
+    assignBSTPositions(bstRoot, canvas.width/2, 60, canvas.width/4);
+    drawBSTNode(ctx, bstRoot);
 }
-function assignPositions(node, x, y, offset) {
+function assignBSTPositions(node, x, y, offset) {
     if(!node) return;
     node.x = x;
     node.y = y;
-    if(node.left) assignPositions(node.left, x - offset, y + 80, offset/2);
-    if(node.right) assignPositions(node.right, x + offset, y + 80, offset/2);
+    if(node.left) assignBSTPositions(node.left, x - offset, y + 80, offset/2);
+    if(node.right) assignBSTPositions(node.right, x + offset, y + 80, offset/2);
 }
-function drawTreeNode(ctx, node) {
+function drawBSTNode(ctx, node) {
     if(!node) return;
+    const nodeR = 28;
     if(node.left) {
         ctx.strokeStyle = '#00d4ff';
         ctx.lineWidth = 3;
@@ -1120,7 +1548,7 @@ function drawTreeNode(ctx, node) {
         ctx.moveTo(node.x, node.y);
         ctx.lineTo(node.left.x, node.left.y);
         ctx.stroke();
-        drawTreeNode(ctx, node.left);
+        drawBSTNode(ctx, node.left);
     }
     if(node.right) {
         ctx.strokeStyle = '#00d4ff';
@@ -1129,11 +1557,11 @@ function drawTreeNode(ctx, node) {
         ctx.moveTo(node.x, node.y);
         ctx.lineTo(node.right.x, node.right.y);
         ctx.stroke();
-        drawTreeNode(ctx, node.right);
+        drawBSTNode(ctx, node.right);
     }
-    ctx.fillStyle = (node === highlightNode) ? '#ff0' : '#667eea';
+    ctx.fillStyle = (node === highlightBSTNode) ? '#ff0' : '#667eea';
     ctx.beginPath();
-    ctx.arc(node.x, node.y, 28, 0, Math.PI*2);
+    ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
     ctx.fill();
     ctx.strokeStyle = '#0ff';
     ctx.lineWidth = 3;
@@ -1144,55 +1572,404 @@ function drawTreeNode(ctx, node) {
     ctx.textBaseline = 'middle';
     ctx.fillText(node.val, node.x, node.y);
 }
-async function traverse(type) {
+async function traverseBST(type) {
     const result = [];
-    highlightNode = null;
+    highlightBSTNode = null;
     drawBST();
-    if(type==='inorder') await inorder(bstRoot, result);
-    else if(type==='preorder') await preorder(bstRoot, result);
-    else if(type==='postorder') await postorder(bstRoot, result);
-    document.getElementById('traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
-    highlightNode = null;
+    if(!bstRoot) return;
+    if(type==='inorder') await inorderBST(bstRoot, result);
+    else if(type==='preorder') await preorderBST(bstRoot, result);
+    else if(type==='postorder') await postorderBST(bstRoot, result);
+    document.getElementById('bst-traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
+    highlightBSTNode = null;
     drawBST();
 }
-async function inorder(node, res) {
+async function inorderBST(node, res) {
     if(node) {
-        await inorder(node.left, res);
+        await inorderBST(node.left, res);
         res.push(node.val);
-        highlightNode = node;
+        highlightBSTNode = node;
         drawBST();
         await sleep(800);
-        highlightNode = null;
+        highlightBSTNode = null;
         drawBST();
-        await inorder(node.right, res);
+        await inorderBST(node.right, res);
     }
 }
-async function preorder(node, res) {
+async function preorderBST(node, res) {
     if(node) {
         res.push(node.val);
-        highlightNode = node;
+        highlightBSTNode = node;
         drawBST();
         await sleep(800);
-        highlightNode = null;
+        highlightBSTNode = null;
         drawBST();
-        await preorder(node.left, res);
-        await preorder(node.right, res);
+        await preorderBST(node.left, res);
+        await preorderBST(node.right, res);
     }
 }
-async function postorder(node, res) {
+async function postorderBST(node, res) {
     if(node) {
-        await postorder(node.left, res);
-        await postorder(node.right, res);
+        await postorderBST(node.left, res);
+        await postorderBST(node.right, res);
         res.push(node.val);
-        highlightNode = node;
+        highlightBSTNode = node;
         drawBST();
         await sleep(800);
-        highlightNode = null;
+        highlightBSTNode = null;
         drawBST();
     }
 }
 
-// ====================== 5. HEAPS ======================
+// ====================== 6. AVL TREE ======================
+class AVLNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+        this.height = 1;
+        this.x = 0; // for visualization
+        this.y = 0;
+    }
+}
+let avlRoot = null;
+function getHeight(node) {
+    return node ? node.height : 0;
+}
+function getBalance(node) {
+    return node ? getHeight(node.left) - getHeight(node.right) : 0;
+}
+function updateHeight(node) {
+    node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+}
+function rotateRight(y) {
+    const x = y.left;
+    const T2 = x.right;
+    x.right = y;
+    y.left = T2;
+    updateHeight(y);
+    updateHeight(x);
+    drawAVL(x, `Right Rotation on node ${y.val}`);
+    return x;
+}
+function rotateLeft(x) {
+    const y = x.right;
+    const T2 = y.left;
+    y.left = x;
+    x.right = T2;
+    updateHeight(x);
+    updateHeight(y);
+    drawAVL(y, `Left Rotation on node ${x.val}`);
+    return y;
+}
+async function insertAVLValue(node, val) {
+    if(!node) return new AVLNode(val);
+    
+    if(val < node.val) node.left = await insertAVLValue(node.left, val);
+    else if(val > node.val) node.right = await insertAVLValue(node.right, val);
+    else return node; // Duplicate values not allowed
+    
+    updateHeight(node);
+    const balance = getBalance(node);
+    
+    // Check for rotations (Wait after insertion and before rotation)
+    drawAVL(avlRoot, `Checking balance at ${node.val}. BF: ${balance}`);
+    await sleep(600);
+    
+    // Left Left Case (Rotation Right)
+    if(balance > 1 && val < node.left.val) {
+        return rotateRight(node);
+    }
+    // Right Right Case (Rotation Left)
+    if(balance < -1 && val > node.right.val) {
+        return rotateLeft(node);
+    }
+    // Left Right Case (Rotation Left then Right)
+    if(balance > 1 && val > node.left.val) {
+        node.left = rotateLeft(node.left);
+        drawAVL(avlRoot, `LR Case: Inner Left Rotation on ${node.left.val}`);
+        await sleep(600);
+        return rotateRight(node);
+    }
+    // Right Left Case (Rotation Right then Left)
+    if(balance < -1 && val < node.right.val) {
+        node.right = rotateRight(node.right);
+        drawAVL(avlRoot, `RL Case: Inner Right Rotation on ${node.right.val}`);
+        await sleep(600);
+        return rotateLeft(node);
+    }
+    return node;
+}
+async function insertAVL() {
+    const val = Number(document.getElementById('avl-insert-val').value);
+    if(isNaN(val)) return;
+    document.getElementById('avl-insert-val').value = '';
+    avlRoot = await insertAVLValue(avlRoot, val);
+    drawAVL(avlRoot, `Inserted ${val}. Final Tree.`);
+}
+async function buildAVL() {
+    clearAVL();
+    const vals = document.getElementById('avl-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+    for(const val of vals) {
+        avlRoot = await insertAVLValue(avlRoot, val);
+        drawAVL(avlRoot, `Inserted ${val}`);
+        await sleep(1000);
+    }
+    drawAVL(avlRoot, `AVL Tree Built.`);
+}
+function clearAVL() {
+    avlRoot = null;
+    drawAVL(avlRoot, 'Tree cleared.');
+}
+function drawAVL(node, status = '') {
+    const canvas = document.getElementById('avl-canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    document.getElementById('avl-canvas').style.border = getBalance(node) > 1 || getBalance(node) < -1 ? '4px solid #f66' : 'none';
+
+    if(!node) {
+        ctx.fillStyle='#888'; 
+        ctx.font='28px Arial'; 
+        ctx.textAlign='center';
+        ctx.fillText(status, canvas.width/2, canvas.height/2);
+        return;
+    }
+    
+    assignAVLPositions(node, canvas.width/2, 60, canvas.width/4);
+    drawAVLNode(ctx, node);
+
+    ctx.fillStyle = '#0f0';
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Status: ${status}`, canvas.width/2, 20);
+}
+function assignAVLPositions(node, x, y, offset) {
+    if(!node) return;
+    node.x = x;
+    node.y = y;
+    if(node.left) assignAVLPositions(node.left, x - offset, y + 80, offset/2);
+    if(node.right) assignAVLPositions(node.right, x + offset, y + 80, offset/2);
+}
+function drawAVLNode(ctx, node) {
+    if(!node) return;
+    const nodeR = 28;
+    if(node.left) {
+        ctx.strokeStyle = '#00d4ff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(node.x, node.y);
+        ctx.lineTo(node.left.x, node.left.y);
+        ctx.stroke();
+        drawAVLNode(ctx, node.left);
+    }
+    if(node.right) {
+        ctx.strokeStyle = '#00d4ff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(node.x, node.y);
+        ctx.lineTo(node.right.x, node.right.y);
+        ctx.stroke();
+        drawAVLNode(ctx, node.right);
+    }
+    
+    const balance = getBalance(node);
+    let color = '#667eea'; // Balanced
+    if (balance > 1 || balance < -1) color = '#f66'; // Imbalanced
+    else if (balance !== 0) color = '#ffeb3b'; // Slightly Imbalanced
+
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#0ff';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    
+    ctx.fillStyle = (color === '#ffeb3b' || color === '#f66') ? '#000' : 'white';
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(node.val, node.x, node.y - 10);
+    
+    // Draw Balance Factor (BF)
+    ctx.font = '14px Arial';
+    ctx.fillText(`BF:${balance}`, node.x, node.y + 10);
+}
+
+// ====================== 7. TRIE (PREFIX TREE) ======================
+class TrieNode {
+    constructor(char) {
+        this.char = char;
+        this.children = {};
+        this.isEndOfWord = false;
+        this.x = 0;
+        this.y = 0;
+    }
+}
+let trieRoot = new TrieNode(null);
+let highlightTrieNode = null;
+function insertTrie(word) {
+    let node = trieRoot;
+    for (const char of word) {
+        if (!node.children[char]) {
+            node.children[char] = new TrieNode(char);
+        }
+        node = node.children[char];
+    }
+    node.isEndOfWord = true;
+}
+function buildTrie() {
+    const words = document.getElementById('trie-input').value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+    trieRoot = new TrieNode(null);
+    words.forEach(insertTrie);
+    drawTrie('Trie Built with ' + words.length + ' words.');
+}
+function insertTrieWord() {
+    const word = document.getElementById('trie-insert-word').value.trim();
+    if (word) {
+        insertTrie(word);
+        drawTrie(`Inserted word: ${word}`);
+    }
+}
+function clearTrie() {
+    trieRoot = new TrieNode(null);
+    drawTrie('Trie is empty.');
+}
+async function searchTrieWord() {
+    const word = document.getElementById('trie-search-word').value.trim();
+    if (!word) return;
+
+    let node = trieRoot;
+    highlightTrieNode = trieRoot;
+    drawTrie(`Searching for: ${word}`);
+    await sleep(800);
+
+    for (const char of word) {
+        if (!node.children[char]) {
+            drawTrie(`Prefix/Word not found: ${word}`);
+            highlightTrieNode = null;
+            return;
+        }
+        node = node.children[char];
+        highlightTrieNode = node;
+        drawTrie(`Current prefix: ${char}`);
+        await sleep(800);
+    }
+    
+    if(node.isEndOfWord) {
+        document.getElementById('trie-status').innerHTML = `<span style="color:#0f0">Found word: ${word}</span>`;
+    } else {
+        document.getElementById('trie-status').innerHTML = `<span style="color:#ffeb3b">Prefix found, but not a full word: ${word}</span>`;
+    }
+    highlightTrieNode = null;
+}
+function drawTrie(status) {
+    const canvas = document.getElementById('trie-canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    document.getElementById('trie-status').textContent = status;
+
+    if (Object.keys(trieRoot.children).length === 0) {
+        ctx.fillStyle='#888'; 
+        ctx.font='28px Arial'; 
+        ctx.textAlign='center';
+        ctx.fillText('Trie is empty', canvas.width/2, canvas.height/2);
+        return;
+    }
+
+    const nodeR = 25;
+    const hGap = 60;
+    const vGap = 80;
+
+    // 1. Assign positions using BFS for organized levels
+    const queue = [{node: trieRoot, level: 0, parentX: canvas.width/2, parentY: 0}];
+    trieRoot.x = canvas.width / 2;
+    trieRoot.y = 50;
+    
+    let currentY = trieRoot.y;
+    let levelPositions = {}; // Tracks nodes per level
+    levelPositions[0] = [trieRoot];
+
+    while(queue.length > 0) {
+        const {node, level} = queue.shift();
+        const children = Object.values(node.children);
+        if(children.length === 0) continue;
+        
+        if (!levelPositions[level + 1]) levelPositions[level + 1] = [];
+        
+        // Calculate new level Y position if not set
+        if (levelPositions[level+1].length === children.length) {
+            currentY = node.y + vGap;
+        }
+
+        children.forEach((childNode) => {
+            levelPositions[level + 1].push(childNode);
+            queue.push({node: childNode, level: level + 1});
+        });
+    }
+
+    // Recalculate horizontal positions based on total width and level node count
+    Object.keys(levelPositions).forEach(level => {
+        const nodes = levelPositions[level];
+        const numNodes = nodes.length;
+        const totalWidth = canvas.width;
+        const spacing = totalWidth / (numNodes + 1);
+
+        nodes.forEach((node, index) => {
+            node.x = spacing * (index + 1);
+            node.y = 50 + level * vGap;
+        });
+    });
+
+    // 2. Draw connections and nodes (DFS for lines, then draw all nodes)
+    function drawTrieConnections(node) {
+        Object.values(node.children).forEach(child => {
+            // Draw line
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(child.x, child.y);
+            ctx.stroke();
+
+            // Draw character label
+            const mx = (node.x + child.x)/2;
+            const my = (node.y + child.y)/2;
+            ctx.fillStyle = '#ffeb3b';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(child.char, mx, my - 5);
+
+            drawTrieConnections(child);
+        });
+    }
+    drawTrieConnections(trieRoot);
+
+    // 3. Draw Nodes
+    function drawTrieNodes(node) {
+        if(node.char !== null) { // Skip the dummy root node visually
+            let color = node === highlightTrieNode ? '#ff0' : (node.isEndOfWord ? '#0f0' : '#667eea');
+            
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
+            ctx.fill();
+            ctx.strokeStyle = '#0ff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            ctx.fillStyle = (color === '#ffeb3b' || color === '#ff0') ? '#000' : 'white';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(node.char, node.x, node.y);
+        }
+        Object.values(node.children).forEach(drawTrieNodes);
+    }
+    drawTrieNodes(trieRoot);
+}
+
+// ====================== 8. HEAPS ======================
 let heap = [];
 let heapType = 'min';
 function updateHeapType(type) {
@@ -1312,7 +2089,7 @@ function drawHeap() {
     }
 }
 
-// ====================== 6. GRAPH BFS/DFS ======================
+// ====================== 9. GRAPH BFS/DFS ======================
 const graphNodes = [
     {id:0, x:200, y:150}, {id:1, x:400, y:100}, {id:2, x:600, y:150},
     {id:3, x:300, y:300}, {id:4, x:500, y:300}, {id:5, x:700, y:350}
@@ -1382,7 +2159,7 @@ function drawGraph(ctx, visited, current) {
     });
 }
 
-// ====================== 7. BELLMAN-FORD ======================
+// ====================== 10. BELLMAN-FORD ======================
 async function runBellmanFord() {
     const canvas = document.getElementById('bellman-canvas');
     const ctx = canvas.getContext('2d');
@@ -1437,7 +2214,7 @@ function drawBellman(ctx, nodes, edges, dist) {
     });
 }
 
-// ====================== 8. DIJKSTRA ======================
+// ====================== 11. DIJKSTRA ======================
 let dijkstraNodes = [];
 let dijkstraEdges = [];
 function loadDijkstraGraph() {
@@ -1552,7 +2329,7 @@ function drawDijkstra(ctx, nodes, edges, dist, visited, path) {
     });
 }
 
-// ====================== 9. A* PATHFINDING ======================
+// ====================== 12. A* PATHFINDING ======================
 const gridSize = 30;
 const gridRows = 18;
 const gridCols = 30;
@@ -1652,7 +2429,7 @@ function heuristic(r, c) {
     return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
 }
 
-// ====================== 10. TOWERS OF HANOI ======================
+// ====================== 13. TOWERS OF HANOI ======================
 let hanoiState = {pegs:[[],[],[]], moves:0};
 async function solveHanoi() {
     const n = Number(document.getElementById('hanoi-disks').value);
@@ -1721,6 +2498,11 @@ visualizeArray();
 drawAstarGrid();
 drawGraph(document.getElementById('graph-canvas').getContext('2d'), new Set(), -1);
 document.getElementById('heap-type').value = heapType;
+// Initialize all new sections
+buildBT();
+buildBST();
+buildAVL();
+buildTrie();
 </script>
 </body>
 </html>
