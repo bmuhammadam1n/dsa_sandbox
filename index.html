@@ -2379,55 +2379,100 @@ function drawAstarGrid() {
         }
     }
 }
+function heuristic(r, c) {
+    // Manhattan distance
+    return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
+}
+
+// IMPROVED A* LOGIC
 async function runAstar() {
     const walls = [];
+    // Re-initialize grid state but preserve walls
     for(let r = 0; r < gridRows; r++) {
         for(let c = 0; c < gridCols; c++) {
             if(grid[r][c].wall) walls.push({r,c});
+            grid[r][c].visited = false;
+            grid[r][c].path = false;
         }
     }
     initGrid();
     walls.forEach(w => grid[w.r][w.c].wall = true);
+
     const speed = 101 - document.getElementById('astar-speed').value;
-    const openSet = [{r:startCell.r, c:startCell.c, g:0, h:heuristic(startCell.r,startCell.c), f:0, parent:null}];
-    openSet[0].f = openSet[0].g + openSet[0].h;
-    const closedSet = new Set();
+    
+    // Data structures for A* state
+    // openSet: Stores all nodes currently being considered, ordered by fScore
+    let openSet = [{r:startCell.r, c:startCell.c}]; // Only store coordinates
+    
+    // cameFrom: For reconstructing the path
+    let cameFrom = {}; // Key: "r,c", Value: {r:r, c:c} of parent
+    
+    // gScore: Cost from start to current node
+    let gScore = {}; // Key: "r,c", Value: number (Infinity by default)
+    gScore[`${startCell.r},${startCell.c}`] = 0;
+
+    // fScore: Estimated total cost from start to goal through current node
+    let fScore = {}; // Key: "r,c", Value: number (Infinity by default)
+    fScore[`${startCell.r},${startCell.c}`] = heuristic(startCell.r, startCell.c);
+
+    // Helper to get score from map or Infinity
+    const getScore = (map, r, c) => map[`${r},${c}`] === undefined ? Infinity : map[`${r},${c}`];
+    
     while(openSet.length > 0) {
-        openSet.sort((a,b) => a.f - b.f);
-        const current = openSet.shift();
-        const key = `${current.r},${current.c}`;
-        if(closedSet.has(key)) continue;
-        closedSet.add(key);
-        grid[current.r][current.c].visited = true;
-        drawAstarGrid();
-        await sleep(speed);
+        // Find the node with the lowest fScore in the openSet
+        // Using sort here is inefficient (O(N log N)), but avoids a complex Min-Heap implementation in native JS
+        openSet.sort((a,b) => getScore(fScore, a.r, a.c) - getScore(fScore, b.r, b.c));
+        let current = openSet.shift(); // Get and remove the best node
+        const currentKey = `${current.r},${current.c}`;
+
         if(current.r === endCell.r && current.c === endCell.c) {
-            let node = current;
-            while(node.parent) {
-                grid[node.r][node.c].path = true;
-                node = node.parent;
+            // Path found! Reconstruct and draw path
+            let pathNode = current;
+            while(pathNode.r !== startCell.r || pathNode.c !== startCell.c) {
+                grid[pathNode.r][pathNode.c].path = true;
+                pathNode = cameFrom[`${pathNode.r},${pathNode.c}`];
             }
+            grid[startCell.r][startCell.c].path = true; // Mark start node as part of path
             drawAstarGrid();
             return;
         }
+
+        // Mark as visited (Closed set is implicit, we only remove from openSet)
+        grid[current.r][current.c].visited = true;
+        drawAstarGrid();
+        await sleep(speed);
+
         const neighbors = [{r:current.r-1,c:current.c},{r:current.r+1,c:current.c},{r:current.r,c:current.c-1},{r:current.r,c:current.c+1}];
+        
         for(let n of neighbors) {
-            if(n.r<0||n.r>=gridRows||n.c<0||n.c>=gridCols) continue;
-            if(grid[n.r][n.c].wall || closedSet.has(`${n.r},${n.c}`)) continue;
-            const g = current.g + 1;
-            const h = heuristic(n.r, n.c);
-            const f = g + h;
-            const existing = openSet.find(o => o.r===n.r && o.c===n.c);
-            if(!existing || g < existing.g) {
-                if(existing) openSet.splice(openSet.indexOf(existing), 1);
-                openSet.push({r:n.r, c:n.c, g, h, f, parent:current});
+            if(n.r<0||n.r>=gridRows||n.c<0||n.c>=gridCols) continue; // Out of bounds
+            if(grid[n.r][n.c].wall) continue; // Is a wall
+            
+            const neighborKey = `${n.r},${n.c}`;
+            
+            // tentative_gScore is the distance from start to neighbor through current
+            const tentative_gScore = getScore(gScore, current.r, current.c) + 1;
+
+            if (tentative_gScore < getScore(gScore, n.r, n.c)) {
+                // This path to neighbor is better than any previous one. Record it!
+                cameFrom[neighborKey] = current;
+                gScore[neighborKey] = tentative_gScore;
+                fScore[neighborKey] = tentative_gScore + heuristic(n.r, n.c);
+
+                // Check if neighbor is already in openSet (O(N) check, better with a hash set/map)
+                const inOpenSet = openSet.some(o => o.r === n.r && o.c === n.c);
+                
+                if (!inOpenSet) {
+                    openSet.push(n);
+                }
             }
         }
     }
+    // No path found
+    drawAstarGrid();
 }
-function heuristic(r, c) {
-    return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
-}
+// END OF IMPROVED A* LOGIC
+
 
 // ====================== 13. TOWERS OF HANOI ======================
 let hanoiState = {pegs:[[],[],[]], moves:0};
