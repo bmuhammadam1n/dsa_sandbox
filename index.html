@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Sandbox Pro - Ultimate Algorithm Visualizer</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #0f0f1a; color: #ddd; }
+header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 40px; text-align: center; color: white; }
+nav { background: #1a1a2e; padding: 15px; overflow-x: auto; white-space: nowrap; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+nav a { color: #82d8ff; margin: 0 20px; text-decoration: none; font-weight: bold; font-size: 1.1em; }
+nav a:hover { color: #ff6bcb; }
+.container { max-width: 1200px; margin: 20px auto; padding: 20px; }
+.section { display: none; background: #16213e; padding: 30px; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); margin-bottom: 30px; }
+.active { display: block; }
+h2 { color: #82d8ff; margin-top: 0; }
+.controls { margin: 15px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+input, select, button {
+padding: 10px 14px; border-radius: 8px; border: none; font-size: 15px;
+    }
+input, select { background: #0f1629; color: #a2e0a2; }
+button {
+background: #00d4aa; color: white; font-weight: bold; cursor: pointer;
+transition: all 0.3s;
+    }
+button:hover { background: #00b893; transform: translateY(-2px); }
+canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+.info { margin-top: 10px; padding: 12px; background: #0004; border-radius: 8px; font-family: monospace; color: #0f0; }
+</style>
+</head>
+<body>
+<header>
+<h1>DSA Sandbox Pro</h1>
+<p>Interactive • Beautiful • Fully Visual Algorithm Playground</p>
+</header>
+<nav>
+<a href="#" onclick="show('arrays')">Arrays</a>
+<a href="#" onclick="show('sorting')">Sorting</a>
+<a href="#" onclick="show('searching')">Searching</a>
+<a href="#" onclick="show('trees')">Trees</a>
+<a href="#" onclick="show('heaps')">Heaps</a>
+<a href="#" onclick="show('graphs')">Graphs</a>
+<a href="#" onclick="show('bellman')">Bellman-Ford</a>
+<a href="#" onclick="show('dijkstra')">Dijkstra</a>
+<a href="#" onclick="show('astar')">A*</a>
+<a href="#" onclick="show('recursion')">Recursion</a>
+</nav>
+<div class="container">
+<!-- 1. DYNAMIC ARRAYS -->
+<div id="arrays" class="section active">
+<h2>Dynamic Array Operations</h2>
+<div class="controls">
+<input type="text" id="array-input" value="10,5,8,3,9,1,15,7" style="flex:1">
+<button onclick="loadArrayFromInput()">Load</button>
+<button onclick="visualizeArray()">Refresh</button>
+</div>
+<div class="controls">
+<input type="number" id="insert-val" placeholder="Value">
+<input type="number" id="insert-idx" placeholder="Index">
+<button onclick="insertAt()">Insert</button>
+<input type="number" id="delete-idx" placeholder="Index">
+<button onclick="deleteAt()">Delete</button>
+<input type="number" id="push-val" placeholder="Value">
+<button onclick="pushValue()">Push</button>
+<button onclick="popValue()">Pop</button>
+<input type="number" id="unshift-val" placeholder="Value">
+<button onclick="unshiftValue()">Unshift</button>
+<button onclick="shiftValue()">Shift</button>
+<input type="number" id="search-val" placeholder="Find">
+<button onclick="searchArraySearch()">Search</button>
+<button onclick="clearArray()">Clear</button>
+</div>
+<canvas id="array-canvas" width="1100" height="380"></canvas>
+<div class="info" id="array-status">Array: [] | Length: 0</div>
+</div>
+<!-- 2. SORTING -->
+<div id="sorting" class="section">
+<h2>Sorting Algorithms</h2>
+<div class="controls">
+<input type="text" id="sort-input" value="64,34,25,12,22,11,90,88,55">
+<select id="sort-algo">
+<option value="bubble">Bubble Sort</option>
+<option value="quick">Quick Sort</option>
+<option value="merge">Merge Sort</option>
+</select>
+<button onclick="startSorting()">Start</button>
+<button onclick="resetSorting()">Reset</button>
+</div>
+<canvas id="sort-canvas" width="1100" height="450"></canvas>
+<div class="info" id="sort-info">Steps: 0</div>
+</div>
+<!-- 3. SEARCHING (LINEAR + BINARY) -->
+<div id="searching" class="section">
+<h2>Search Algorithms – Step by Step</h2>
+<div class="controls">
+<input type="text" id="search-input" value="12,5,23,8,45,3,67,19,34,91">
+<button onclick="loadSearchArray()">Load Array</button>
+</div>
+<div class="controls">
+<input type="number" id="target-val" value="34">
+<select id="search-algo">
+<option value="linear">Linear Search</option>
+<option value="binary">Binary Search</option>
+</select>
+<button onclick="startSearch()">Start Search</button>
+<button onclick="resetSearch()">Reset</button>
+</div>
+<div class="info" id="search-steps">Steps: 0</div>
+<div class="info" id="search-result"></div>
+<canvas id="search-canvas" width="1100" height="380"></canvas>
+</div>
+<!-- 4. BST -->
+<div id="trees" class="section">
+<h2>Binary Search Tree</h2>
+<div class="controls">
+<input type="text" id="tree-input" value="50,30,70,20,40,60,80,90,10">
+<button onclick="buildBST()">Build Tree</button>
+<button onclick="traverse('inorder')">In-order</button>
+<button onclick="traverse('preorder')">Pre-order</button>
+<button onclick="traverse('postorder')">Post-order</button>
+</div>
+<canvas id="tree-canvas" width="1100" height="600"></canvas>
+<div class="info" id="traversal-output"></div>
+</div>
+<!-- 5. HEAP -->
+<div id="heaps" class="section">
+<h2>Heap</h2>
+<div class="controls">
+<select id="heap-type" onchange="updateHeapType(this.value)">
+<option value="min">Min-Heap</option>
+<option value="max">Max-Heap</option>
+</select>
+<input type="text" id="heap-input" placeholder="Values: 1,2,3,...">
+<button onclick="loadHeap()">Load Heap</button>
+<input type="number" id="heap-size" value="10" placeholder="Size">
+<button onclick="randomHeap()">Random Heap</button>
+<input type="number" id="heap-val" placeholder="Value">
+<button onclick="heapInsert()">Insert</button>
+<button onclick="heapExtract()">Extract Root</button>
+<button onclick="heap=[];drawHeap()">Clear</button>
+</div>
+<canvas id="heap-canvas" width="1100" height="500"></canvas>
+</div>
+<!-- 6. GRAPH BFS/DFS -->
+<div id="graphs" class="section">
+<h2>Graph Traversal</h2>
+<div class="controls">
+<button onclick="runBFS()">BFS</button>
+<button onclick="runDFS()">DFS</button>
+</div>
+<canvas id="graph-canvas" width="1100" height="500"></canvas>
+</div>
+<!-- 7. BELLMAN-FORD -->
+<div id="bellman" class="section">
+<h2>Bellman-Ford Algorithm</h2>
+<button onclick="runBellmanFord()">Run</button>
+<canvas id="bellman-canvas" width="1100" height="500"></canvas>
+<div class="info" id="bellman-output"></div>
+</div>
+<!-- 8. DIJKSTRA -->
+<div id="dijkstra" class="section">
+<h2>Dijkstra's Algorithm</h2>
+<div class="controls">
+<select id="graph-dir">
+<option value="directed">Directed</option>
+<option value="undirected">Undirected</option>
+</select>
+<input type="text" id="graph-edges" value="0-1:4,0-3:2,1-2:3,3-1:1,3-2:5" style="flex:1">
+<input type="number" id="dijkstra-start" value="0" placeholder="Start">
+<input type="number" id="dijkstra-end" value="2" placeholder="End">
+<button onclick="loadDijkstraGraph(); runDijkstra();">Load & Run</button>
+</div>
+<canvas id="dijkstra-canvas" width="1100" height="500"></canvas>
+<div class="info" id="dijkstra-output"></div>
+</div>
+<!-- 9. A* -->
+<div id="astar" class="section">
+<h2>A* Pathfinding (Click to draw walls)</h2>
+<div class="controls">
+<button onclick="runAstar()">Find Path</button>
+<button onclick="clearGrid()">Clear Walls</button>
+        Speed: <input type="range" id="astar-speed" min="1" max="100" value="50">
+</div>
+<canvas id="astar-canvas" width="900" height="540"></canvas>
+</div>
+<!-- 10. RECURSION - Hanoi -->
+<div id="recursion" class="section">
+<h2>Towers of Hanoi</h2>
+<div class="controls">
+        Disks: <input type="range" id="hanoi-disks" min="3" max="8" value="4">
+<button onclick="solveHanoi()">Solve</button>
+</div>
+<canvas id="hanoi-canvas" width="1100" height="450"></canvas>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<script>
+// Navigation
+function show(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+// Utility
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+// ====================== 1. DYNAMIC ARRAY ======================
+let dynamicArray = [];
+function loadArrayFromInput() {
+const vals = document.getElementById('array-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
+    dynamicArray = vals;
+    visualizeArray();
+}
+function updateArrayStatus() {
+    document.getElementById('array-status').textContent = `Array: [${dynamicArray.join(', ')}] | Length: ${dynamicArray.length}`;
+}
+function visualizeArray() {
+const arr = dynamicArray;
+const canvas = document.getElementById('array-canvas');
+const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+if (arr.length === 0) {
+        ctx.fillStyle = '#666';
+        ctx.font = '28px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Array is empty', canvas.width/2, canvas.height/2);
+        updateArrayStatus();
+return;
+    }
+const maxVal = Math.max(...arr, 10);
+const cellW = Math.min(100, canvas.width / arr.length * 0.85);
+const startX = (canvas.width - arr.length * cellW) / 2;
+const baseY = canvas.height - 100;
+    arr.forEach((val, i) => {
+const h = (val / maxVal) * 220;
+const x = startX + i * cellW;
+        ctx.fillStyle = '#00d4ff';
+        ctx.fillRect(x + 10, baseY - h, cellW - 20, h);
+        ctx.strokeStyle = '#0ff';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(x + 10, baseY - h, cellW - 20, h);
+        ctx.fillStyle = 'white';
+        ctx.font = '22px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(val, x + cellW/2, baseY - h - 10);
+        ctx.fillStyle = '#aaa';
+        ctx.font = '16px Arial';
+        ctx.fillText(i, x + cellW/2, baseY + 30);
+    });
+    updateArrayStatus();
+}
+function insertAt() { const v = Number(document.getElementById('insert-val').value); let i = Number(document.getElementById('insert-idx').value); if(isNaN(v))return; i = Math.max(0, Math.min(i, dynamicArray.length)); dynamicArray.splice(i, 0, v); visualizeArray(); }
+function deleteAt() { const i = Number(document.getElementById('delete-idx').value); if(i >= 0 && i < dynamicArray.length) { dynamicArray.splice(i,1); visualizeArray(); } }
+function pushValue() { const v = Number(document.getElementById('push-val').value); if(!isNaN(v)) { dynamicArray.push(v); visualizeArray(); } }
+function popValue() { if(dynamicArray.length>0) { dynamicArray.pop(); visualizeArray(); } }
+function unshiftValue() { const v = Number(document.getElementById('unshift-val').value); if(!isNaN(v)) { dynamicArray.unshift(v); visualizeArray(); } }
+function shiftValue() { if(dynamicArray.length>0) { dynamicArray.shift(); visualizeArray(); } }
+function clearArray() { dynamicArray = []; visualizeArray(); }
+function searchArraySearch() {
+const val = Number(document.getElementById('search-val').value);
+const idx = dynamicArray.indexOf(val);
+const canvas = document.getElementById('array-canvas');
+const ctx = canvas.getContext('2d');
+if(idx === -1) {
+        ctx.fillStyle = 'rgba(255,0,0,0.5)';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = '#f66';
+        ctx.font = '36px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Not Found', canvas.width/2, canvas.height/2);
+        setTimeout(visualizeArray, 1500);
+    } else {
+const cellW = Math.min(100, canvas.width / dynamicArray.length * 0.85);
+const startX = (canvas.width - dynamicArray.length * cellW) / 2;
+const x = startX + idx * cellW;
+        ctx.fillStyle = 'rgba(0,255,0,0.4)';
+        ctx.fillRect(x, 50, cellW, canvas.height - 100);
+        ctx.fillStyle = '#0f0';
+        ctx.font = '32px Arial';
+        ctx.fillText(`Found at index ${idx}!`, canvas.width/2, 100);
+        setTimeout(visualizeArray, 2000);
+    }
+}
+// ====================== 2. SORTING ======================
+let sortArray = [], sortingSteps = 0;
+async function startSorting() {
+    sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+    sortingSteps = 0;
+    document.getElementById('sort-info').textContent = 'Running...';
+    drawSort(sortArray);
+const algo = document.getElementById('sort-algo').value;
+if(algo==='bubble') await bubbleSortVis();
+if(algo==='quick') await quickSortVis(0, sortArray.length-1);
+if(algo==='merge') await mergeSortVis(0, sortArray.length-1);
+    document.getElementById('sort-info').textContent = `Done – ${sortingSteps} steps`;
+}
+function drawSort(arr) {
+const canvas = document.getElementById('sort-canvas');
+const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+const w = canvas.width / arr.length;
+    arr.forEach((v,i)=>{
+const h = (v/Math.max(...arr,1))*380;
+        ctx.fillStyle = `hsl(${v*4},80%,50%)`;
+        ctx.fillRect(i*w+5, canvas.height-h-40, w-10, h);
+        ctx.fillStyle = '#fff';
+        ctx.fillText(v, i*w + w/2, canvas.height-15);
+    });
+}
+async function bubbleSortVis() {
+for (let i = 0; i < sortArray.length; i++) {
+for (let j = 0; j < sortArray.length - i - 1; j++) {
+if (sortArray[j] > sortArray[j + 1]) {
+                [sortArray[j], sortArray[j + 1]] = [sortArray[j + 1], sortArray[j]];
+                sortingSteps++;
+                drawSort(sortArray);
+await sleep(30);
+            }
+        }
+    }
+}
+async function quickSortVis(low, high) {
+if (low < high) {
+let pi = await partition(low, high);
+await quickSortVis(low, pi - 1);
+await quickSortVis(pi + 1, high);
+    }
+}
+async function partition(low, high) {
+let pivot = sortArray[high];
+let i = low - 1;
+for (let j = low; j < high; j++) {
+if (sortArray[j] < pivot) {
+            i++;
+            [sortArray[i], sortArray[j]] = [sortArray[j], sortArray[i]];
+            drawSort(sortArray);
+            sortingSteps++;
+await sleep(60);
+        }
+    }
+    [sortArray[i + 1], sortArray[high]] = [sortArray[high], sortArray[i + 1]];
+    drawSort(sortArray);
+    sortingSteps++;
+await sleep(60);
+return i + 1;
+}
+async function mergeSortVis(l, r) {
+if (l >= r) return;
+let m = Math.floor((l + r) / 2);
+await mergeSortVis(l, m);
+await mergeSortVis(m + 1, r);
+await merge(l, m, r);
+}
+async function merge(l, m, r) {
+let left = sortArray.slice(l, m + 1);
+let right = sortArray.slice(m + 1, r + 1);
+let i = 0, j = 0, k = l;
+while (i < left.length && j < right.length) {
+if (left[i] <= right[j]) {
+            sortArray[k++] = left[i++];
+        } else {
+            sortArray[k++] = right[j++];
+        }
+        drawSort(sortArray);
+        sortingSteps++;
+await sleep(80);
+    }
+while (i < left.length) { sortArray[k++] = left[i++]; drawSort(sortArray); await sleep(40); }
+while (j < right.length) { sortArray[k++] = right[j++]; drawSort(sortArray); await sleep(40); }
+}
+function resetSorting() { sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n)); drawSort(sortArray); document.getElementById('sort-info').textContent = 'Steps: 0'; }
+// ====================== 3. SEARCHING (Linear + Binary) ======================
+let searchArray = [], searchSteps = 0;
+function loadSearchArray() {
+    searchArray = document.getElementById('search-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+    searchSteps = 0;
+    document.getElementById('search-steps').textContent = 'Steps: 0';
+    document.getElementById('search-result').textContent = '';
+    drawSearchArray([]);
+}
+function drawSearchArray(highlightIndices = [], foundIndex = -1, isBinary = false) {
+const canvas = document.getElementById('search-canvas');
+const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = '28px Arial';
+    ctx.textAlign = 'center';
+if(searchArray.length===0) { ctx.fillStyle='#888'; ctx.fillText('Load array first', canvas.width/2, canvas.height/2); return; }
+const boxW=90, gap=15;
+const totalW = searchArray.length * (boxW + gap) - gap;
+const startX = (canvas.width - totalW) / 2;
+    searchArray.forEach((v,i)=>{
+const x = startX + i*(boxW+gap);
+let fillStyle = foundIndex === i ? '#00ff88' : highlightIndices.includes(i) ? '#ffeb3b' : '#4488ff';
+if (isBinary && !highlightIndices.includes(i)) fillStyle = '#333';
+        ctx.fillStyle = fillStyle;
+        ctx.fillRect(x,140,boxW,90);
+        ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.strokeRect(x,140,boxW,90);
+        ctx.fillStyle='white'; ctx.font='32px Arial'; ctx.textBaseline='middle';
+        ctx.fillText(v, x+boxW/2, 185);
+        ctx.fillStyle='#aaa'; ctx.font='16px Arial'; ctx.fillText(i, x+boxW/2, 260);
+    });
+}
+async function startSearch() {
+const target = Number(document.getElementById('target-val').value);
+const algo = document.getElementById('search-algo').value;
+    searchSteps = 0;
+    document.getElementById('search-result').textContent = 'Searching...';
+    document.getElementById('search-steps').textContent = 'Steps: 0';
+if(algo==='linear') await linearSearchVis(target);
+else {
+        searchArray.sort((a,b)=>a-b);
+        drawSearchArray([], -1, false);
+        await sleep(600);
+await binarySearchVis(target);
+    }
+}
+async function linearSearchVis(target) {
+let found = false;
+for (let i = 0; i < searchArray.length; i++) {
+        searchSteps++;
+        document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
+        drawSearchArray([i], -1, false);
+await sleep(800);
+if (searchArray[i] === target) {
+            found = true;
+            drawSearchArray([i], i, false);
+            document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${i}!</span>`;
+return;
+        }
+    }
+    drawSearchArray([], -1, false);
+    document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+}
+async function binarySearchVis(target) {
+let left = 0;
+let right = searchArray.length - 1;
+while (left <= right) {
+const mid = Math.floor((left + right) / 2);
+        searchSteps++;
+        document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
+const range = [];
+for (let k = left; k <= right; k++) range.push(k);
+        drawSearchArray(range, -1, true);
+const canvas = document.getElementById('search-canvas');
+const ctx = canvas.getContext('2d');
+const boxW = 90, gap = 15;
+const startX = (canvas.width - searchArray.length * (boxW + gap) + gap) / 2;
+        ctx.fillStyle = '#ffff00';
+        ctx.font = '40px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('▼', startX + mid * (boxW + gap) + boxW / 2, 100);
+await sleep(1400);
+if (searchArray[mid] === target) {
+            drawSearchArray(range, mid, true);
+            document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${mid}!</span>`;
+return;
+        } else if (searchArray[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    drawSearchArray([], -1, true);
+    document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+}
+function resetSearch(){ loadSearchArray(); }
+// ====================== 4. BINARY SEARCH TREE ======================
+class TreeNode {
+constructor(val) {
+this.val = val;
+this.left = null;
+this.right = null;
+this.x = 0;
+this.y = 0;
+    }
+}
+let bstRoot = null;
+let highlightNode = null;
+function buildBST() {
+const vals = document.getElementById('tree-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+    bstRoot = null;
+    vals.forEach(v => bstRoot = insertBST(bstRoot, v));
+    drawBST();
+}
+function insertBST(node, val) {
+if(!node) return new TreeNode(val);
+if(val < node.val) node.left = insertBST(node.left, val);
+else if(val > node.val) node.right = insertBST(node.right, val);
+return node;
+}
+function drawBST() {
+const canvas = document.getElementById('tree-canvas');
+const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+if(!bstRoot) {
+        ctx.fillStyle='#888'; ctx.font='28px Arial'; ctx.textAlign='center';
+        ctx.fillText('Enter values and click Build Tree', canvas.width/2, canvas.height/2);
+return;
+    }
+    assignPositions(bstRoot, canvas.width/2, 60, canvas.width/4);
+    drawTreeNode(ctx, bstRoot);
+}
+function assignPositions(node, x, y, offset) {
+if(!node) return;
+    node.x = x;
+    node.y = y;
+if(node.left) assignPositions(node.left, x - offset, y + 80, offset/2);
+if(node.right) assignPositions(node.right, x + offset, y + 80, offset/2);
+}
+function drawTreeNode(ctx, node) {
+if(!node) return;
+if(node.left) {
+        ctx.strokeStyle = '#00d4ff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(node.x, node.y);
+        ctx.lineTo(node.left.x, node.left.y);
+        ctx.stroke();
+        drawTreeNode(ctx, node.left);
+    }
+if(node.right) {
+        ctx.strokeStyle = '#00d4ff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(node.x, node.y);
+        ctx.lineTo(node.right.x, node.right.y);
+        ctx.stroke();
+        drawTreeNode(ctx, node.right);
+    }
+    ctx.fillStyle = (node === highlightNode) ? '#ff0' : '#667eea';
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, 28, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#0ff';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.fillStyle = 'white';
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(node.val, node.x, node.y);
+}
+async function traverse(type) {
+const result = [];
+    highlightNode = null;
+    drawBST();
+if(type==='inorder') await inorder(bstRoot, result);
+else if(type==='preorder') await preorder(bstRoot, result);
+else if(type==='postorder') await postorder(bstRoot, result);
+    document.getElementById('traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
+    highlightNode = null;
+    drawBST();
+}
+async function inorder(node, res) { 
+    if(node) { 
+        await inorder(node.left, res); 
+        res.push(node.val); 
+        highlightNode = node; 
+        drawBST(); 
+        await sleep(800); 
+        highlightNode = null; 
+        drawBST(); 
+        await inorder(node.right, res); 
+    } 
+}
+async function preorder(node, res) { 
+    if(node) { 
+        res.push(node.val); 
+        highlightNode = node; 
+        drawBST(); 
+        await sleep(800); 
+        highlightNode = null; 
+        drawBST(); 
+        await preorder(node.left, res); 
+        await preorder(node.right, res); 
+    } 
+}
+async function postorder(node, res) { 
+    if(node) { 
+        await postorder(node.left, res); 
+        await postorder(node.right, res); 
+        res.push(node.val); 
+        highlightNode = node; 
+        drawBST(); 
+        await sleep(800); 
+        highlightNode = null; 
+        drawBST(); 
+    } 
+}
+// ====================== 5. MIN-HEAP ======================
+let heap = [];
+let heapType = 'min';
+function updateHeapType(type) {
+    heapType = type;
+    if (heap.length > 0) {
+        buildHeap(heap.slice());
+        drawHeap();
+    }
+}
+function getCompare() {
+    return heapType === 'min' ? (a, b) => a < b : (a, b) => a > b;
+}
+function heapInsertRandom() {
+const val = Math.floor(Math.random() * 100) + 1;
+    heap.push(val);
+    heapifyUp(heap.length - 1);
+    drawHeap();
+}
+function heapInsert() {
+    const val = Number(document.getElementById('heap-val').value);
+    if (isNaN(val)) return;
+    heap.push(val);
+    heapifyUp(heap.length - 1);
+    drawHeap();
+}
+function heapExtract() {
+if(heap.length === 0) return;
+    heap[0] = heap[heap.length - 1];
+    heap.pop();
+if(heap.length > 0) heapifyDown(0);
+    drawHeap();
+}
+function heapifyUp(i) {
+    const compare = getCompare();
+while(i > 0) {
+const parent = Math.floor((i-1)/2);
+if(!compare(heap[i], heap[parent])) break;
+        [heap[i], heap[parent]] = [heap[parent], heap[i]];
+        i = parent;
+    }
+}
+function heapifyDown(i) {
+    const compare = getCompare();
+while(true) {
+let smallest = i;
+const left = 2*i + 1;
+const right = 2*i + 2;
+if(left < heap.length && compare(heap[left], heap[smallest])) smallest = left;
+if(right < heap.length && compare(heap[right], heap[smallest])) smallest = right;
+if(smallest === i) break;
+        [heap[i], heap[smallest]] = [heap[smallest], heap[i]];
+        i = smallest;
+    }
+}
+function buildHeap(arr) {
+    heap = arr;
+    for (let i = Math.floor(heap.length / 2) - 1; i >= 0; i--) {
+        heapifyDown(i);
+    }
+}
+function loadHeap() {
+    const vals = document.getElementById('heap-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
+    buildHeap(vals);
+    drawHeap();
+}
+function randomHeap() {
+    const size = Number(document.getElementById('heap-size').value);
+    const arr = [];
+    for (let i = 0; i < size; i++) {
+        arr.push(Math.floor(Math.random() * 100) + 1);
+    }
+    buildHeap(arr);
+    drawHeap();
+}
+function drawHeap() {
+const canvas = document.getElementById('heap-canvas');
+const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+if(heap.length === 0) {
+        ctx.fillStyle='#888'; ctx.font='28px Arial'; ctx.textAlign='center';
+        ctx.fillText('Heap is empty - Insert elements', canvas.width/2, canvas.height/2);
+return;
+    }
+const levels = Math.floor(Math.log2(heap.length)) + 1;
+const startY = 60;
+const levelGap = 90;
+for(let i = 0; i < heap.length; i++) {
+const level = Math.floor(Math.log2(i + 1));
+const posInLevel = i - (Math.pow(2, level) - 1);
+const nodesInLevel = Math.pow(2, level);
+const spacing = canvas.width / (nodesInLevel + 1);
+const x = spacing * (posInLevel + 1);
+const y = startY + level * levelGap;
+if(i > 0) {
+const parent = Math.floor((i-1)/2);
+const pLevel = Math.floor(Math.log2(parent + 1));
+const pPos = parent - (Math.pow(2, pLevel) - 1);
+const pNodes = Math.pow(2, pLevel);
+const pSpacing = canvas.width / (pNodes + 1);
+const px = pSpacing * (pPos + 1);
+const py = startY + pLevel * levelGap;
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+        ctx.fillStyle = '#764ba2';
+        ctx.beginPath();
+        ctx.arc(x, y, 26, 0, Math.PI*2);
+        ctx.fill();
+        ctx.strokeStyle = '#0ff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.font = '18px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(heap[i], x, y);
+    }
+}
+// ====================== 6. GRAPH BFS/DFS ======================
+const graphNodes = [
+    {id:0, x:200, y:150}, {id:1, x:400, y:100}, {id:2, x:600, y:150},
+    {id:3, x:300, y:300}, {id:4, x:500, y:300}, {id:5, x:700, y:350}
+];
+const graphEdges = [[0,1],[0,3],[1,2],[1,4],[2,5],[3,4],[4,5]];
+async function runBFS() {
+const canvas = document.getElementById('graph-canvas');
+const ctx = canvas.getContext('2d');
+const visited = new Set();
+const queue = [0];
+    visited.add(0);
+while(queue.length > 0) {
+const node = queue.shift();
+        drawGraph(ctx, visited, node);
+await sleep(800);
+for(let [a,b] of graphEdges) {
+const neighbor = a === node ? b : (b === node ? a : -1);
+if(neighbor !== -1 && !visited.has(neighbor)) {
+                visited.add(neighbor);
+                queue.push(neighbor);
+            }
+        }
+    }
+    drawGraph(ctx, visited, -1);
+}
+async function runDFS() {
+const canvas = document.getElementById('graph-canvas');
+const ctx = canvas.getContext('2d');
+const visited = new Set();
+await dfsVisit(0, visited, ctx);
+    drawGraph(ctx, visited, -1);
+}
+async function dfsVisit(node, visited, ctx) {
+    visited.add(node);
+    drawGraph(ctx, visited, node);
+await sleep(800);
+for(let [a,b] of graphEdges) {
+const neighbor = a === node ? b : (b === node ? a : -1);
+if(neighbor !== -1 && !visited.has(neighbor)) {
+await dfsVisit(neighbor, visited, ctx);
+        }
+    }
+}
+function drawGraph(ctx, visited, current) {
+    ctx.clearRect(0,0,1100,500);
+    ctx.strokeStyle = '#444';
+    ctx.lineWidth = 3;
+    graphEdges.forEach(([a,b]) => {
+        ctx.beginPath();
+        ctx.moveTo(graphNodes[a].x, graphNodes[a].y);
+        ctx.lineTo(graphNodes[b].x, graphNodes[b].y);
+        ctx.stroke();
+    });
+    graphNodes.forEach(n => {
+        ctx.fillStyle = current === n.id ? '#ff0' : (visited.has(n.id) ? '#0f0' : '#667eea');
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 30, 0, Math.PI*2);
+        ctx.fill();
+        ctx.strokeStyle = '#0ff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.font = '22px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(n.id, n.x, n.y);
+    });
+}
+// ====================== 7. BELLMAN-FORD ======================
+async function runBellmanFord() {
+const canvas = document.getElementById('bellman-canvas');
+const ctx = canvas.getContext('2d');
+const nodes = [{id:0,x:150,y:250},{id:1,x:400,y:150},{id:2,x:650,y:250},{id:3,x:400,y:350}];
+const edges = [{from:0,to:1,weight:4},{from:0,to:3,weight:5},{from:1,to:2,weight:3},{from:3,to:1,weight:-6},{from:3,to:2,weight:2}];
+const dist = Array(nodes.length).fill(Infinity);
+    dist[0] = 0;
+for(let i = 0; i < nodes.length - 1; i++) {
+for(let e of edges) {
+if(dist[e.from] !== Infinity && dist[e.from] + e.weight < dist[e.to]) {
+                dist[e.to] = dist[e.from] + e.weight;
+            }
+        }
+        drawBellman(ctx, nodes, edges, dist);
+await sleep(800);
+    }
+    document.getElementById('bellman-output').textContent = `Shortest distances from node 0: ${dist.map((d,i)=>`${i}:${d}`).join(', ')}`;
+}
+function drawBellman(ctx, nodes, edges, dist) {
+    ctx.clearRect(0,0,1100,500);
+    edges.forEach(e => {
+const from = nodes[e.from];
+const to = nodes[e.to];
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.stroke();
+const mx = (from.x + to.x)/2;
+const my = (from.y + to.y)/2;
+        ctx.fillStyle = '#ff0';
+        ctx.font = '18px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(e.weight, mx, my-10);
+    });
+    nodes.forEach((n,i) => {
+        ctx.fillStyle = i===0 ? '#0f0' : '#667eea';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 35, 0, Math.PI*2);
+        ctx.fill();
+        ctx.strokeStyle = '#0ff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(n.id, n.x, n.y-8);
+        ctx.font = '16px Arial';
+        ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
+    });
+}
+// ====================== 8. DIJKSTRA ======================
+let dijkstraNodes = [];
+let dijkstraEdges = [];
+function loadDijkstraGraph() {
+    const edgesInput = document.getElementById('graph-edges').value;
+    const edgeList = edgesInput.split(',').map(s => s.trim());
+    let maxNode = 0;
+    dijkstraEdges = [];
+    edgeList.forEach(e => {
+        if (!e) return;
+        const [fromTo, w] = e.split(':');
+        const [from, to] = fromTo.split('-').map(Number);
+        const weight = w ? Number(w) : 1;
+        dijkstraEdges.push({from, to, weight});
+        maxNode = Math.max(maxNode, from, to);
+    });
+    const numNodes = maxNode + 1;
+    const isUndirected = document.getElementById('graph-dir').value === 'undirected';
+    if (isUndirected) {
+        for (let i = 0; i < dijkstraEdges.length; i++) {
+            const e = dijkstraEdges[i];
+            if (!dijkstraEdges.some(ee => ee.from === e.to && ee.to === e.from && ee.weight === e.weight)) {
+                dijkstraEdges.push({from: e.to, to: e.from, weight: e.weight});
+            }
+        }
+    }
+    dijkstraNodes = [];
+    for (let i = 0; i < numNodes; i++) {
+        const angle = 2 * Math.PI * i / numNodes;
+        const x = 550 + 300 * Math.cos(angle);
+        const y = 250 + 200 * Math.sin(angle);
+        dijkstraNodes.push({id: i, x, y});
+    }
+}
+async function runDijkstra() {
+    if (dijkstraNodes.length === 0) loadDijkstraGraph();
+    const canvas = document.getElementById('dijkstra-canvas');
+    const ctx = canvas.getContext('2d');
+    const start = Number(document.getElementById('dijkstra-start').value);
+    const end = Number(document.getElementById('dijkstra-end').value);
+    const numNodes = dijkstraNodes.length;
+    const dist = Array(numNodes).fill(Infinity);
+    const prev = Array(numNodes).fill(-1);
+    const visited = new Set();
+    dist[start] = 0;
+    while (visited.size < numNodes) {
+        let u = -1;
+        for (let i = 0; i < numNodes; i++) {
+            if (!visited.has(i) && (u === -1 || dist[i] < dist[u])) u = i;
+        }
+        if (dist[u] === Infinity) break;
+        visited.add(u);
+        for (let e of dijkstraEdges) {
+            if (e.from === u && dist[u] + e.weight < dist[e.to]) {
+                dist[e.to] = dist[u] + e.weight;
+                prev[e.to] = u;
+            }
+        }
+        drawDijkstra(ctx, dijkstraNodes, dijkstraEdges, dist, visited, []);
+        await sleep(1000);
+    }
+    let output = `Shortest distances from node ${start}: ${dist.map((d,i)=>`${i}:${d === Infinity ? '∞' : d}`).join(', ')}`;
+    if (!isNaN(end) && end >= 0 && end < numNodes) {
+        if (dist[end] === Infinity) {
+            output += ' | No path to end';
+        } else {
+            let path = [];
+            let curr = end;
+            while (curr !== -1) {
+                path.push(curr);
+                curr = prev[curr];
+            }
+            path.reverse();
+            output += ` | Path to ${end}: ${path.join(' -> ')} | Distance: ${dist[end]}`;
+            drawDijkstra(ctx, dijkstraNodes, dijkstraEdges, dist, visited, path);
+        }
+    }
+    document.getElementById('dijkstra-output').textContent = output;
+}
+function drawDijkstra(ctx, nodes, edges, dist, visited, path) {
+    ctx.clearRect(0,0,1100,500);
+    edges.forEach(e => {
+const from = nodes[e.from];
+const to = nodes[e.to];
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.stroke();
+const mx = (from.x + to.x)/2;
+const my = (from.y + to.y)/2;
+        ctx.fillStyle = '#ff0';
+        ctx.font = '18px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(e.weight, mx, my-10);
+    });
+    nodes.forEach((n,i) => {
+        ctx.fillStyle = path.includes(i) ? '#ff0' : (visited.has(i) ? '#0f0' : '#667eea');
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 35, 0, Math.PI*2);
+        ctx.fill();
+        ctx.strokeStyle = '#0ff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(n.id, n.x, n.y-8);
+        ctx.font = '16px Arial';
+        ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
+    });
+}
+// ====================== 9. A* PATHFINDING ======================
+const gridSize = 30;
+const gridRows = 18;
+const gridCols = 30;
+let grid = [];
+let startCell = {r:1,c:1};
+let endCell = {r:16,c:28};
+function initGrid() {
+    grid = [];
+for(let r = 0; r < gridRows; r++) {
+        grid[r] = [];
+for(let c = 0; c < gridCols; c++) {
+            grid[r][c] = {wall:false, visited:false, path:false};
+        }
+    }
+}
+initGrid();
+document.getElementById('astar-canvas').addEventListener('click', (e) => {
+const rect = e.target.getBoundingClientRect();
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+const c = Math.floor(x / gridSize);
+const r = Math.floor(y / gridSize);
+if(r >= 0 && r < gridRows && c >= 0 && c < gridCols) {
+if((r===startCell.r && c===startCell.c) || (r===endCell.r && c===endCell.c)) return;
+        grid[r][c].wall = !grid[r][c].wall;
+        drawAstarGrid();
+    }
+});
+function clearGrid() {
+    initGrid();
+    drawAstarGrid();
+}
+function drawAstarGrid() {
+const canvas = document.getElementById('astar-canvas');
+const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+for(let r = 0; r < gridRows; r++) {
+for(let c = 0; c < gridCols; c++) {
+const cell = grid[r][c];
+if(r===startCell.r && c===startCell.c) ctx.fillStyle = '#0f0';
+else if(r===endCell.r && c===endCell.c) ctx.fillStyle = '#f00';
+else if(cell.path) ctx.fillStyle = '#ffeb3b';
+else if(cell.visited) ctx.fillStyle = '#00bcd4';
+else if(cell.wall) ctx.fillStyle = '#333';
+else ctx.fillStyle = '#1a1a2e';
+            ctx.fillRect(c*gridSize, r*gridSize, gridSize-1, gridSize-1);
+        }
+    }
+}
+async function runAstar() {
+const walls = [];
+for(let r = 0; r < gridRows; r++) {
+for(let c = 0; c < gridCols; c++) {
+if(grid[r][c].wall) walls.push({r,c});
+        }
+    }
+    initGrid();
+    walls.forEach(w => grid[w.r][w.c].wall = true);
+const speed = 101 - document.getElementById('astar-speed').value;
+const openSet = [{r:startCell.r, c:startCell.c, g:0, h:heuristic(startCell.r,startCell.c), f:0, parent:null}];
+    openSet[0].f = openSet[0].g + openSet[0].h;
+const closedSet = new Set();
+while(openSet.length > 0) {
+        openSet.sort((a,b) => a.f - b.f);
+const current = openSet.shift();
+const key = `${current.r},${current.c}`;
+if(closedSet.has(key)) continue;
+        closedSet.add(key);
+        grid[current.r][current.c].visited = true;
+        drawAstarGrid();
+await sleep(speed);
+if(current.r === endCell.r && current.c === endCell.c) {
+let node = current;
+while(node.parent) {
+                grid[node.r][node.c].path = true;
+                node = node.parent;
+            }
+            drawAstarGrid();
+return;
+        }
+const neighbors = [{r:current.r-1,c:current.c},{r:current.r+1,c:current.c},{r:current.r,c:current.c-1},{r:current.r,c:current.c+1}];
+for(let n of neighbors) {
+if(n.r<0||n.r>=gridRows||n.c<0||n.c>=gridCols) continue;
+if(grid[n.r][n.c].wall || closedSet.has(`${n.r},${n.c}`)) continue;
+const g = current.g + 1;
+const h = heuristic(n.r, n.c);
+const f = g + h;
+const existing = openSet.find(o => o.r===n.r && o.c===n.c);
+if(!existing || g < existing.g) {
+if(existing) openSet.splice(openSet.indexOf(existing), 1);
+                openSet.push({r:n.r, c:n.c, g, h, f, parent:current});
+            }
+        }
+    }
+}
+function heuristic(r, c) {
+return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
+}
+// ====================== 10. TOWERS OF HANOI ======================
+let hanoiState = {pegs:[[],[],[]], moves:0};
+async function solveHanoi() {
+const n = Number(document.getElementById('hanoi-disks').value);
+    hanoiState = {pegs:[[],[],[]], moves:0};
+for(let i = n; i >= 1; i--) hanoiState.pegs[0].push(i);
+    drawHanoi();
+await sleep(500);
+await hanoi(n, 0, 2, 1);
+}
+async function hanoi(n, from, to, aux) {
+if(n === 1) {
+const disk = hanoiState.pegs[from].pop();
+        hanoiState.pegs[to].push(disk);
+        hanoiState.moves++;
+        drawHanoi();
+await sleep(600);
+return;
+    }
+await hanoi(n-1, from, aux, to);
+const disk = hanoiState.pegs[from].pop();
+    hanoiState.pegs[to].push(disk);
+    hanoiState.moves++;
+    drawHanoi();
+await sleep(600);
+await hanoi(n-1, aux, to, from);
+}
+function drawHanoi() {
+const canvas = document.getElementById('hanoi-canvas');
+const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+const pegX = [200, 550, 900];
+const baseY = 380;
+    ctx.strokeStyle = '#00d4ff';
+    ctx.lineWidth = 8;
+    pegX.forEach(x => {
+        ctx.beginPath();
+        ctx.moveTo(x, baseY);
+        ctx.lineTo(x, baseY-250);
+        ctx.stroke();
+        ctx.fillStyle = '#444';
+        ctx.fillRect(x-80, baseY, 160, 15);
+    });
+    hanoiState.pegs.forEach((peg, i) => {
+        peg.forEach((disk, j) => {
+const w = disk * 20 + 40;
+const h = 25;
+const x = pegX[i] - w/2;
+const y = baseY - (j+1)*h - 5;
+            ctx.fillStyle = `hsl(${disk*30}, 80%, 60%)`;
+            ctx.fillRect(x, y, w, h);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, w, h);
+        });
+    });
+    ctx.fillStyle = '#0f0';
+    ctx.font = '24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Moves: ${hanoiState.moves}`, canvas.width/2, 50);
+}
+// ====================== INITIALIZE ======================
+loadArrayFromInput();
+loadSearchArray();
+visualizeArray();
+drawAstarGrid();
+drawGraph(document.getElementById('graph-canvas').getContext('2d'), new Set(), -1);
+document.getElementById('heap-type').value = heapType;
+</script>
+</body>
+</html>
