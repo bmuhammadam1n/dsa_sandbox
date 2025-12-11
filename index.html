@@ -5,27 +5,139 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DSA Sandbox Pro - Ultimate Algorithm Visualizer</title>
 <style>
-body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #0f0f1a; color: #ddd; }
-header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 40px; text-align: center; color: white; }
-nav { background: #1a1a2e; padding: 15px; overflow-x: auto; white-space: nowrap; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-nav a { color: #82d8ff; margin: 0 20px; text-decoration: none; font-weight: bold; font-size: 1.1em; }
-nav a:hover { color: #ff6bcb; }
-.container { max-width: 1200px; margin: 20px auto; padding: 20px; }
-.section { display: none; background: #16213e; padding: 30px; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); margin-bottom: 30px; }
-.active { display: block; }
-h2 { color: #82d8ff; margin-top: 0; }
-.controls { margin: 15px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    background: #0f0f1a; 
+    color: #ddd; 
+    line-height: 1.6;
+}
+header { 
+    background: linear-gradient(135deg, #667eea, #764ba2); 
+    padding: 40px; 
+    text-align: center; 
+    color: white; 
+}
+nav { 
+    background: #1a1a2e; 
+    padding: 15px; 
+    overflow-x: auto; 
+    white-space: nowrap; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
+}
+nav a { 
+    color: #82d8ff; 
+    margin: 0 20px; 
+    text-decoration: none; 
+    font-weight: bold; 
+    font-size: 1.1em; 
+}
+nav a:hover { 
+    color: #ff6bcb; 
+}
+.container { 
+    max-width: 1200px; 
+    margin: 20px auto; 
+    padding: 20px; 
+}
+.section { 
+    display: none; 
+    background: #16213e; 
+    padding: 30px; 
+    border-radius: 16px; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
+    margin-bottom: 30px; 
+}
+.active { 
+    display: block; 
+}
+h2 { 
+    color: #82d8ff; 
+    margin-top: 0; 
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+h3 {
+    color: #82d8ff;
+    margin-top: 25px;
+}
+.controls { 
+    margin: 15px 0; 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    align-items: center; 
+    background: #1a1a2e;
+    padding: 15px;
+    border-radius: 8px;
+}
 input, select, button {
-padding: 10px 14px; border-radius: 8px; border: none; font-size: 15px;
-    }
-input, select { background: #0f1629; color: #a2e0a2; }
+    padding: 10px 14px; 
+    border-radius: 8px; 
+    border: none; 
+    font-size: 15px;
+}
+input, select { 
+    background: #0f1629; 
+    color: #a2e0a2; 
+}
 button {
-background: #00d4aa; color: white; font-weight: bold; cursor: pointer;
-transition: all 0.3s;
-    }
-button:hover { background: #00b893; transform: translateY(-2px); }
-canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
-.info { margin-top: 10px; padding: 12px; background: #0004; border-radius: 8px; font-family: monospace; color: #0f0; }
+    background: #00d4aa; 
+    color: white; 
+    font-weight: bold; 
+    cursor: pointer;
+    transition: all 0.3s;
+}
+button:hover { 
+    background: #00b893; 
+    transform: translateY(-2px); 
+}
+canvas { 
+    display: block; 
+    margin: 20px auto; 
+    background: #0b1021; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
+}
+.info { 
+    margin-top: 10px; 
+    padding: 12px; 
+    background: #0004; 
+    border-radius: 8px; 
+    font-family: monospace; 
+    color: #0f0; 
+}
+.details { 
+    margin: 20px 0; 
+    padding: 20px; 
+    background: #1a1a2e; 
+    border-radius: 12px; 
+    border-left: 4px solid #667eea;
+}
+.python-code {
+    background: #0a0a14;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #a2e0a2;
+}
+.python-code pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+.code-header {
+    background: #333;
+    color: #82d8ff;
+    padding: 10px;
+    border-radius: 6px 6px 0 0;
+    font-weight: bold;
+    text-align: center;
+}
 </style>
 </head>
 <body>
@@ -49,6 +161,72 @@ canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 
 <!-- 1. DYNAMIC ARRAYS -->
 <div id="arrays" class="section active">
 <h2>Dynamic Array Operations</h2>
+<div class="details">
+<h3>Details</h3>
+<p>Dynamic arrays are resizable arrays that provide efficient random access and dynamic sizing. They automatically double in capacity when full to maintain amortized O(1) append operations. Key operations include access (O(1)), append/push (amortized O(1)), insert/delete at index (O(n) due to shifting), and search (O(n)). They are ideal for lists where size is unknown in advance, but frequent inserts/deletes in the middle can be costly due to element shifting.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+class DynamicArray:
+    def __init__(self):
+        self.array = []
+        self.capacity = 4
+        self.size = 0
+
+    def push(self, value):
+        if self.size == self.capacity:
+            self._resize(self.capacity * 2)
+        self.array.append(value)
+        self.size += 1
+
+    def pop(self):
+        if self.size == 0:
+            raise IndexError("Array is empty")
+        value = self.array.pop()
+        self.size -= 1
+        return value
+
+    def insert(self, index, value):
+        if index < 0 or index > self.size:
+            raise IndexError("Invalid index")
+        if self.size == self.capacity:
+            self._resize(self.capacity * 2)
+        self.array.insert(index, value)
+        self.size += 1
+
+    def delete(self, index):
+        if index < 0 or index >= self.size:
+            raise IndexError("Invalid index")
+        del self.array[index]
+        self.size -= 1
+
+    def unshift(self, value):
+        self.insert(0, value)
+
+    def shift(self):
+        return self.delete(0)
+
+    def search(self, value):
+        return self.array.index(value) if value in self.array else -1
+
+    def _resize(self, new_capacity):
+        new_array = [None] * new_capacity
+        for i in range(self.size):
+            new_array[i] = self.array[i]
+        self.array = new_array
+        self.capacity = new_capacity
+
+# Example usage
+da = DynamicArray()
+da.push(10)
+da.push(20)
+print(da.array)  # [10, 20]
+da.insert(1, 15)
+print(da.array)  # [10, 15, 20]
+print(da.search(15))  # 1
+</pre>
+</div>
 <div class="controls">
 <input type="text" id="array-input" value="10,5,8,3,9,1,15,7" style="flex:1">
 <button onclick="loadArrayFromInput()">Load</button>
@@ -73,9 +251,60 @@ canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 
 <canvas id="array-canvas" width="1100" height="380"></canvas>
 <div class="info" id="array-status">Array: [] | Length: 0</div>
 </div>
+
 <!-- 2. SORTING -->
 <div id="sorting" class="section">
 <h2>Sorting Algorithms</h2>
+<div class="details">
+<h3>Details</h3>
+<p>Sorting algorithms rearrange elements in ascending or descending order. <strong>Bubble Sort</strong> (O(n²)) swaps adjacent elements repeatedly. <strong>Quick Sort</strong> (average O(n log n), worst O(n²)) uses partitioning around a pivot. <strong>Merge Sort</strong> (O(n log n)) divides the array and merges sorted halves. These are fundamental for data organization, with trade-offs in stability, space, and time.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x &lt; pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quick_sort(left) + middle + quick_sort(right)
+
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    merged = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt; right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged
+
+# Example usage
+arr = [64, 34, 25, 12, 22, 11, 90]
+print(bubble_sort(arr.copy()))  # [11, 12, 22, 25, 34, 64, 90]
+print(quick_sort(arr.copy()))   # [11, 12, 22, 25, 34, 64, 90]
+print(merge_sort(arr.copy()))   # [11, 12, 22, 25, 34, 64, 90]
+</pre>
+</div>
 <div class="controls">
 <input type="text" id="sort-input" value="64,34,25,12,22,11,90,88,55">
 <select id="sort-algo">
@@ -89,9 +318,42 @@ canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 
 <canvas id="sort-canvas" width="1100" height="450"></canvas>
 <div class="info" id="sort-info">Steps: 0</div>
 </div>
-<!-- 3. SEARCHING (LINEAR + BINARY) -->
+
+<!-- 3. SEARCHING -->
 <div id="searching" class="section">
-<h2>Search Algorithms – Step by Step</h2>
+<h2>Search Algorithms</h2>
+<div class="details">
+<h3>Details</h3>
+<p>Search algorithms locate a target in a collection. <strong>Linear Search</strong> (O(n)) checks each element sequentially, suitable for unsorted data. <strong>Binary Search</strong> (O(log n)) halves the search interval on sorted data, requiring preprocessing sort (O(n log n)). Efficient searching is crucial for large datasets.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+def linear_search(arr, target):
+    for i, val in enumerate(arr):
+        if val == target:
+            return i
+    return -1
+
+def binary_search(arr, target):
+    arr.sort()  # Prerequisite: array must be sorted
+    left, right = 0, len(arr) - 1
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] &lt; target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+# Example usage
+arr = [12, 5, 23, 8, 45, 3, 67, 19, 34, 91]
+print(linear_search(arr, 34))  # Varies based on position
+print(binary_search(arr, 34))  # Position in sorted array
+</pre>
+</div>
 <div class="controls">
 <input type="text" id="search-input" value="12,5,23,8,45,3,67,19,34,91">
 <button onclick="loadSearchArray()">Load Array</button>
@@ -109,9 +371,70 @@ canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 
 <div class="info" id="search-result"></div>
 <canvas id="search-canvas" width="1100" height="380"></canvas>
 </div>
-<!-- 4. BST -->
+
+<!-- 4. BINARY SEARCH TREE -->
 <div id="trees" class="section">
 <h2>Binary Search Tree</h2>
+<div class="details">
+<h3>Details</h3>
+<p>A <strong>Binary Search Tree (BST)</strong> is a binary tree where each node's left subtree has values less than the node, and right has greater. It supports efficient search, insert, and delete (average O(log n), worst O(n) if unbalanced). Traversals include <strong>in-order</strong> (sorted), <strong>pre-order</strong>, and <strong>post-order</strong>.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, val):
+        if not self.root:
+            self.root = TreeNode(val)
+        else:
+            self._insert(self.root, val)
+
+    def _insert(self, node, val):
+        if val &lt; node.val:
+            if node.left is None:
+                node.left = TreeNode(val)
+            else:
+                self._insert(node.left, val)
+        elif val > node.val:
+            if node.right is None:
+                node.right = TreeNode(val)
+            else:
+                self._insert(node.right, val)
+
+    def inorder(self, node):
+        if node:
+            self.inorder(node.left)
+            print(node.val, end=' ')
+            self.inorder(node.right)
+
+    def preorder(self, node):
+        if node:
+            print(node.val, end=' ')
+            self.preorder(node.left)
+            self.preorder(node.right)
+
+    def postorder(self, node):
+        if node:
+            self.postorder(node.left)
+            self.postorder(node.right)
+            print(node.val, end=' ')
+
+# Example usage
+bst = BST()
+for val in [50, 30, 70, 20, 40, 60, 80]:
+    bst.insert(val)
+bst.inorder(bst.root)  # 20 30 40 50 60 70 80
+</pre>
+</div>
 <div class="controls">
 <input type="text" id="tree-input" value="50,30,70,20,40,60,80,90,10">
 <button onclick="buildBST()">Build Tree</button>
@@ -122,9 +445,39 @@ canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 
 <canvas id="tree-canvas" width="1100" height="600"></canvas>
 <div class="info" id="traversal-output"></div>
 </div>
-<!-- 5. HEAP -->
+
+<!-- 5. HEAPS -->
 <div id="heaps" class="section">
-<h2>Heap</h2>
+<h2>Heaps</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>Heaps</strong> are complete binary trees satisfying the heap property: <strong>min-heap</strong> (parent ≤ children) or <strong>max-heap</strong> (parent ≥ children). They support insert and extract-min/max in O(log n), used for priority queues. Building a heap is O(n).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+import heapq
+
+# Min-Heap example
+min_heap = []
+heapq.heappush(min_heap, 5)
+heapq.heappush(min_heap, 3)
+heapq.heappush(min_heap, 8)
+print(heapq.heappop(min_heap))  # 3
+
+# Max-Heap (simulate with negatives)
+max_heap = []
+heapq.heappush(max_heap, -5)
+heapq.heappush(max_heap, -3)
+heapq.heappush(max_heap, -8)
+print(-heapq.heappop(max_heap))  # 8
+
+# Heapify existing list
+arr = [3, 1, 4, 1, 5]
+heapq.heapify(arr)  # Converts to min-heap
+print(arr)  # [1, 1, 4, 3, 5]
+</pre>
+</div>
 <div class="controls">
 <select id="heap-type" onchange="updateHeapType(this.value)">
 <option value="min">Min-Heap</option>
@@ -141,25 +494,137 @@ canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 
 </div>
 <canvas id="heap-canvas" width="1100" height="500"></canvas>
 </div>
-<!-- 6. GRAPH BFS/DFS -->
+
+<!-- 6. GRAPH TRAVERSAL -->
 <div id="graphs" class="section">
 <h2>Graph Traversal</h2>
+<div class="details">
+<h3>Details</h3>
+<p>Graphs consist of nodes and edges. <strong>BFS</strong> (Breadth-First Search) explores level-by-level using a queue (O(V+E)), good for shortest paths in unweighted graphs. <strong>DFS</strong> (Depth-First Search) explores deeply using recursion (O(V+E)), useful for cycles or topological sort.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+from collections import deque
+
+graph = {
+    0: [1, 3],
+    1: [0, 2, 4],
+    2: [1, 5],
+    3: [0, 4],
+    4: [1, 3, 5],
+    5: [2, 4]
+}
+
+def bfs(start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+    while queue:
+        node = queue.popleft()
+        print(node, end=' ')
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+def dfs(node, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(node)
+    print(node, end=' ')
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            dfs(neighbor, visited)
+
+# Example usage
+bfs(0)  # 0 1 3 2 4 5
+dfs(0)  # 0 1 2 5 4 3
+</pre>
+</div>
 <div class="controls">
 <button onclick="runBFS()">BFS</button>
 <button onclick="runDFS()">DFS</button>
 </div>
 <canvas id="graph-canvas" width="1100" height="500"></canvas>
 </div>
+
 <!-- 7. BELLMAN-FORD -->
 <div id="bellman" class="section">
 <h2>Bellman-Ford Algorithm</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>Bellman-Ford</strong> computes shortest paths from a source in graphs with negative weights (O(VE)). It relaxes all edges V-1 times and detects negative cycles. Unlike Dijkstra, it handles negatives but is slower.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+def bellman_ford(graph, start):
+    dist = {node: float('inf') for node in graph}
+    dist[start] = 0
+    for _ in range(len(graph) - 1):
+        for u in graph:
+            for v, weight in graph[u].items():
+                if dist[u] + weight &lt; dist[v]:
+                    dist[v] = dist[u] + weight
+    # Check for negative cycles
+    for u in graph:
+        for v, weight in graph[u].items():
+            if dist[u] + weight &lt; dist[v]:
+                raise ValueError("Negative cycle detected")
+    return dist
+
+# Example graph (dict of dicts)
+graph = {
+    0: {1: 4, 3: 5},
+    1: {2: 3},
+    3: {1: -6, 2: 2},
+    2: {}
+}
+print(bellman_ford(graph, 0))  # {0: 0, 1: -1, 2: 1, 3: 5}
+</pre>
+</div>
 <button onclick="runBellmanFord()">Run</button>
 <canvas id="bellman-canvas" width="1100" height="500"></canvas>
 <div class="info" id="bellman-output"></div>
 </div>
+
 <!-- 8. DIJKSTRA -->
 <div id="dijkstra" class="section">
 <h2>Dijkstra's Algorithm</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>Dijkstra</strong> finds shortest paths from a source in graphs with non-negative weights (O((V+E) log V) with priority queue). It uses a greedy approach, selecting the closest unvisited node each time.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+import heapq
+
+def dijkstra(graph, start):
+    dist = {node: float('inf') for node in graph}
+    dist[start] = 0
+    pq = [(0, start)]
+    while pq:
+        current_dist, u = heapq.heappop(pq)
+        if current_dist > dist[u]:
+            continue
+        for v, weight in graph[u].items():
+            if dist[u] + weight &lt; dist[v]:
+                dist[v] = dist[u] + weight
+                heapq.heappush(pq, (dist[v], v))
+    return dist
+
+# Example graph
+graph = {
+    0: {1: 4, 3: 2},
+    1: {2: 3},
+    3: {1: 1, 2: 5},
+    2: {}
+}
+print(dijkstra(graph, 0))  # {0: 0, 1: 3, 2: 6, 3: 2}
+</pre>
+</div>
 <div class="controls">
 <select id="graph-dir">
 <option value="directed">Directed</option>
@@ -173,26 +638,98 @@ canvas { display: block; margin: 20px auto; background: #0b1021; border-radius: 
 <canvas id="dijkstra-canvas" width="1100" height="500"></canvas>
 <div class="info" id="dijkstra-output"></div>
 </div>
-<!-- 9. A* -->
+
+<!-- 9. A* PATHFINDING -->
 <div id="astar" class="section">
-<h2>A* Pathfinding (Click to draw walls)</h2>
+<h2>A* Pathfinding</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>A*</strong> is an informed search algorithm for pathfinding, combining Dijkstra's shortest path with greedy best-first search using heuristics (e.g., Manhattan distance). It's optimal with admissible heuristics, efficient for grids/maps (time varies, worst exponential).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+import heapq
+
+def a_star(grid, start, goal):
+    def heuristic(a, b):
+        return abs(a[0] - b[0]) + abs(a[1] - b[1])  # Manhattan
+    open_set = []
+    heapq.heappush(open_set, (0, start))
+    came_from = {}
+    g_score = {start: 0}
+    f_score = {start: heuristic(start, goal)}
+    while open_set:
+        _, current = heapq.heappop(open_set)
+        if current == goal:
+            path = []
+            while current in came_from:
+                path.append(current)
+                current = came_from[current]
+            path.append(start)
+            return path[::-1]
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            neighbor = (current[0] + dx, current[1] + dy)
+            if 0 &lt;= neighbor[0] &lt; len(grid) and 0 &lt;= neighbor[1] &lt; len(grid[0]) and grid[neighbor[0]][neighbor[1]] != 1:  # Not wall
+                tentative_g = g_score[current] + 1
+                if tentative_g &lt; g_score.get(neighbor, float('inf')):
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g
+                    f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
+                    heapq.heappush(open_set, (f_score[neighbor], neighbor))
+    return None  # No path
+
+# Example grid (0: open, 1: wall)
+grid = [[0, 0, 0], [1, 0, 1], [0, 0, 0]]
+print(a_star(grid, (0, 0), (2, 2)))  # Path like [(0,0), (0,1), (1,1), (2,1), (2,2)]
+</pre>
+</div>
 <div class="controls">
 <button onclick="runAstar()">Find Path</button>
 <button onclick="clearGrid()">Clear Walls</button>
-        Speed: <input type="range" id="astar-speed" min="1" max="100" value="50">
+Speed: <input type="range" id="astar-speed" min="1" max="100" value="50">
 </div>
 <canvas id="astar-canvas" width="900" height="540"></canvas>
 </div>
-<!-- 10. RECURSION - Hanoi -->
+
+<!-- 10. RECURSION - HANOI -->
 <div id="recursion" class="section">
-<h2>Towers of Hanoi</h2>
+<h2>Towers of Hanoi (Recursion)</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>Towers of Hanoi</strong> is a classic recursion problem: move n disks from peg A to C using B as auxiliary, without placing larger disks on smaller. It demonstrates divide-and-conquer, with 2^n - 1 moves. Recursion depth is n, time O(2^n).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+def hanoi(n, from_peg, to_peg, aux_peg):
+    if n == 1:
+        print(f"Move disk 1 from {from_peg} to {to_peg}")
+        return
+    hanoi(n-1, from_peg, aux_peg, to_peg)
+    print(f"Move disk {n} from {from_peg} to {to_peg}")
+    hanoi(n-1, aux_peg, to_peg, from_peg)
+
+# Example usage
+hanoi(3, 'A', 'C', 'B')
+# Output:
+# Move disk 1 from A to C
+# Move disk 2 from A to B
+# Move disk 1 from C to B
+# Move disk 3 from A to C
+# Move disk 1 from B to A
+# Move disk 2 from B to C
+# Move disk 1 from A to C
+</pre>
+</div>
 <div class="controls">
-        Disks: <input type="range" id="hanoi-disks" min="3" max="8" value="4">
+Disks: <input type="range" id="hanoi-disks" min="3" max="8" value="4">
 <button onclick="solveHanoi()">Solve</button>
 </div>
 <canvas id="hanoi-canvas" width="1100" height="450"></canvas>
 </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <script>
 // Navigation
@@ -200,12 +737,14 @@ function show(id) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
+
 // Utility
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
 // ====================== 1. DYNAMIC ARRAY ======================
 let dynamicArray = [];
 function loadArrayFromInput() {
-const vals = document.getElementById('array-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
+    const vals = document.getElementById('array-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
     dynamicArray = vals;
     visualizeArray();
 }
@@ -213,25 +752,25 @@ function updateArrayStatus() {
     document.getElementById('array-status').textContent = `Array: [${dynamicArray.join(', ')}] | Length: ${dynamicArray.length}`;
 }
 function visualizeArray() {
-const arr = dynamicArray;
-const canvas = document.getElementById('array-canvas');
-const ctx = canvas.getContext('2d');
+    const arr = dynamicArray;
+    const canvas = document.getElementById('array-canvas');
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-if (arr.length === 0) {
+    if (arr.length === 0) {
         ctx.fillStyle = '#666';
         ctx.font = '28px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('Array is empty', canvas.width/2, canvas.height/2);
         updateArrayStatus();
-return;
+        return;
     }
-const maxVal = Math.max(...arr, 10);
-const cellW = Math.min(100, canvas.width / arr.length * 0.85);
-const startX = (canvas.width - arr.length * cellW) / 2;
-const baseY = canvas.height - 100;
+    const maxVal = Math.max(...arr, 10);
+    const cellW = Math.min(100, canvas.width / arr.length * 0.85);
+    const startX = (canvas.width - arr.length * cellW) / 2;
+    const baseY = canvas.height - 100;
     arr.forEach((val, i) => {
-const h = (val / maxVal) * 220;
-const x = startX + i * cellW;
+        const h = (val / maxVal) * 220;
+        const x = startX + i * cellW;
         ctx.fillStyle = '#00d4ff';
         ctx.fillRect(x + 10, baseY - h, cellW - 20, h);
         ctx.strokeStyle = '#0ff';
@@ -247,19 +786,57 @@ const x = startX + i * cellW;
     });
     updateArrayStatus();
 }
-function insertAt() { const v = Number(document.getElementById('insert-val').value); let i = Number(document.getElementById('insert-idx').value); if(isNaN(v))return; i = Math.max(0, Math.min(i, dynamicArray.length)); dynamicArray.splice(i, 0, v); visualizeArray(); }
-function deleteAt() { const i = Number(document.getElementById('delete-idx').value); if(i >= 0 && i < dynamicArray.length) { dynamicArray.splice(i,1); visualizeArray(); } }
-function pushValue() { const v = Number(document.getElementById('push-val').value); if(!isNaN(v)) { dynamicArray.push(v); visualizeArray(); } }
-function popValue() { if(dynamicArray.length>0) { dynamicArray.pop(); visualizeArray(); } }
-function unshiftValue() { const v = Number(document.getElementById('unshift-val').value); if(!isNaN(v)) { dynamicArray.unshift(v); visualizeArray(); } }
-function shiftValue() { if(dynamicArray.length>0) { dynamicArray.shift(); visualizeArray(); } }
-function clearArray() { dynamicArray = []; visualizeArray(); }
+function insertAt() { 
+    const v = Number(document.getElementById('insert-val').value); 
+    let i = Number(document.getElementById('insert-idx').value); 
+    if(isNaN(v)) return; 
+    i = Math.max(0, Math.min(i, dynamicArray.length)); 
+    dynamicArray.splice(i, 0, v); 
+    visualizeArray(); 
+}
+function deleteAt() { 
+    const i = Number(document.getElementById('delete-idx').value); 
+    if(i >= 0 && i < dynamicArray.length) { 
+        dynamicArray.splice(i,1); 
+        visualizeArray(); 
+    } 
+}
+function pushValue() { 
+    const v = Number(document.getElementById('push-val').value); 
+    if(!isNaN(v)) { 
+        dynamicArray.push(v); 
+        visualizeArray(); 
+    } 
+}
+function popValue() { 
+    if(dynamicArray.length>0) { 
+        dynamicArray.pop(); 
+        visualizeArray(); 
+    } 
+}
+function unshiftValue() { 
+    const v = Number(document.getElementById('unshift-val').value); 
+    if(!isNaN(v)) { 
+        dynamicArray.unshift(v); 
+        visualizeArray(); 
+    } 
+}
+function shiftValue() { 
+    if(dynamicArray.length>0) { 
+        dynamicArray.shift(); 
+        visualizeArray(); 
+    } 
+}
+function clearArray() { 
+    dynamicArray = []; 
+    visualizeArray(); 
+}
 function searchArraySearch() {
-const val = Number(document.getElementById('search-val').value);
-const idx = dynamicArray.indexOf(val);
-const canvas = document.getElementById('array-canvas');
-const ctx = canvas.getContext('2d');
-if(idx === -1) {
+    const val = Number(document.getElementById('search-val').value);
+    const idx = dynamicArray.indexOf(val);
+    const canvas = document.getElementById('array-canvas');
+    const ctx = canvas.getContext('2d');
+    if(idx === -1) {
         ctx.fillStyle = 'rgba(255,0,0,0.5)';
         ctx.fillRect(0,0,canvas.width,canvas.height);
         ctx.fillStyle = '#f66';
@@ -268,9 +845,9 @@ if(idx === -1) {
         ctx.fillText('Not Found', canvas.width/2, canvas.height/2);
         setTimeout(visualizeArray, 1500);
     } else {
-const cellW = Math.min(100, canvas.width / dynamicArray.length * 0.85);
-const startX = (canvas.width - dynamicArray.length * cellW) / 2;
-const x = startX + idx * cellW;
+        const cellW = Math.min(100, canvas.width / dynamicArray.length * 0.85);
+        const startX = (canvas.width - dynamicArray.length * cellW) / 2;
+        const x = startX + idx * cellW;
         ctx.fillStyle = 'rgba(0,255,0,0.4)';
         ctx.fillRect(x, 50, cellW, canvas.height - 100);
         ctx.fillStyle = '#0f0';
@@ -279,6 +856,7 @@ const x = startX + idx * cellW;
         setTimeout(visualizeArray, 2000);
     }
 }
+
 // ====================== 2. SORTING ======================
 let sortArray = [], sortingSteps = 0;
 async function startSorting() {
@@ -286,19 +864,19 @@ async function startSorting() {
     sortingSteps = 0;
     document.getElementById('sort-info').textContent = 'Running...';
     drawSort(sortArray);
-const algo = document.getElementById('sort-algo').value;
-if(algo==='bubble') await bubbleSortVis();
-if(algo==='quick') await quickSortVis(0, sortArray.length-1);
-if(algo==='merge') await mergeSortVis(0, sortArray.length-1);
+    const algo = document.getElementById('sort-algo').value;
+    if(algo==='bubble') await bubbleSortVis();
+    if(algo==='quick') await quickSortVis(0, sortArray.length-1);
+    if(algo==='merge') await mergeSortVis(0, sortArray.length-1);
     document.getElementById('sort-info').textContent = `Done – ${sortingSteps} steps`;
 }
 function drawSort(arr) {
-const canvas = document.getElementById('sort-canvas');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('sort-canvas');
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
-const w = canvas.width / arr.length;
+    const w = canvas.width / arr.length;
     arr.forEach((v,i)=>{
-const h = (v/Math.max(...arr,1))*380;
+        const h = (v/Math.max(...arr,1))*380;
         ctx.fillStyle = `hsl(${v*4},80%,50%)`;
         ctx.fillRect(i*w+5, canvas.height-h-40, w-10, h);
         ctx.fillStyle = '#fff';
@@ -306,68 +884,81 @@ const h = (v/Math.max(...arr,1))*380;
     });
 }
 async function bubbleSortVis() {
-for (let i = 0; i < sortArray.length; i++) {
-for (let j = 0; j < sortArray.length - i - 1; j++) {
-if (sortArray[j] > sortArray[j + 1]) {
+    for (let i = 0; i < sortArray.length; i++) {
+        for (let j = 0; j < sortArray.length - i - 1; j++) {
+            if (sortArray[j] > sortArray[j + 1]) {
                 [sortArray[j], sortArray[j + 1]] = [sortArray[j + 1], sortArray[j]];
                 sortingSteps++;
                 drawSort(sortArray);
-await sleep(30);
+                await sleep(30);
             }
         }
     }
 }
 async function quickSortVis(low, high) {
-if (low < high) {
-let pi = await partition(low, high);
-await quickSortVis(low, pi - 1);
-await quickSortVis(pi + 1, high);
+    if (low < high) {
+        let pi = await partition(low, high);
+        await quickSortVis(low, pi - 1);
+        await quickSortVis(pi + 1, high);
     }
 }
 async function partition(low, high) {
-let pivot = sortArray[high];
-let i = low - 1;
-for (let j = low; j < high; j++) {
-if (sortArray[j] < pivot) {
+    let pivot = sortArray[high];
+    let i = low - 1;
+    for (let j = low; j < high; j++) {
+        if (sortArray[j] < pivot) {
             i++;
             [sortArray[i], sortArray[j]] = [sortArray[j], sortArray[i]];
             drawSort(sortArray);
             sortingSteps++;
-await sleep(60);
+            await sleep(60);
         }
     }
     [sortArray[i + 1], sortArray[high]] = [sortArray[high], sortArray[i + 1]];
     drawSort(sortArray);
     sortingSteps++;
-await sleep(60);
-return i + 1;
+    await sleep(60);
+    return i + 1;
 }
 async function mergeSortVis(l, r) {
-if (l >= r) return;
-let m = Math.floor((l + r) / 2);
-await mergeSortVis(l, m);
-await mergeSortVis(m + 1, r);
-await merge(l, m, r);
+    if (l >= r) return;
+    let m = Math.floor((l + r) / 2);
+    await mergeSortVis(l, m);
+    await mergeSortVis(m + 1, r);
+    await merge(l, m, r);
 }
 async function merge(l, m, r) {
-let left = sortArray.slice(l, m + 1);
-let right = sortArray.slice(m + 1, r + 1);
-let i = 0, j = 0, k = l;
-while (i < left.length && j < right.length) {
-if (left[i] <= right[j]) {
+    let left = sortArray.slice(l, m + 1);
+    let right = sortArray.slice(m + 1, r + 1);
+    let i = 0, j = 0, k = l;
+    while (i < left.length && j < right.length) {
+        if (left[i] <= right[j]) {
             sortArray[k++] = left[i++];
         } else {
             sortArray[k++] = right[j++];
         }
         drawSort(sortArray);
         sortingSteps++;
-await sleep(80);
+        await sleep(80);
     }
-while (i < left.length) { sortArray[k++] = left[i++]; drawSort(sortArray); await sleep(40); }
-while (j < right.length) { sortArray[k++] = right[j++]; drawSort(sortArray); await sleep(40); }
+    while (i < left.length) { 
+        sortArray[k++] = left[i++]; 
+        drawSort(sortArray); 
+        await sleep(40); 
+    }
+    while (j < right.length) { 
+        sortArray[k++] = right[j++]; 
+        drawSort(sortArray); 
+        await sleep(40); 
+    }
 }
-function resetSorting() { sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n)); drawSort(sortArray); document.getElementById('sort-info').textContent = 'Steps: 0'; }
-// ====================== 3. SEARCHING (Linear + Binary) ======================
+function resetSorting() { 
+    sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n)); 
+    drawSort(sortArray); 
+    document.getElementById('sort-info').textContent = 'Steps: 0'; 
+}
+
+// ====================== 3. SEARCHING ======================
 let searchArray = [], searchSteps = 0;
 function loadSearchArray() {
     searchArray = document.getElementById('search-input').value.split(',').map(Number).filter(n=>!isNaN(n));
@@ -377,81 +968,91 @@ function loadSearchArray() {
     drawSearchArray([]);
 }
 function drawSearchArray(highlightIndices = [], foundIndex = -1, isBinary = false) {
-const canvas = document.getElementById('search-canvas');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('search-canvas');
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.font = '28px Arial';
     ctx.textAlign = 'center';
-if(searchArray.length===0) { ctx.fillStyle='#888'; ctx.fillText('Load array first', canvas.width/2, canvas.height/2); return; }
-const boxW=90, gap=15;
-const totalW = searchArray.length * (boxW + gap) - gap;
-const startX = (canvas.width - totalW) / 2;
+    if(searchArray.length===0) { 
+        ctx.fillStyle='#888'; 
+        ctx.fillText('Load array first', canvas.width/2, canvas.height/2); 
+        return; 
+    }
+    const boxW=90, gap=15;
+    const totalW = searchArray.length * (boxW + gap) - gap;
+    const startX = (canvas.width - totalW) / 2;
     searchArray.forEach((v,i)=>{
-const x = startX + i*(boxW+gap);
-let fillStyle = foundIndex === i ? '#00ff88' : highlightIndices.includes(i) ? '#ffeb3b' : '#4488ff';
-if (isBinary && !highlightIndices.includes(i)) fillStyle = '#333';
+        const x = startX + i*(boxW+gap);
+        let fillStyle = foundIndex === i ? '#00ff88' : highlightIndices.includes(i) ? '#ffeb3b' : '#4488ff';
+        if (isBinary && !highlightIndices.includes(i)) fillStyle = '#333';
         ctx.fillStyle = fillStyle;
         ctx.fillRect(x,140,boxW,90);
-        ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.strokeRect(x,140,boxW,90);
-        ctx.fillStyle='white'; ctx.font='32px Arial'; ctx.textBaseline='middle';
+        ctx.strokeStyle='#fff'; 
+        ctx.lineWidth=3; 
+        ctx.strokeRect(x,140,boxW,90);
+        ctx.fillStyle='white'; 
+        ctx.font='32px Arial'; 
+        ctx.textBaseline='middle';
         ctx.fillText(v, x+boxW/2, 185);
-        ctx.fillStyle='#aaa'; ctx.font='16px Arial'; ctx.fillText(i, x+boxW/2, 260);
+        ctx.fillStyle='#aaa'; 
+        ctx.font='16px Arial'; 
+        ctx.fillText(i, x+boxW/2, 260);
     });
 }
 async function startSearch() {
-const target = Number(document.getElementById('target-val').value);
-const algo = document.getElementById('search-algo').value;
+    const target = Number(document.getElementById('target-val').value);
+    const algo = document.getElementById('search-algo').value;
     searchSteps = 0;
     document.getElementById('search-result').textContent = 'Searching...';
     document.getElementById('search-steps').textContent = 'Steps: 0';
-if(algo==='linear') await linearSearchVis(target);
-else {
+    if(algo==='linear') await linearSearchVis(target);
+    else {
         searchArray.sort((a,b)=>a-b);
         drawSearchArray([], -1, false);
         await sleep(600);
-await binarySearchVis(target);
+        await binarySearchVis(target);
     }
 }
 async function linearSearchVis(target) {
-let found = false;
-for (let i = 0; i < searchArray.length; i++) {
+    let found = false;
+    for (let i = 0; i < searchArray.length; i++) {
         searchSteps++;
         document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
         drawSearchArray([i], -1, false);
-await sleep(800);
-if (searchArray[i] === target) {
+        await sleep(800);
+        if (searchArray[i] === target) {
             found = true;
             drawSearchArray([i], i, false);
             document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${i}!</span>`;
-return;
+            return;
         }
     }
     drawSearchArray([], -1, false);
     document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
 }
 async function binarySearchVis(target) {
-let left = 0;
-let right = searchArray.length - 1;
-while (left <= right) {
-const mid = Math.floor((left + right) / 2);
+    let left = 0;
+    let right = searchArray.length - 1;
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
         searchSteps++;
         document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
-const range = [];
-for (let k = left; k <= right; k++) range.push(k);
+        const range = [];
+        for (let k = left; k <= right; k++) range.push(k);
         drawSearchArray(range, -1, true);
-const canvas = document.getElementById('search-canvas');
-const ctx = canvas.getContext('2d');
-const boxW = 90, gap = 15;
-const startX = (canvas.width - searchArray.length * (boxW + gap) + gap) / 2;
+        const canvas = document.getElementById('search-canvas');
+        const ctx = canvas.getContext('2d');
+        const boxW = 90, gap = 15;
+        const startX = (canvas.width - searchArray.length * (boxW + gap) + gap) / 2;
         ctx.fillStyle = '#ffff00';
         ctx.font = '40px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('▼', startX + mid * (boxW + gap) + boxW / 2, 100);
-await sleep(1400);
-if (searchArray[mid] === target) {
+        await sleep(1400);
+        if (searchArray[mid] === target) {
             drawSearchArray(range, mid, true);
             document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${mid}!</span>`;
-return;
+            return;
         } else if (searchArray[mid] < target) {
             left = mid + 1;
         } else {
@@ -461,53 +1062,58 @@ return;
     drawSearchArray([], -1, true);
     document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
 }
-function resetSearch(){ loadSearchArray(); }
+function resetSearch(){ 
+    loadSearchArray(); 
+}
+
 // ====================== 4. BINARY SEARCH TREE ======================
 class TreeNode {
-constructor(val) {
-this.val = val;
-this.left = null;
-this.right = null;
-this.x = 0;
-this.y = 0;
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+        this.x = 0;
+        this.y = 0;
     }
 }
 let bstRoot = null;
 let highlightNode = null;
 function buildBST() {
-const vals = document.getElementById('tree-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+    const vals = document.getElementById('tree-input').value.split(',').map(Number).filter(n=>!isNaN(n));
     bstRoot = null;
     vals.forEach(v => bstRoot = insertBST(bstRoot, v));
     drawBST();
 }
 function insertBST(node, val) {
-if(!node) return new TreeNode(val);
-if(val < node.val) node.left = insertBST(node.left, val);
-else if(val > node.val) node.right = insertBST(node.right, val);
-return node;
+    if(!node) return new TreeNode(val);
+    if(val < node.val) node.left = insertBST(node.left, val);
+    else if(val > node.val) node.right = insertBST(node.right, val);
+    return node;
 }
 function drawBST() {
-const canvas = document.getElementById('tree-canvas');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('tree-canvas');
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
-if(!bstRoot) {
-        ctx.fillStyle='#888'; ctx.font='28px Arial'; ctx.textAlign='center';
+    if(!bstRoot) {
+        ctx.fillStyle='#888'; 
+        ctx.font='28px Arial'; 
+        ctx.textAlign='center';
         ctx.fillText('Enter values and click Build Tree', canvas.width/2, canvas.height/2);
-return;
+        return;
     }
     assignPositions(bstRoot, canvas.width/2, 60, canvas.width/4);
     drawTreeNode(ctx, bstRoot);
 }
 function assignPositions(node, x, y, offset) {
-if(!node) return;
+    if(!node) return;
     node.x = x;
     node.y = y;
-if(node.left) assignPositions(node.left, x - offset, y + 80, offset/2);
-if(node.right) assignPositions(node.right, x + offset, y + 80, offset/2);
+    if(node.left) assignPositions(node.left, x - offset, y + 80, offset/2);
+    if(node.right) assignPositions(node.right, x + offset, y + 80, offset/2);
 }
 function drawTreeNode(ctx, node) {
-if(!node) return;
-if(node.left) {
+    if(!node) return;
+    if(node.left) {
         ctx.strokeStyle = '#00d4ff';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -516,7 +1122,7 @@ if(node.left) {
         ctx.stroke();
         drawTreeNode(ctx, node.left);
     }
-if(node.right) {
+    if(node.right) {
         ctx.strokeStyle = '#00d4ff';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -539,53 +1145,54 @@ if(node.right) {
     ctx.fillText(node.val, node.x, node.y);
 }
 async function traverse(type) {
-const result = [];
+    const result = [];
     highlightNode = null;
     drawBST();
-if(type==='inorder') await inorder(bstRoot, result);
-else if(type==='preorder') await preorder(bstRoot, result);
-else if(type==='postorder') await postorder(bstRoot, result);
+    if(type==='inorder') await inorder(bstRoot, result);
+    else if(type==='preorder') await preorder(bstRoot, result);
+    else if(type==='postorder') await postorder(bstRoot, result);
     document.getElementById('traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
     highlightNode = null;
     drawBST();
 }
-async function inorder(node, res) { 
-    if(node) { 
-        await inorder(node.left, res); 
-        res.push(node.val); 
-        highlightNode = node; 
-        drawBST(); 
-        await sleep(800); 
-        highlightNode = null; 
-        drawBST(); 
-        await inorder(node.right, res); 
-    } 
+async function inorder(node, res) {
+    if(node) {
+        await inorder(node.left, res);
+        res.push(node.val);
+        highlightNode = node;
+        drawBST();
+        await sleep(800);
+        highlightNode = null;
+        drawBST();
+        await inorder(node.right, res);
+    }
 }
-async function preorder(node, res) { 
-    if(node) { 
-        res.push(node.val); 
-        highlightNode = node; 
-        drawBST(); 
-        await sleep(800); 
-        highlightNode = null; 
-        drawBST(); 
-        await preorder(node.left, res); 
-        await preorder(node.right, res); 
-    } 
+async function preorder(node, res) {
+    if(node) {
+        res.push(node.val);
+        highlightNode = node;
+        drawBST();
+        await sleep(800);
+        highlightNode = null;
+        drawBST();
+        await preorder(node.left, res);
+        await preorder(node.right, res);
+    }
 }
-async function postorder(node, res) { 
-    if(node) { 
-        await postorder(node.left, res); 
-        await postorder(node.right, res); 
-        res.push(node.val); 
-        highlightNode = node; 
-        drawBST(); 
-        await sleep(800); 
-        highlightNode = null; 
-        drawBST(); 
-    } 
+async function postorder(node, res) {
+    if(node) {
+        await postorder(node.left, res);
+        await postorder(node.right, res);
+        res.push(node.val);
+        highlightNode = node;
+        drawBST();
+        await sleep(800);
+        highlightNode = null;
+        drawBST();
+    }
 }
-// ====================== 5. MIN-HEAP ======================
+
+// ====================== 5. HEAPS ======================
 let heap = [];
 let heapType = 'min';
 function updateHeapType(type) {
@@ -598,12 +1205,6 @@ function updateHeapType(type) {
 function getCompare() {
     return heapType === 'min' ? (a, b) => a < b : (a, b) => a > b;
 }
-function heapInsertRandom() {
-const val = Math.floor(Math.random() * 100) + 1;
-    heap.push(val);
-    heapifyUp(heap.length - 1);
-    drawHeap();
-}
 function heapInsert() {
     const val = Number(document.getElementById('heap-val').value);
     if (isNaN(val)) return;
@@ -612,30 +1213,30 @@ function heapInsert() {
     drawHeap();
 }
 function heapExtract() {
-if(heap.length === 0) return;
+    if(heap.length === 0) return;
     heap[0] = heap[heap.length - 1];
     heap.pop();
-if(heap.length > 0) heapifyDown(0);
+    if(heap.length > 0) heapifyDown(0);
     drawHeap();
 }
 function heapifyUp(i) {
     const compare = getCompare();
-while(i > 0) {
-const parent = Math.floor((i-1)/2);
-if(!compare(heap[i], heap[parent])) break;
+    while(i > 0) {
+        const parent = Math.floor((i-1)/2);
+        if(!compare(heap[i], heap[parent])) break;
         [heap[i], heap[parent]] = [heap[parent], heap[i]];
         i = parent;
     }
 }
 function heapifyDown(i) {
     const compare = getCompare();
-while(true) {
-let smallest = i;
-const left = 2*i + 1;
-const right = 2*i + 2;
-if(left < heap.length && compare(heap[left], heap[smallest])) smallest = left;
-if(right < heap.length && compare(heap[right], heap[smallest])) smallest = right;
-if(smallest === i) break;
+    while(true) {
+        let smallest = i;
+        const left = 2*i + 1;
+        const right = 2*i + 2;
+        if(left < heap.length && compare(heap[left], heap[smallest])) smallest = left;
+        if(right < heap.length && compare(heap[right], heap[smallest])) smallest = right;
+        if(smallest === i) break;
         [heap[i], heap[smallest]] = [heap[smallest], heap[i]];
         i = smallest;
     }
@@ -661,32 +1262,34 @@ function randomHeap() {
     drawHeap();
 }
 function drawHeap() {
-const canvas = document.getElementById('heap-canvas');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('heap-canvas');
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
-if(heap.length === 0) {
-        ctx.fillStyle='#888'; ctx.font='28px Arial'; ctx.textAlign='center';
+    if(heap.length === 0) {
+        ctx.fillStyle='#888'; 
+        ctx.font='28px Arial'; 
+        ctx.textAlign='center';
         ctx.fillText('Heap is empty - Insert elements', canvas.width/2, canvas.height/2);
-return;
+        return;
     }
-const levels = Math.floor(Math.log2(heap.length)) + 1;
-const startY = 60;
-const levelGap = 90;
-for(let i = 0; i < heap.length; i++) {
-const level = Math.floor(Math.log2(i + 1));
-const posInLevel = i - (Math.pow(2, level) - 1);
-const nodesInLevel = Math.pow(2, level);
-const spacing = canvas.width / (nodesInLevel + 1);
-const x = spacing * (posInLevel + 1);
-const y = startY + level * levelGap;
-if(i > 0) {
-const parent = Math.floor((i-1)/2);
-const pLevel = Math.floor(Math.log2(parent + 1));
-const pPos = parent - (Math.pow(2, pLevel) - 1);
-const pNodes = Math.pow(2, pLevel);
-const pSpacing = canvas.width / (pNodes + 1);
-const px = pSpacing * (pPos + 1);
-const py = startY + pLevel * levelGap;
+    const levels = Math.floor(Math.log2(heap.length)) + 1;
+    const startY = 60;
+    const levelGap = 90;
+    for(let i = 0; i < heap.length; i++) {
+        const level = Math.floor(Math.log2(i + 1));
+        const posInLevel = i - (Math.pow(2, level) - 1);
+        const nodesInLevel = Math.pow(2, level);
+        const spacing = canvas.width / (nodesInLevel + 1);
+        const x = spacing * (posInLevel + 1);
+        const y = startY + level * levelGap;
+        if(i > 0) {
+            const parent = Math.floor((i-1)/2);
+            const pLevel = Math.floor(Math.log2(parent + 1));
+            const pPos = parent - (Math.pow(2, pLevel) - 1);
+            const pNodes = Math.pow(2, pLevel);
+            const pSpacing = canvas.width / (pNodes + 1);
+            const px = pSpacing * (pPos + 1);
+            const py = startY + pLevel * levelGap;
             ctx.strokeStyle = '#00d4ff';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -708,6 +1311,7 @@ const py = startY + pLevel * levelGap;
         ctx.fillText(heap[i], x, y);
     }
 }
+
 // ====================== 6. GRAPH BFS/DFS ======================
 const graphNodes = [
     {id:0, x:200, y:150}, {id:1, x:400, y:100}, {id:2, x:600, y:150},
@@ -715,18 +1319,18 @@ const graphNodes = [
 ];
 const graphEdges = [[0,1],[0,3],[1,2],[1,4],[2,5],[3,4],[4,5]];
 async function runBFS() {
-const canvas = document.getElementById('graph-canvas');
-const ctx = canvas.getContext('2d');
-const visited = new Set();
-const queue = [0];
+    const canvas = document.getElementById('graph-canvas');
+    const ctx = canvas.getContext('2d');
+    const visited = new Set();
+    const queue = [0];
     visited.add(0);
-while(queue.length > 0) {
-const node = queue.shift();
+    while(queue.length > 0) {
+        const node = queue.shift();
         drawGraph(ctx, visited, node);
-await sleep(800);
-for(let [a,b] of graphEdges) {
-const neighbor = a === node ? b : (b === node ? a : -1);
-if(neighbor !== -1 && !visited.has(neighbor)) {
+        await sleep(800);
+        for(let [a,b] of graphEdges) {
+            const neighbor = a === node ? b : (b === node ? a : -1);
+            if(neighbor !== -1 && !visited.has(neighbor)) {
                 visited.add(neighbor);
                 queue.push(neighbor);
             }
@@ -735,20 +1339,20 @@ if(neighbor !== -1 && !visited.has(neighbor)) {
     drawGraph(ctx, visited, -1);
 }
 async function runDFS() {
-const canvas = document.getElementById('graph-canvas');
-const ctx = canvas.getContext('2d');
-const visited = new Set();
-await dfsVisit(0, visited, ctx);
+    const canvas = document.getElementById('graph-canvas');
+    const ctx = canvas.getContext('2d');
+    const visited = new Set();
+    await dfsVisit(0, visited, ctx);
     drawGraph(ctx, visited, -1);
 }
 async function dfsVisit(node, visited, ctx) {
     visited.add(node);
     drawGraph(ctx, visited, node);
-await sleep(800);
-for(let [a,b] of graphEdges) {
-const neighbor = a === node ? b : (b === node ? a : -1);
-if(neighbor !== -1 && !visited.has(neighbor)) {
-await dfsVisit(neighbor, visited, ctx);
+    await sleep(800);
+    for(let [a,b] of graphEdges) {
+        const neighbor = a === node ? b : (b === node ? a : -1);
+        if(neighbor !== -1 && !visited.has(neighbor)) {
+            await dfsVisit(neighbor, visited, ctx);
         }
     }
 }
@@ -777,38 +1381,39 @@ function drawGraph(ctx, visited, current) {
         ctx.fillText(n.id, n.x, n.y);
     });
 }
+
 // ====================== 7. BELLMAN-FORD ======================
 async function runBellmanFord() {
-const canvas = document.getElementById('bellman-canvas');
-const ctx = canvas.getContext('2d');
-const nodes = [{id:0,x:150,y:250},{id:1,x:400,y:150},{id:2,x:650,y:250},{id:3,x:400,y:350}];
-const edges = [{from:0,to:1,weight:4},{from:0,to:3,weight:5},{from:1,to:2,weight:3},{from:3,to:1,weight:-6},{from:3,to:2,weight:2}];
-const dist = Array(nodes.length).fill(Infinity);
+    const canvas = document.getElementById('bellman-canvas');
+    const ctx = canvas.getContext('2d');
+    const nodes = [{id:0,x:150,y:250},{id:1,x:400,y:150},{id:2,x:650,y:250},{id:3,x:400,y:350}];
+    const edges = [{from:0,to:1,weight:4},{from:0,to:3,weight:5},{from:1,to:2,weight:3},{from:3,to:1,weight:-6},{from:3,to:2,weight:2}];
+    const dist = Array(nodes.length).fill(Infinity);
     dist[0] = 0;
-for(let i = 0; i < nodes.length - 1; i++) {
-for(let e of edges) {
-if(dist[e.from] !== Infinity && dist[e.from] + e.weight < dist[e.to]) {
+    for(let i = 0; i < nodes.length - 1; i++) {
+        for(let e of edges) {
+            if(dist[e.from] !== Infinity && dist[e.from] + e.weight < dist[e.to]) {
                 dist[e.to] = dist[e.from] + e.weight;
             }
         }
         drawBellman(ctx, nodes, edges, dist);
-await sleep(800);
+        await sleep(800);
     }
     document.getElementById('bellman-output').textContent = `Shortest distances from node 0: ${dist.map((d,i)=>`${i}:${d}`).join(', ')}`;
 }
 function drawBellman(ctx, nodes, edges, dist) {
     ctx.clearRect(0,0,1100,500);
     edges.forEach(e => {
-const from = nodes[e.from];
-const to = nodes[e.to];
+        const from = nodes[e.from];
+        const to = nodes[e.to];
         ctx.strokeStyle = '#555';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
         ctx.lineTo(to.x, to.y);
         ctx.stroke();
-const mx = (from.x + to.x)/2;
-const my = (from.y + to.y)/2;
+        const mx = (from.x + to.x)/2;
+        const my = (from.y + to.y)/2;
         ctx.fillStyle = '#ff0';
         ctx.font = '18px Arial';
         ctx.textAlign = 'center';
@@ -831,6 +1436,7 @@ const my = (from.y + to.y)/2;
         ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
     });
 }
+
 // ====================== 8. DIJKSTRA ======================
 let dijkstraNodes = [];
 let dijkstraEdges = [];
@@ -913,16 +1519,16 @@ async function runDijkstra() {
 function drawDijkstra(ctx, nodes, edges, dist, visited, path) {
     ctx.clearRect(0,0,1100,500);
     edges.forEach(e => {
-const from = nodes[e.from];
-const to = nodes[e.to];
+        const from = nodes[e.from];
+        const to = nodes[e.to];
         ctx.strokeStyle = '#555';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
         ctx.lineTo(to.x, to.y);
         ctx.stroke();
-const mx = (from.x + to.x)/2;
-const my = (from.y + to.y)/2;
+        const mx = (from.x + to.x)/2;
+        const my = (from.y + to.y)/2;
         ctx.fillStyle = '#ff0';
         ctx.font = '18px Arial';
         ctx.textAlign = 'center';
@@ -945,6 +1551,7 @@ const my = (from.y + to.y)/2;
         ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
     });
 }
+
 // ====================== 9. A* PATHFINDING ======================
 const gridSize = 30;
 const gridRows = 18;
@@ -954,22 +1561,22 @@ let startCell = {r:1,c:1};
 let endCell = {r:16,c:28};
 function initGrid() {
     grid = [];
-for(let r = 0; r < gridRows; r++) {
+    for(let r = 0; r < gridRows; r++) {
         grid[r] = [];
-for(let c = 0; c < gridCols; c++) {
+        for(let c = 0; c < gridCols; c++) {
             grid[r][c] = {wall:false, visited:false, path:false};
         }
     }
 }
 initGrid();
 document.getElementById('astar-canvas').addEventListener('click', (e) => {
-const rect = e.target.getBoundingClientRect();
-const x = e.clientX - rect.left;
-const y = e.clientY - rect.top;
-const c = Math.floor(x / gridSize);
-const r = Math.floor(y / gridSize);
-if(r >= 0 && r < gridRows && c >= 0 && c < gridCols) {
-if((r===startCell.r && c===startCell.c) || (r===endCell.r && c===endCell.c)) return;
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const c = Math.floor(x / gridSize);
+    const r = Math.floor(y / gridSize);
+    if(r >= 0 && r < gridRows && c >= 0 && c < gridCols) {
+        if((r===startCell.r && c===startCell.c) || (r===endCell.r && c===endCell.c)) return;
         grid[r][c].wall = !grid[r][c].wall;
         drawAstarGrid();
     }
@@ -979,104 +1586,105 @@ function clearGrid() {
     drawAstarGrid();
 }
 function drawAstarGrid() {
-const canvas = document.getElementById('astar-canvas');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('astar-canvas');
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
-for(let r = 0; r < gridRows; r++) {
-for(let c = 0; c < gridCols; c++) {
-const cell = grid[r][c];
-if(r===startCell.r && c===startCell.c) ctx.fillStyle = '#0f0';
-else if(r===endCell.r && c===endCell.c) ctx.fillStyle = '#f00';
-else if(cell.path) ctx.fillStyle = '#ffeb3b';
-else if(cell.visited) ctx.fillStyle = '#00bcd4';
-else if(cell.wall) ctx.fillStyle = '#333';
-else ctx.fillStyle = '#1a1a2e';
+    for(let r = 0; r < gridRows; r++) {
+        for(let c = 0; c < gridCols; c++) {
+            const cell = grid[r][c];
+            if(r===startCell.r && c===startCell.c) ctx.fillStyle = '#0f0';
+            else if(r===endCell.r && c===endCell.c) ctx.fillStyle = '#f00';
+            else if(cell.path) ctx.fillStyle = '#ffeb3b';
+            else if(cell.visited) ctx.fillStyle = '#00bcd4';
+            else if(cell.wall) ctx.fillStyle = '#333';
+            else ctx.fillStyle = '#1a1a2e';
             ctx.fillRect(c*gridSize, r*gridSize, gridSize-1, gridSize-1);
         }
     }
 }
 async function runAstar() {
-const walls = [];
-for(let r = 0; r < gridRows; r++) {
-for(let c = 0; c < gridCols; c++) {
-if(grid[r][c].wall) walls.push({r,c});
+    const walls = [];
+    for(let r = 0; r < gridRows; r++) {
+        for(let c = 0; c < gridCols; c++) {
+            if(grid[r][c].wall) walls.push({r,c});
         }
     }
     initGrid();
     walls.forEach(w => grid[w.r][w.c].wall = true);
-const speed = 101 - document.getElementById('astar-speed').value;
-const openSet = [{r:startCell.r, c:startCell.c, g:0, h:heuristic(startCell.r,startCell.c), f:0, parent:null}];
+    const speed = 101 - document.getElementById('astar-speed').value;
+    const openSet = [{r:startCell.r, c:startCell.c, g:0, h:heuristic(startCell.r,startCell.c), f:0, parent:null}];
     openSet[0].f = openSet[0].g + openSet[0].h;
-const closedSet = new Set();
-while(openSet.length > 0) {
+    const closedSet = new Set();
+    while(openSet.length > 0) {
         openSet.sort((a,b) => a.f - b.f);
-const current = openSet.shift();
-const key = `${current.r},${current.c}`;
-if(closedSet.has(key)) continue;
+        const current = openSet.shift();
+        const key = `${current.r},${current.c}`;
+        if(closedSet.has(key)) continue;
         closedSet.add(key);
         grid[current.r][current.c].visited = true;
         drawAstarGrid();
-await sleep(speed);
-if(current.r === endCell.r && current.c === endCell.c) {
-let node = current;
-while(node.parent) {
+        await sleep(speed);
+        if(current.r === endCell.r && current.c === endCell.c) {
+            let node = current;
+            while(node.parent) {
                 grid[node.r][node.c].path = true;
                 node = node.parent;
             }
             drawAstarGrid();
-return;
+            return;
         }
-const neighbors = [{r:current.r-1,c:current.c},{r:current.r+1,c:current.c},{r:current.r,c:current.c-1},{r:current.r,c:current.c+1}];
-for(let n of neighbors) {
-if(n.r<0||n.r>=gridRows||n.c<0||n.c>=gridCols) continue;
-if(grid[n.r][n.c].wall || closedSet.has(`${n.r},${n.c}`)) continue;
-const g = current.g + 1;
-const h = heuristic(n.r, n.c);
-const f = g + h;
-const existing = openSet.find(o => o.r===n.r && o.c===n.c);
-if(!existing || g < existing.g) {
-if(existing) openSet.splice(openSet.indexOf(existing), 1);
+        const neighbors = [{r:current.r-1,c:current.c},{r:current.r+1,c:current.c},{r:current.r,c:current.c-1},{r:current.r,c:current.c+1}];
+        for(let n of neighbors) {
+            if(n.r<0||n.r>=gridRows||n.c<0||n.c>=gridCols) continue;
+            if(grid[n.r][n.c].wall || closedSet.has(`${n.r},${n.c}`)) continue;
+            const g = current.g + 1;
+            const h = heuristic(n.r, n.c);
+            const f = g + h;
+            const existing = openSet.find(o => o.r===n.r && o.c===n.c);
+            if(!existing || g < existing.g) {
+                if(existing) openSet.splice(openSet.indexOf(existing), 1);
                 openSet.push({r:n.r, c:n.c, g, h, f, parent:current});
             }
         }
     }
 }
 function heuristic(r, c) {
-return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
+    return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
 }
+
 // ====================== 10. TOWERS OF HANOI ======================
 let hanoiState = {pegs:[[],[],[]], moves:0};
 async function solveHanoi() {
-const n = Number(document.getElementById('hanoi-disks').value);
+    const n = Number(document.getElementById('hanoi-disks').value);
     hanoiState = {pegs:[[],[],[]], moves:0};
-for(let i = n; i >= 1; i--) hanoiState.pegs[0].push(i);
+    for(let i = n; i >= 1; i--) hanoiState.pegs[0].push(i);
     drawHanoi();
-await sleep(500);
-await hanoi(n, 0, 2, 1);
+    await sleep(500);
+    await hanoi(n, 0, 2, 1);
 }
 async function hanoi(n, from, to, aux) {
-if(n === 1) {
-const disk = hanoiState.pegs[from].pop();
+    if(n === 1) {
+        const disk = hanoiState.pegs[from].pop();
         hanoiState.pegs[to].push(disk);
         hanoiState.moves++;
         drawHanoi();
-await sleep(600);
-return;
+        await sleep(600);
+        return;
     }
-await hanoi(n-1, from, aux, to);
-const disk = hanoiState.pegs[from].pop();
+    await hanoi(n-1, from, aux, to);
+    const disk = hanoiState.pegs[from].pop();
     hanoiState.pegs[to].push(disk);
     hanoiState.moves++;
     drawHanoi();
-await sleep(600);
-await hanoi(n-1, aux, to, from);
+    await sleep(600);
+    await hanoi(n-1, aux, to, from);
 }
 function drawHanoi() {
-const canvas = document.getElementById('hanoi-canvas');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('hanoi-canvas');
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
-const pegX = [200, 550, 900];
-const baseY = 380;
+    const pegX = [200, 550, 900];
+    const baseY = 380;
     ctx.strokeStyle = '#00d4ff';
     ctx.lineWidth = 8;
     pegX.forEach(x => {
@@ -1089,10 +1697,10 @@ const baseY = 380;
     });
     hanoiState.pegs.forEach((peg, i) => {
         peg.forEach((disk, j) => {
-const w = disk * 20 + 40;
-const h = 25;
-const x = pegX[i] - w/2;
-const y = baseY - (j+1)*h - 5;
+            const w = disk * 20 + 40;
+            const h = 25;
+            const x = pegX[i] - w/2;
+            const y = baseY - (j+1)*h - 5;
             ctx.fillStyle = `hsl(${disk*30}, 80%, 60%)`;
             ctx.fillRect(x, y, w, h);
             ctx.strokeStyle = '#fff';
@@ -1105,6 +1713,7 @@ const y = baseY - (j+1)*h - 5;
     ctx.textAlign = 'center';
     ctx.fillText(`Moves: ${hanoiState.moves}`, canvas.width/2, 50);
 }
+
 // ====================== INITIALIZE ======================
 loadArrayFromInput();
 loadSearchArray();
