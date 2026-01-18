@@ -4,147 +4,221 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DSA Sandbox Pro - Ultimate Algorithm Visualizer</title>
+
+<!-- Google Translate -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'uz',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <style>
-body { 
-    font-family: 'Segoe UI', sans-serif; 
-    margin: 0; 
-    background: #0f0f1a; 
-    color: #ddd; 
-    line-height: 1.6;
+body {
+font-family: 'Segoe UI', sans-serif;
+margin: 0;
+background: #0f0f1a;
+color: #ddd;
+line-height: 1.6;
 }
-header { 
-    background: linear-gradient(135deg, #667eea, #764ba2); 
-    padding: 40px; 
-    text-align: center; 
-    color: white; 
+header {
+background: linear-gradient(135deg, #667eea, #764ba2);
+padding: 40px;
+text-align: center;
+color: white;
+position: relative;
 }
-nav { 
-    background: #1a1a2e; 
-    padding: 15px; 
-    overflow-x: auto; 
-    white-space: nowrap; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
+#global-search {
+width: 100%;
+max-width: 600px;
+padding: 12px 20px;
+border-radius: 50px;
+border: none;
+font-size: 16px;
+outline: none;
+box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+margin-top: 15px;
 }
-nav a { 
-    color: #82d8ff; 
-    margin: 0 20px; 
-    text-decoration: none; 
-    font-weight: bold; 
-    font-size: 1.1em; 
+#search-results {
+display: none;
+background: #1a1a2e;
+border-radius: 12px;
+margin-top: 8px;
+max-height: 300px;
+overflow-y: auto;
+box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+max-width: 600px;
+margin: 8px auto 0;
+position: absolute;
+top: 100%;
+left: 50%;
+transform: translateX(-50%);
+z-index: 100;
 }
-nav a:hover { 
-    color: #ff6bcb; 
+#search-results div {
+padding: 12px 16px;
+cursor: pointer;
+border-bottom: 1px solid #333;
+transition: background 0.2s;
 }
-.container { 
-    max-width: 1200px; 
-    margin: 20px auto; 
-    padding: 20px; 
+#search-results div:hover {
+background: #252535;
 }
-.section { 
-    display: none; 
-    background: #16213e; 
-    padding: 30px; 
-    border-radius: 16px; 
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
-    margin-bottom: 30px; 
+nav {
+background: #1a1a2e;
+padding: 15px;
+overflow-x: auto;
+white-space: nowrap;
+box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
-.active { 
-    display: block;
+nav a {
+color: #82d8ff;
+margin: 0 20px;
+text-decoration: none;
+font-weight: bold;
+font-size: 1.1em;
 }
-h2 { 
-    color: #82d8ff; 
-    margin-top: 0; 
-    border-bottom: 2px solid #667eea;
-    padding-bottom: 10px;
+nav a:hover {
+color: #ff6bcb;
+}
+.container {
+max-width: 1200px;
+margin: 20px auto;
+padding: 20px;
+}
+.section {
+display: none;
+background: #16213e;
+padding: 30px;
+border-radius: 16px;
+box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+margin-bottom: 30px;
+}
+.active {
+display: block;
+}
+h2 {
+color: #82d8ff;
+margin-top: 0;
+border-bottom: 2px solid #667eea;
+padding-bottom: 10px;
 }
 h3 {
-    color: #82d8ff;
-    margin-top: 25px;
+color: #82d8ff;
+margin-top: 25px;
 }
-.controls { 
-    margin: 15px 0; 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 10px; 
-    align-items: center; 
-    background: #1a1a2e;
-    padding: 15px;
-    border-radius: 8px;
+.controls {
+margin: 15px 0;
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: center;
+background: #1a1a2e;
+padding: 15px;
+border-radius: 8px;
 }
 input, select, button {
-    padding: 10px 14px; 
-    border-radius: 8px; 
-    border: none; 
-    font-size: 15px;
+padding: 10px 14px;
+border-radius: 8px;
+border: none;
+font-size: 15px;
 }
-input, select { 
-    background: #0f1629; 
-    color: #a2e0a2; 
+input, select {
+background: #0f1629;
+color: #a2e0a2;
 }
 button {
-    background: #00d4aa; 
-    color: white; 
-    font-weight: bold; 
-    cursor: pointer;
-    transition: all 0.3s;
+background: #00d4aa;
+color: white;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.3s;
 }
-button:hover { 
-    background: #00b893; 
-    transform: translateY(-2px); 
+button:hover {
+background: #00b893;
+transform: translateY(-2px);
 }
-canvas { 
-    display: block; 
-    margin: 20px auto; 
-    background: #0b1021; 
-    border-radius: 12px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
+canvas {
+display: block;
+margin: 20px auto;
+background: #0b1021;
+border-radius: 12px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
-.info { 
-    margin-top: 10px; 
-    padding: 12px; 
-    background: #0004; 
-    border-radius: 8px; 
-    font-family: monospace; 
-    color: #0f0; 
+.info {
+margin-top: 10px;
+padding: 12px;
+background: #0004;
+border-radius: 8px;
+font-family: monospace;
+color: #0f0;
 }
-.details { 
-    margin: 20px 0; 
-    padding: 20px; 
-    background: #1a1a2e; 
-    border-radius: 12px; 
-    border-left: 4px solid #667eea;
+.details {
+margin: 20px 0;
+padding: 20px;
+background: #1a1a2e;
+border-radius: 12px;
+border-left: 4px solid #667eea;
 }
 .python-code {
-    background: #0a0a14;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 15px 0;
-    overflow-x: auto;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    line-height: 1.4;
-    color: #a2e0a2;
+background: #0a0a14;
+border: 1px solid #333;
+border-radius: 8px;
+padding: 15px;
+margin: 15px 0;
+overflow-x: auto;
+font-family: 'Courier New', monospace;
+font-size: 14px;
+line-height: 1.4;
+color: #a2e0a2;
 }
 .python-code pre {
-    margin: 0;
-    white-space: pre-wrap;
+margin: 0;
+white-space: pre-wrap;
 }
 .code-header {
-    background: #333;
-    color: #82d8ff;
-    padding: 10px;
-    border-radius: 6px 6px 0 0;
-    font-weight: bold;
-    text-align: center;
+background: #333;
+color: #82d8ff;
+padding: 10px;
+border-radius: 6px 6px 0 0;
+font-weight: bold;
+text-align: center;
+}
+
+/* Language selector */
+#lang-select-container {
+position: absolute;
+top: 20px;
+right: 20px;
+color: white;
+z-index: 1000;
 }
 </style>
 </head>
 <body>
+
+<!-- Hidden Google Translate container -->
+<div id="google_translate_element" style="display:none;"></div>
+
 <header>
-<h1>DSA Sandbox Pro</h1>
-<p>Interactive • Beautiful • Fully Visual Algorithm Playground</p>
+  <div id="lang-select-container">
+    <label for="lang-select">Til / Language:</label>
+    <select id="lang-select" onchange="switchLanguage(this.value)" style="background:#1a1a2e;color:white;border:1px solid #667eea;border-radius:4px;padding:4px;">
+      <option value="en">English</option>
+      <option value="uz">O'zbekcha</option>
+    </select>
+  </div>
+  <h1>DSA Sandbox Pro</h1>
+  <p>Interactive • Beautiful • Fully Visual Algorithm Playground</p>
+  <input type="text" id="global-search" placeholder="🔍 Search DSA topics (e.g., 'tree', 'sort', 'graph')...">
+  <div id="search-results"></div>
 </header>
+
 <nav>
 <a href="#" onclick="show('arrays')">Arrays</a>
 <a href="#" onclick="show('sorting')">Sorting</a>
@@ -153,14 +227,131 @@ canvas {
 <a href="#" onclick="show('bst')">BST</a>
 <a href="#" onclick="show('avl')">AVL Tree</a>
 <a href="#" onclick="show('trie')">Trie</a>
-<a href="#" onclick="show('heaps')">Heaps</a>
+<a href="#" onclick="show('heaps')">Heaps & Heap Sort</a>
 <a href="#" onclick="show('graphs')">Graphs</a>
 <a href="#" onclick="show('bellman')">Bellman-Ford</a>
 <a href="#" onclick="show('dijkstra')">Dijkstra</a>
 <a href="#" onclick="show('astar')">A*</a>
 <a href="#" onclick="show('recursion')">Recursion</a>
+<a href="#" onclick="show('linkedlist')">Linked List</a>
+<a href="#" onclick="show('hashtable')">Hash Table</a>
+<a href="#" onclick="show('toposort')">Topo Sort</a>
+<a href="#" onclick="show('kruskal')">Kruskal's</a>
+<a href="#" onclick="show('floyd')">Floyd-Warshall</a>
+<a href="#" onclick="show('sliding')">Sliding Window</a>
+<a href="#" onclick="show('time-complexity')">Time Complexity</a>
+<a href="#" onclick="show('space-complexity')">Space Complexity</a>
+<a href="#" onclick="show('complexity')">Complexity Race</a>
+<button onclick="if(confirm('Reset all data structures?')) location.reload();" style="background:#ff6b6b;color:white;border:none;padding:8px 12px;border-radius:6px;margin-left:15px;cursor:pointer;font-weight:bold;">Reset All</button>
 </nav>
+
 <div class="container">
+<!-- =============== TIME COMPLEXITY SANDBOX =============== -->
+<div id="time-complexity" class="section">
+<h2>Time Complexity Sandbox</h2>
+<div class="details">
+<h3>What is Time Complexity?</h3>
+<p><strong>Time Complexity</strong> describes how an algorithm's runtime grows as the input size increases. It uses <strong>Big-O notation</strong> to express the worst-case growth rate, ignoring constants and lower-order terms. This helps compare algorithms independently of hardware or implementation details.</p>
+<p><strong>Key Classes:</strong></p>
+<ul style="margin-top:10px; padding-left:20px;">
+<li><span style="color:#00ff88">O(1)</span>: Constant — independent of input size.</li>
+<li><span style="color:#00ccff">O(log n)</span>: Logarithmic — halves problem each step (e.g., binary search).</li>
+<li><span style="color:#ffeb3b">O(n)</span>: Linear — scales directly with input (e.g., simple loop).</li>
+<li><span style="color:#ff9800">O(n log n)</span>: Linearithmic — divide-and-conquer sorts (e.g., merge sort).</li>
+<li><span style="color:#ff5252">O(n²)</span>: Quadratic — nested loops (e.g., bubble sort).</li>
+<li><span style="color:#e040fb">O(2ⁿ)</span>: Exponential — recursive branching (e.g., naive Fibonacci).</li>
+</ul>
+</div>
+<div class="controls">
+<label>Input Size (n):</label>
+<input type="number" id="time-n" value="50" min="1" max="200">
+<button onclick="animateTimeGrowth()">Animate Growth</button>
+<button onclick="resetTimeCanvas()">Reset</button>
+</div>
+<canvas id="time-canvas" width="1100" height="500"></canvas>
+<div class="info" id="time-info">Adjust n and click "Animate Growth" to see how operations scale</div>
+</div>
+<!-- =============== SPACE COMPLEXITY SANDBOX =============== -->
+<div id="space-complexity" class="section">
+<h2>Space Complexity Sandbox</h2>
+<div class="details">
+<h3>What is Space Complexity?</h3>
+<p><strong>Space Complexity</strong> measures the total memory an algorithm uses relative to input size. It includes:
+<ul style="margin-top:10px; padding-left:20px;">
+<li><strong>Input space</strong>: Memory to store the input data.</li>
+<li><strong>Auxiliary space</strong>: Extra memory used during execution (e.g., recursion stack, temp arrays).</li>
+</ul>
+</p>
+<p>Example: Merge Sort uses O(n) auxiliary space for merging; Quick Sort uses O(log n) for recursion depth (in-place).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Space Comparison: Fibonacci</div>
+<pre>
+# O(n) space: Recursive (call stack)
+def fib_rec(n):
+if n <= 1: return n
+return fib_rec(n-1) + fib_rec(n-2)
+# O(1) space: Iterative
+def fib_iter(n):
+a, b = 0, 1
+for _ in range(n):
+a, b = b, a + b
+return a
+</pre>
+</div>
+<div class="controls">
+<label>n = </label>
+<input type="number" id="space-n" value="10" min="1" max="30">
+<button onclick="animateSpaceUsage()">Visualize Memory</button>
+</div>
+<canvas id="space-canvas" width="1100" height="400"></canvas>
+<div class="info" id="space-info">Compare memory usage for different approaches</div>
+</div>
+<!-- =============== COMPLEXITY RACE SECTION =============== -->
+<div id="complexity" class="section">
+<h2>Time & Space Complexity Race</h2>
+<div class="details">
+<h3>How It Works</h3>
+<p>Select two algorithms to compare. The race visualizes how their <strong>time complexity</strong> scales as input size increases. The vertical axis shows "operations" (simulated), and the horizontal axis shows input size (n). Lower curve = more efficient.</p>
+</div>
+<div class="controls">
+<label>Algorithm A:</label>
+<select id="algo-a">
+<option value="bubble">Bubble Sort</option>
+<option value="quick">Quick Sort</option>
+<option value="merge">Merge Sort</option>
+<option value="linear">Linear Search</option>
+<option value="binary">Binary Search</option>
+<option value="fib-recursive">Fibonacci (Recursive)</option>
+<option value="fib-dp">Fibonacci (DP)</option>
+</select>
+<label>Algorithm B:</label>
+<select id="algo-b">
+<option value="bubble">Bubble Sort</option>
+<option value="quick">Quick Sort</option>
+<option value="merge" selected>Merge Sort</option>
+<option value="linear">Linear Search</option>
+<option value="binary">Binary Search</option>
+<option value="fib-recursive">Fibonacci (Recursive)</option>
+<option value="fib-dp">Fibonacci (DP)</option>
+</select>
+<button onclick="runComplexityRace()">Start Race</button>
+<button onclick="resetComplexity()">Reset</button>
+</div>
+<canvas id="complexity-canvas" width="1100" height="500"></canvas>
+<div class="info" id="complexity-info">Select algorithms and click "Start Race"</div>
+<div id="complexity-explanation" style="display:none; margin-top:20px; padding:20px; background:#1a1a2e; border-radius:12px;">
+<h3 id="complexity-title"></h3>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre id="complexity-code"></pre>
+</div>
+<p id="complexity-desc"></p>
+<p><strong>Time Complexity:</strong> <span id="time-complexity"></span></p>
+<p><strong>Space Complexity:</strong> <span id="space-complexity"></span></p>
+</div>
+</div>
+<!-- =============== ARRAYS SECTION =============== -->
 <div id="arrays" class="section active">
 <h2>Dynamic Array Operations</h2>
 <div class="details">
@@ -171,54 +362,45 @@ canvas {
 <div class="code-header">Python Implementation</div>
 <pre>
 class DynamicArray:
-    def __init__(self):
-        self.array = []
-        self.capacity = 4
-        self.size = 0
-
-    def push(self, value):
-        if self.size == self.capacity:
-            self._resize(self.capacity * 2)
-        self.array.append(value)
-        self.size += 1
-
-    def pop(self):
-        if self.size == 0:
-            raise IndexError("Array is empty")
-        value = self.array.pop()
-        self.size -= 1
-        return value
-
-    def insert(self, index, value):
-        if index < 0 or index > self.size:
-            raise IndexError("Invalid index")
-        if self.size == self.capacity:
-            self._resize(self.capacity * 2)
-        self.array.insert(index, value)
-        self.size += 1
-
-    def delete(self, index):
-        if index < 0 or index >= self.size:
-            raise IndexError("Invalid index")
-        del self.array[index]
-        self.size -= 1
-
-    def unshift(self, value):
-        self.insert(0, value)
-
-    def shift(self):
-        return self.delete(0)
-
-    def search(self, value):
-        return self.array.index(value) if value in self.array else -1
-
-    def _resize(self, new_capacity):
-        new_array = [None] * new_capacity
-        for i in range(self.size):
-            new_array[i] = self.array[i]
-        self.array = new_array
-        self.capacity = new_capacity
-
+def __init__(self):
+self.array = []
+self.capacity = 4
+self.size = 0
+def push(self, value):
+if self.size == self.capacity:
+self._resize(self.capacity * 2)
+self.array.append(value)
+self.size += 1
+def pop(self):
+if self.size == 0:
+raise IndexError("Array is empty")
+value = self.array.pop()
+self.size -= 1
+return value
+def insert(self, index, value):
+if index < 0 or index > self.size:
+raise IndexError("Invalid index")
+if self.size == self.capacity:
+self._resize(self.capacity * 2)
+self.array.insert(index, value)
+self.size += 1
+def delete(self, index):
+if index < 0 or index >= self.size:
+raise IndexError("Invalid index")
+del self.array[index]
+self.size -= 1
+def unshift(self, value):
+self.insert(0, value)
+def shift(self):
+return self.delete(0)
+def search(self, value):
+return self.array.index(value) if value in self.array else -1
+def _resize(self, new_capacity):
+new_array = [None] * new_capacity
+for i in range(self.size):
+new_array[i] = self.array[i]
+self.array = new_array
+self.capacity = new_capacity
 # Example usage
 da = DynamicArray()
 da.push(10)
@@ -253,7 +435,7 @@ print(da.search(15))  # 1
 <canvas id="array-canvas" width="1100" height="380"></canvas>
 <div class="info" id="array-status">Array: [] | Length: 0</div>
 </div>
-
+<!-- =============== SORTING SECTION =============== -->
 <div id="sorting" class="section">
 <h2>Sorting Algorithms</h2>
 <div class="details">
@@ -264,41 +446,38 @@ print(da.search(15))  # 1
 <div class="code-header">Python Implementation</div>
 <pre>
 def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        for j in range(0, n - i - 1):
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return arr
-
+n = len(arr)
+for i in range(n):
+for j in range(0, n - i - 1):
+if arr[j] > arr[j + 1]:
+arr[j], arr[j + 1] = arr[j + 1], arr[j]
+return arr
 def quick_sort(arr):
-    if len(arr) <= 1:
-        return arr
-    pivot = arr[len(arr) // 2]
-    left = [x for x in arr if x &lt; pivot]
-    middle = [x for x in arr if x == pivot]
-    right = [x for x in arr if x > pivot]
-    return quick_sort(left) + middle + quick_sort(right)
-
+if len(arr) <= 1:
+return arr
+pivot = arr[len(arr) // 2]
+left = [x for x in arr if x &lt; pivot]
+middle = [x for x in arr if x == pivot]
+right = [x for x in arr if x > pivot]
+return quick_sort(left) + middle + quick_sort(right)
 def merge_sort(arr):
-    if len(arr) <= 1:
-        return arr
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
-    merged = []
-    i = j = 0
-    while i &lt; len(left) and j &lt; len(right):
-        if left[i] &lt; right[j]:
-            merged.append(left[i])
-            i += 1
-        else:
-            merged.append(right[j])
-            j += 1
-    merged.extend(left[i:])
-    merged.extend(right[j:])
-    return merged
-
+if len(arr) <= 1:
+return arr
+mid = len(arr) // 2
+left = merge_sort(arr[:mid])
+right = merge_sort(arr[mid:])
+merged = []
+i = j = 0
+while i &lt; len(left) and j &lt; len(right):
+if left[i] &lt; right[j]:
+merged.append(left[i])
+i += 1
+else:
+merged.append(right[j])
+j += 1
+merged.extend(left[i:])
+merged.extend(right[j:])
+return merged
 # Example usage
 arr = [64, 34, 25, 12, 22, 11, 90]
 print(bubble_sort(arr.copy()))  # [11, 12, 22, 25, 34, 64, 90]
@@ -319,7 +498,7 @@ print(merge_sort(arr.copy()))   # [11, 12, 22, 25, 34, 64, 90]
 <canvas id="sort-canvas" width="1100" height="450"></canvas>
 <div class="info" id="sort-info">Steps: 0</div>
 </div>
-
+<!-- =============== SEARCHING SECTION =============== -->
 <div id="searching" class="section">
 <h2>Search Algorithms</h2>
 <div class="details">
@@ -330,65 +509,56 @@ print(merge_sort(arr.copy()))   # [11, 12, 22, 25, 34, 64, 90]
 <div class="code-header">Python Implementation</div>
 <pre>
 def linear_search(arr, target):
-    for i, val in enumerate(arr):
-        if val == target:
-            return i
-    return -1
-
+for i, val in enumerate(arr):
+if val == target:
+return i
+return -1
 def binary_search(arr, target):
-    arr.sort()  # Prerequisite: array must be sorted
-    left, right = 0, len(arr) - 1
-    while left &lt;= right:
-        mid = (left + right) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] &lt; target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    return -1
-
+arr.sort()  # Prerequisite: array must be sorted
+left, right = 0, len(arr) - 1
+while left &lt;= right:
+mid = (left + right) // 2
+if arr[mid] == target:
+return mid
+elif arr[mid] &lt; target:
+left = mid + 1
+else:
+right = mid - 1
+return -1
 def jump_search(arr, target):
-    n = len(arr)
-    step = int(n**0.5)
-    prev = 0
-    while arr[min(step, n)-1] &lt; target:
-        prev = step
-        step += int(n**0.5)
-        if prev &gt;= n:
-            return -1
-    
-    while arr[prev] &lt; target:
-        prev += 1
-        if prev == min(step, n):
-            return -1
-    
-    if arr[prev] == target:
-        return prev
-    return -1
-
+n = len(arr)
+step = int(n**0.5)
+prev = 0
+while arr[min(step, n)-1] &lt; target:
+prev = step
+step += int(n**0.5)
+if prev &gt;= n:
+return -1
+while arr[prev] &lt; target:
+prev += 1
+if prev == min(step, n):
+return -1
+if arr[prev] == target:
+return prev
+return -1
 # Helper for Exponential Search
 def binary_search_recursive(arr, target, left, right):
-    if left &gt; right:
-        return -1
-    mid = (left + right) // 2
-    if arr[mid] == target:
-        return mid
-    elif arr[mid] &lt; target:
-        return binary_search_recursive(arr, target, mid + 1, right)
-    else:
-        return binary_search_recursive(arr, target, left, mid - 1)
-
+if left &gt; right:
+return -1
+mid = (left + right) // 2
+if arr[mid] == target:
+return mid
+elif arr[mid] &lt; target:
+return binary_search_recursive(arr, target, mid + 1, right)
+else:
+return binary_search_recursive(arr, target, left, mid - 1)
 def exponential_search(arr, target):
-    if arr[0] == target: return 0
-    i = 1
-    while i &lt; len(arr) and arr[i] &lt;= target:
-        i *= 2
-    
-    # Call a binary search in the range [i/2, min(i, len(arr)-1)]
-    return binary_search_recursive(arr, target, i//2, min(i, len(arr)-1))
-
-
+if arr[0] == target: return 0
+i = 1
+while i &lt; len(arr) and arr[i] &lt;= target:
+i *= 2
+# Call a binary search in the range [i/2, min(i, len(arr)-1)]
+return binary_search_recursive(arr, target, i//2, min(i, len(arr)-1))
 # Example usage
 arr = [12, 5, 23, 8, 45, 3, 67, 19, 34, 91]
 arr.sort() # [3, 5, 8, 12, 19, 23, 34, 45, 67, 91]
@@ -417,52 +587,50 @@ print(f"Exponential search (34): {exponential_search(arr.copy(), 34)}")
 <div class="info" id="search-result"></div>
 <canvas id="search-canvas" width="1100" height="380"></canvas>
 </div>
-
+<!-- =============== UPDATED: BINARY TREE (BT) =============== -->
 <div id="bt" class="section">
-<h2>Binary Tree (BT)</h2>
+<h2>Binary Tree (Complete BT)</h2>
 <div class="details">
 <h3>Details</h3>
-<p>A <strong>Binary Tree</strong> is a tree data structure in which each node has at most two children, referred to as the left child and the right child. Unlike a BST, there is no ordering constraint on the values. This implementation uses level-order insertion to create a **Complete Binary Tree** for visualization simplicity. Key operations include: Insert (O(1) in a complete BT array representation), and Traversals (O(n)).</p>
+<p>A <strong>Binary Tree</strong> is a tree data structure where each node has at most two children (left and right). This implementation uses <strong>level-order insertion</strong> to create a <strong>Complete Binary Tree</strong> (all levels filled left to right). Traversals include <strong>In-order</strong>, <strong>Pre-order</strong>, and <strong>Post-order</strong>.</p>
+<p><strong>Time Complexity:</strong> Insert: O(1), Traversal: O(n)</p>
 </div>
 <div class="python-code">
-<div class="code-header">Python Implementation (using array for a Complete BT)</div>
+<div class="code-header">Python Implementation (Array Representation)</div>
 <pre>
 class BinaryTree:
-    def __init__(self):
-        self.tree = []
-
-    def insert(self, value):
-        # Simplest way to represent a complete binary tree
-        self.tree.append(value)
-        
-    def get_parent(self, i):
-        return self.tree[(i - 1) // 2] if i > 0 else None
-
-    def get_children(self, i):
-        left_idx = 2 * i + 1
-        right_idx = 2 * i + 2
-        left = self.tree[left_idx] if left_idx < len(self.tree) else None
-        right = self.tree[right_idx] if right_idx < len(self.tree) else None
-        return left, right
-
+def __init__(self):
+self.tree = []
+def insert(self, value):
+# Level-order insertion for Complete BT
+self.tree.append(value)
+def get_parent(self, i):
+return self.tree[(i - 1) // 2] if i > 0 else None
+def get_children(self, i):
+left_idx = 2 * i + 1
+right_idx = 2 * i + 2
+left = self.tree[left_idx] if left_idx < len(self.tree) else None
+right = self.tree[right_idx] if right_idx < len(self.tree) else None
+return left, right
 # Example usage
 bt = BinaryTree()
 for val in [10, 5, 15, 3, 7, 12, 18]:
-    bt.insert(val)
-print(bt.tree) # [10, 5, 15, 3, 7, 12, 18]
+bt.insert(val)
+print(bt.tree)  # [10, 5, 15, 3, 7, 12, 18]
 </pre>
 </div>
 <div class="controls">
-<input type="text" id="bt-input" value="10,5,15,3,7,12,18,1,9">
+<input type="text" id="bt-input" value="10,5,15,3,7,12,18,1,9" placeholder="Comma-separated values">
 <button onclick="buildBT()">Build Tree</button>
 <button onclick="traverseBT('inorder')">In-order</button>
 <button onclick="traverseBT('preorder')">Pre-order</button>
 <button onclick="traverseBT('postorder')">Post-order</button>
+<button onclick="clearBT()">Clear</button>
 </div>
 <canvas id="bt-canvas" width="1100" height="600"></canvas>
 <div class="info" id="bt-traversal-output"></div>
 </div>
-
+<!-- =============== BST SECTION =============== -->
 <div id="bst" class="section">
 <h2>Binary Search Tree (BST)</h2>
 <div class="details">
@@ -473,46 +641,41 @@ print(bt.tree) # [10, 5, 15, 3, 7, 12, 18]
 <div class="code-header">Python Implementation</div>
 <pre>
 class TreeNode:
-    def __init__(self, val):
-        self.val = val
-        self.left = None
-        self.right = None
-
+def __init__(self, val):
+self.val = val
+self.left = None
+self.right = None
 class BST:
-    def __init__(self):
-        self.root = None
-
-    def insert(self, val):
-        if not self.root:
-            self.root = TreeNode(val)
-        else:
-            self._insert(self.root, val)
-
-    def _insert(self, node, val):
-        if val &lt; node.val:
-            if node.left is None:
-                node.left = TreeNode(val)
-            else:
-                self._insert(node.left, val)
-        elif val > node.val:
-            if node.right is None:
-                node.right = TreeNode(val)
-            else:
-                self._insert(node.right, val)
-
-    # Inorder traversal (returns sorted array)
-    def inorder(self, node):
-        res = []
-        if node:
-            res.extend(self.inorder(node.left))
-            res.append(node.val)
-            res.extend(self.inorder(node.right))
-        return res
-
+def __init__(self):
+self.root = None
+def insert(self, val):
+if not self.root:
+self.root = TreeNode(val)
+else:
+self._insert(self.root, val)
+def _insert(self, node, val):
+if val &lt; node.val:
+if node.left is None:
+node.left = TreeNode(val)
+else:
+self._insert(node.left, val)
+elif val > node.val:
+if node.right is None:
+node.right = TreeNode(val)
+else:
+self._insert(node.right, val)
+# Inorder traversal (returns sorted array)
+def inorder(self, node):
+res = []
+if node:
+res.extend(self.inorder(node.left))
+res.append(node.val)
+res.extend(self.inorder(node.right))
+return res
 # Example usage
 bst = BST()
 for val in [50, 30, 70, 20, 40, 60, 80]:
-    bst.insert(val)
+bst.insert(val)
 print(bst.inorder(bst.root))  # [20, 30, 40, 50, 60, 70, 80]
 </pre>
 </div>
@@ -526,7 +689,7 @@ print(bst.inorder(bst.root))  # [20, 30, 40, 50, 60, 70, 80]
 <canvas id="bst-canvas" width="1100" height="600"></canvas>
 <div class="info" id="bst-traversal-output"></div>
 </div>
-
+<!-- =============== AVL TREE SECTION =============== -->
 <div id="avl" class="section">
 <h2>AVL Tree (Self-Balancing BST)</h2>
 <div class="details">
@@ -537,36 +700,31 @@ print(bst.inorder(bst.root))  # [20, 30, 40, 50, 60, 70, 80]
 <div class="code-header">Python Implementation (Simplified)</div>
 <pre>
 class AVLNode:
-    def __init__(self, val):
-        self.val = val
-        self.left = None
-        self.right = None
-        self.height = 1
-
+def __init__(self, val):
+self.val = val
+self.left = None
+self.right = None
+self.height = 1
 class AVLTree:
-    # A full implementation requires methods for:
-    # 1. Getting node height
-    # 2. Calculating balance factor
-    # 3. Performing Left/Right Rotations
-    # 4. Insertion that calls rotation functions if imbalance > 1
-
-    def get_height(self, node):
-        return node.height if node else 0
-
-    def get_balance(self, node):
-        return self.get_height(node.left) - self.get_height(node.right) if node else 0
-
-    def right_rotate(self, y):
-        x = y.left
-        T2 = x.right
-        x.right = y
-        y.left = T2
-        # Update heights
-        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
-        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
-        return x # new root
-
-    # ... and left_rotate, insert, and delete methods
+# A full implementation requires methods for:
+# 1. Getting node height
+# 2. Calculating balance factor
+# 3. Performing Left/Right Rotations
+# 4. Insertion that calls rotation functions if imbalance > 1
+def get_height(self, node):
+return node.height if node else 0
+def get_balance(self, node):
+return self.get_height(node.left) - self.get_height(node.right) if node else 0
+def right_rotate(self, y):
+x = y.left
+T2 = x.right
+x.right = y
+y.left = T2
+# Update heights
+y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
+return x # new root
+# ... and left_rotate, insert, and delete methods
 </pre>
 </div>
 <div class="controls">
@@ -578,7 +736,7 @@ class AVLTree:
 </div>
 <canvas id="avl-canvas" width="1100" height="600"></canvas>
 </div>
-
+<!-- =============== TRIE SECTION =============== -->
 <div id="trie" class="section">
 <h2>Trie (Prefix Tree)</h2>
 <div class="details">
@@ -589,38 +747,33 @@ class AVLTree:
 <div class="code-header">Python Implementation</div>
 <pre>
 class TrieNode:
-    def __init__(self):
-        self.children = {}
-        self.is_end_of_word = False
-
+def __init__(self):
+self.children = {}
+self.is_end_of_word = False
 class Trie:
-    def __init__(self):
-        self.root = TrieNode()
-
-    def insert(self, word):
-        node = self.root
-        for char in word:
-            if char not in node.children:
-                node.children[char] = TrieNode()
-            node = node.children[char]
-        node.is_end_of_word = True
-
-    def search(self, word):
-        node = self.root
-        for char in word:
-            if char not in node.children:
-                return False
-            node = node.children[char]
-        return node.is_end_of_word
-
-    def starts_with(self, prefix):
-        node = self.root
-        for char in prefix:
-            if char not in node.children:
-                return False
-            node = node.children[char]
-        return True
-
+def __init__(self):
+self.root = TrieNode()
+def insert(self, word):
+node = self.root
+for char in word:
+if char not in node.children:
+node.children[char] = TrieNode()
+node = node.children[char]
+node.is_end_of_word = True
+def search(self, word):
+node = self.root
+for char in word:
+if char not in node.children:
+return False
+node = node.children[char]
+return node.is_end_of_word
+def starts_with(self, prefix):
+node = self.root
+for char in prefix:
+if char not in node.children:
+return False
+node = node.children[char]
+return True
 # Example usage
 trie = Trie()
 trie.insert("apple")
@@ -643,55 +796,67 @@ print(trie.search("banana")) # False
 <canvas id="trie-canvas" width="1100" height="500"></canvas>
 <div class="info" id="trie-status">Trie is empty.</div>
 </div>
-
+<!-- =============== UPDATED: HEAPS WITH HEAP SORT =============== -->
 <div id="heaps" class="section">
-<h2>Heaps</h2>
+<h2>Heaps & Heap Sort</h2>
 <div class="details">
 <h3>Details</h3>
-<p><strong>Heaps</strong> are complete binary trees satisfying the heap property: <strong>min-heap</strong> (parent ≤ children) or <strong>max-heap</strong> (parent ≥ children). They support insert and extract-min/max in O(log n), used for priority queues. Building a heap is O(n).</p>
+<p><strong>Heaps</strong> are complete binary trees satisfying the heap property:
+<ul style="margin-top:10px; padding-left:20px;">
+<li><strong>Min-Heap</strong>: Parent ≤ children (smallest at root)</li>
+<li><strong>Max-Heap</strong>: Parent ≥ children (largest at root)</li>
+</ul>
+</p>
+<p><strong>Heap Sort</strong> uses a max-heap to sort an array in O(n log n) time:
+<ol style="margin-top:10px; padding-left:20px;">
+<li>Build a max-heap from the array</li>
+<li>Repeatedly extract the max element and place it at the end</li>
+<li>Reduce heap size and heapify the root</li>
+</ol>
+</p>
+<p><strong>Time Complexity:</strong> Heapify: O(log n), Build Heap: O(n), Heap Sort: O(n log n)</p>
 </div>
 <div class="python-code">
 <div class="code-header">Python Implementation</div>
 <pre>
 import heapq
-
-# Min-Heap example
-min_heap = []
-heapq.heappush(min_heap, 5)
-heapq.heappush(min_heap, 3)
-heapq.heappush(min_heap, 8)
-print(heapq.heappop(min_heap))  # 3
-
-# Max-Heap (simulate with negatives)
-max_heap = []
-heapq.heappush(max_heap, -5)
-heapq.heappush(max_heap, -3)
-heapq.heappush(max_heap, -8)
-print(-heapq.heappop(max_heap))  # 8
-
-# Heapify existing list
+# Min-Heap
+min_heap = [3, 1, 4]
+heapq.heapify(min_heap)  # [1, 3, 4]
+# Max-Heap (using negatives)
+max_heap = [-x for x in [3, 1, 4]]
+heapq.heapify(max_heap)  # [-4, -1, -3]
+# Heap Sort
+def heap_sort(arr):
+# Build max-heap
+heapq._heapify_max(arr)
+# Extract elements
+for i in range(len(arr)-1, 0, -1):
+arr[0], arr[i] = arr[i], arr[0]  # Move max to end
+heapq._siftdown_max(arr, 0, i)   # Restore heap (size = i)
+return arr
+# Example
 arr = [3, 1, 4, 1, 5]
-heapq.heapify(arr)  # Converts to min-heap
-print(arr)  # [1, 1, 4, 3, 5]
+print(heap_sort(arr.copy()))  # [1, 1, 3, 4, 5]
 </pre>
 </div>
 <div class="controls">
 <select id="heap-type" onchange="updateHeapType(this.value)">
 <option value="min">Min-Heap</option>
 <option value="max">Max-Heap</option>
+<option value="sort">Heap Sort</option>
 </select>
-<input type="text" id="heap-input" placeholder="Values: 1,2,3,...">
-<button onclick="loadHeap()">Load Heap</button>
-<input type="number" id="heap-size" value="10" placeholder="Size">
-<button onclick="randomHeap()">Random Heap</button>
-<input type="number" id="heap-val" placeholder="Value">
-<button onclick="heapInsert()">Insert</button>
-<button onclick="heapExtract()">Extract Root</button>
-<button onclick="heap=[];drawHeap()">Clear</button>
+<input type="text" id="heap-input" placeholder="Values: 3,1,4,1,5" value="3,1,4,1,5">
+<button onclick="loadHeap()">Load Data</button>
+<input type="number" id="heap-size" value="10" placeholder="Random Size">
+<button onclick="randomHeap()">Random Data</button>
+<button onclick="runHeapSort()">Run Heap Sort</button>
+<button onclick="resetHeap()">Reset</button>
 </div>
 <canvas id="heap-canvas" width="1100" height="500"></canvas>
+<div class="info" id="heap-info">Select heap type and load data</div>
 </div>
-
+<!-- =============== GRAPHS SECTION =============== -->
 <div id="graphs" class="section">
 <h2>Graph Traversal</h2>
 <div class="details">
@@ -702,37 +867,33 @@ print(arr)  # [1, 1, 4, 3, 5]
 <div class="code-header">Python Implementation</div>
 <pre>
 from collections import deque
-
 graph = {
-    0: [1, 3],
-    1: [0, 2, 4],
-    2: [1, 5],
-    3: [0, 4],
-    4: [1, 3, 5],
-    5: [2, 4]
+0: [1, 3],
+1: [0, 2, 4],
+2: [1, 5],
+3: [0, 4],
+4: [1, 3, 5],
+5: [2, 4]
 }
-
 def bfs(start):
-    visited = set()
-    queue = deque([start])
-    visited.add(start)
-    while queue:
-        node = queue.popleft()
-        print(node, end=' ')
-        for neighbor in graph[node]:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.append(neighbor)
-
+visited = set()
+queue = deque([start])
+visited.add(start)
+while queue:
+node = queue.popleft()
+print(node, end=' ')
+for neighbor in graph[node]:
+if neighbor not in visited:
+visited.add(neighbor)
+queue.append(neighbor)
 def dfs(node, visited=None):
-    if visited is None:
-        visited = set()
-    visited.add(node)
-    print(node, end=' ')
-    for neighbor in graph[node]:
-        if neighbor not in visited:
-            dfs(neighbor, visited)
-
+if visited is None:
+visited = set()
+visited.add(node)
+print(node, end=' ')
+for neighbor in graph[node]:
+if neighbor not in visited:
+dfs(neighbor, visited)
 # Example usage
 bfs(0)  # 0 1 3 2 4 5
 dfs(0)  # 0 1 2 5 4 3
@@ -744,7 +905,7 @@ dfs(0)  # 0 1 2 5 4 3
 </div>
 <canvas id="graph-canvas" width="1100" height="500"></canvas>
 </div>
-
+<!-- =============== BELLMAN-FORD SECTION =============== -->
 <div id="bellman" class="section">
 <h2>Bellman-Ford Algorithm</h2>
 <div class="details">
@@ -755,26 +916,25 @@ dfs(0)  # 0 1 2 5 4 3
 <div class="code-header">Python Implementation</div>
 <pre>
 def bellman_ford(graph, start):
-    dist = {node: float('inf') for node in graph}
-    dist[start] = 0
-    for _ in range(len(graph) - 1):
-        for u in graph:
-            for v, weight in graph[u].items():
-                if dist[u] + weight &lt; dist[v]:
-                    dist[v] = dist[u] + weight
-    # Check for negative cycles
-    for u in graph:
-        for v, weight in graph[u].items():
-            if dist[u] + weight &lt; dist[v]:
-                raise ValueError("Negative cycle detected")
-    return dist
-
+dist = {node: float('inf') for node in graph}
+dist[start] = 0
+for _ in range(len(graph) - 1):
+for u in graph:
+for v, weight in graph[u].items():
+if dist[u] + weight &lt; dist[v]:
+dist[v] = dist[u] + weight
+# Check for negative cycles
+for u in graph:
+for v, weight in graph[u].items():
+if dist[u] + weight &lt; dist[v]:
+raise ValueError("Negative cycle detected")
+return dist
 # Example graph (dict of dicts)
 graph = {
-    0: {1: 4, 3: 5},
-    1: {2: 3},
-    3: {1: -6, 2: 2},
-    2: {}
+0: {1: 4, 3: 5},
+1: {2: 3},
+3: {1: -6, 2: 2},
+2: {}
 }
 print(bellman_ford(graph, 0))  # {0: 0, 1: -1, 2: 1, 3: 5}
 </pre>
@@ -783,7 +943,7 @@ print(bellman_ford(graph, 0))  # {0: 0, 1: -1, 2: 1, 3: 5}
 <canvas id="bellman-canvas" width="1100" height="500"></canvas>
 <div class="info" id="bellman-output"></div>
 </div>
-
+<!-- =============== DIJKSTRA SECTION =============== -->
 <div id="dijkstra" class="section">
 <h2>Dijkstra's Algorithm</h2>
 <div class="details">
@@ -794,27 +954,25 @@ print(bellman_ford(graph, 0))  # {0: 0, 1: -1, 2: 1, 3: 5}
 <div class="code-header">Python Implementation</div>
 <pre>
 import heapq
-
 def dijkstra(graph, start):
-    dist = {node: float('inf') for node in graph}
-    dist[start] = 0
-    pq = [(0, start)]
-    while pq:
-        current_dist, u = heapq.heappop(pq)
-        if current_dist > dist[u]:
-            continue
-        for v, weight in graph[u].items():
-            if dist[u] + weight &lt; dist[v]:
-                dist[v] = dist[u] + weight
-                heapq.heappush(pq, (dist[v], v))
-    return dist
-
+dist = {node: float('inf') for node in graph}
+dist[start] = 0
+pq = [(0, start)]
+while pq:
+current_dist, u = heapq.heappop(pq)
+if current_dist > dist[u]:
+continue
+for v, weight in graph[u].items():
+if dist[u] + weight &lt; dist[v]:
+dist[v] = dist[u] + weight
+heapq.heappush(pq, (dist[v], v))
+return dist
 # Example graph
 graph = {
-    0: {1: 4, 3: 2},
-    1: {2: 3},
-    3: {1: 1, 2: 5},
-    2: {}
+0: {1: 4, 3: 2},
+1: {2: 3},
+3: {1: 1, 2: 5},
+2: {}
 }
 print(dijkstra(graph, 0))  # {0: 0, 1: 3, 2: 6, 3: 2}
 </pre>
@@ -832,7 +990,7 @@ print(dijkstra(graph, 0))  # {0: 0, 1: 3, 2: 6, 3: 2}
 <canvas id="dijkstra-canvas" width="1100" height="500"></canvas>
 <div class="info" id="dijkstra-output"></div>
 </div>
-
+<!-- =============== A* SECTION =============== -->
 <div id="astar" class="section">
 <h2>A* Pathfinding</h2>
 <div class="details">
@@ -843,35 +1001,33 @@ print(dijkstra(graph, 0))  # {0: 0, 1: 3, 2: 6, 3: 2}
 <div class="code-header">Python Implementation</div>
 <pre>
 import heapq
-
 def a_star(grid, start, goal):
-    def heuristic(a, b):
-        return abs(a[0] - b[0]) + abs(a[1] - b[1])  # Manhattan
-    open_set = []
-    heapq.heappush(open_set, (0, start))
-    came_from = {}
-    g_score = {start: 0}
-    f_score = {start: heuristic(start, goal)}
-    while open_set:
-        _, current = heapq.heappop(open_set)
-        if current == goal:
-            path = []
-            while current in came_from:
-                path.append(current)
-                current = came_from[current]
-            path.append(start)
-            return path[::-1]
-        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-            neighbor = (current[0] + dx, current[1] + dy)
-            if 0 &lt;= neighbor[0] &lt; len(grid) and 0 &lt;= neighbor[1] &lt; len(grid[0]) and grid[neighbor[0]][neighbor[1]] != 1:  # Not wall
-                tentative_g = g_score[current] + 1
-                if tentative_g &lt; g_score.get(neighbor, float('inf')):
-                    came_from[neighbor] = current
-                    g_score[neighbor] = tentative_g
-                    f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
-                    heapq.heappush(open_set, (f_score[neighbor], neighbor))
-    return None  # No path
-
+def heuristic(a, b):
+return abs(a[0] - b[0]) + abs(a[1] - b[1])  # Manhattan
+open_set = []
+heapq.heappush(open_set, (0, start))
+came_from = {}
+g_score = {start: 0}
+f_score = {start: heuristic(start, goal)}
+while open_set:
+_, current = heapq.heappop(open_set)
+if current == goal:
+path = []
+while current in came_from:
+path.append(current)
+current = came_from[current]
+path.append(start)
+return path[::-1]
+for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+neighbor = (current[0] + dx, current[1] + dy)
+if 0 &lt;= neighbor[0] &lt; len(grid) and 0 &lt;= neighbor[1] &lt; len(grid[0]) and grid[neighbor[0]][neighbor[1]] != 1:  # Not wall
+tentative_g = g_score[current] + 1
+if tentative_g &lt; g_score.get(neighbor, float('inf')):
+came_from[neighbor] = current
+g_score[neighbor] = tentative_g
+f_score[neighbor] = tentative_g + heuristic(neighbor, goal)
+heapq.heappush(open_set, (f_score[neighbor], neighbor))
+return None  # No path
 # Example grid (0: open, 1: wall)
 grid = [[0, 0, 0], [1, 0, 1], [0, 0, 0]]
 print(a_star(grid, (0, 0), (2, 2)))  # Path like [(0,0), (0,1), (1,1), (2,1), (2,2)]
@@ -884,7 +1040,7 @@ Speed: <input type="range" id="astar-speed" min="1" max="100" value="50">
 </div>
 <canvas id="astar-canvas" width="900" height="540"></canvas>
 </div>
-
+<!-- =============== RECURSION SECTION =============== -->
 <div id="recursion" class="section">
 <h2>Towers of Hanoi (Recursion)</h2>
 <div class="details">
@@ -895,13 +1051,12 @@ Speed: <input type="range" id="astar-speed" min="1" max="100" value="50">
 <div class="code-header">Python Implementation</div>
 <pre>
 def hanoi(n, from_peg, to_peg, aux_peg):
-    if n == 1:
-        print(f"Move disk 1 from {from_peg} to {to_peg}")
-        return
-    hanoi(n-1, from_peg, aux_peg, to_peg)
-    print(f"Move disk {n} from {from_peg} to {to_peg}")
-    hanoi(n-1, aux_peg, to_peg, from_peg)
-
+if n == 1:
+print(f"Move disk 1 from {from_peg} to {to_peg}")
+return
+hanoi(n-1, from_peg, aux_peg, to_peg)
+print(f"Move disk {n} from {from_peg} to {to_peg}")
+hanoi(n-1, aux_peg, to_peg, from_peg)
 # Example usage
 hanoi(3, 'A', 'C', 'B')
 # Output:
@@ -920,1415 +1075,2170 @@ Disks: <input type="range" id="hanoi-disks" min="3" max="8" value="4">
 </div>
 <canvas id="hanoi-canvas" width="1100" height="450"></canvas>
 </div>
+<!-- =============== LINKED LIST SECTION =============== -->
+<div id="linkedlist" class="section">
+<h2>Linked List (Singly)</h2>
+<div class="details">
+<h3>Details</h3>
+<p>A <strong>Linked List</strong> is a linear data structure where each element (node) contains data and a pointer to the next node. Unlike arrays, it doesn't require contiguous memory allocation, allowing dynamic size adjustment. Insertion/deletion at the head is O(1); search/insert/delete at arbitrary position is O(n). Common use cases include implementing stacks, queues, and adjacency lists for graphs.</p>
+<p><strong>Time Complexity:</strong> Access: O(n), Search: O(n), Insertion: O(1) at head / O(n) elsewhere, Deletion: O(1) at head / O(n) elsewhere.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+class ListNode:
+def __init__(self, val=0):
+self.val = val
+self.next = None
+class LinkedList:
+def __init__(self):
+self.head = None
+def append(self, val):
+if not self.head:
+self.head = ListNode(val)
+else:
+curr = self.head
+while curr.next:
+curr = curr.next
+curr.next = ListNode(val)
+def prepend(self, val):
+new_node = ListNode(val)
+new_node.next = self.head
+self.head = new_node
+def delete(self, val):
+if not self.head: return
+if self.head.val == val:
+self.head = self.head.next
+return
+curr = self.head
+while curr.next and curr.next.val != val:
+curr = curr.next
+if curr.next:
+curr.next = curr.next.next
+def display(self):
+vals = []
+curr = self.head
+while curr:
+vals.append(curr.val)
+curr = curr.next
+return vals
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="ll-input" value="1,2,3,4,5" placeholder="Comma-separated values">
+<button onclick="buildLinkedList()">Build List</button>
+<input type="number" id="ll-prepend-val" placeholder="Prepend">
+<button onclick="prependLL()">Prepend</button>
+<input type="number" id="ll-append-val" placeholder="Append">
+<button onclick="appendLL()">Append</button>
+<input type="number" id="ll-delete-val" placeholder="Delete Value">
+<button onclick="deleteLL()">Delete</button>
+</div>
+<canvas id="ll-canvas" width="1100" height="200"></canvas>
+<div class="info" id="ll-status">List: []</div>
+</div>
+<!-- =============== HASH TABLE SECTION =============== -->
+<div id="hashtable" class="section">
+<h2>Hash Table (Chaining)</h2>
+<div class="details">
+<h3>Details</h3>
+<p>A <strong>Hash Table</strong> maps keys to values using a hash function. Collisions (when two keys hash to the same index) are resolved via chaining—each bucket holds a linked list of key-value pairs. Average-case time complexity for insert, search, and delete is O(1); worst-case is O(n) if all keys collide. Used in dictionaries, caches, database indexing, and more.</p>
+<p><strong>Time Complexity:</strong> Average: O(1), Worst: O(n). Space: O(n).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+class HashTable:
+def __init__(self, size=10):
+self.size = size
+self.table = [[] for _ in range(size)]
+def _hash(self, key):
+return hash(key) % self.size
+def put(self, key, value):
+idx = self._hash(key)
+bucket = self.table[idx]
+for i, (k, v) in enumerate(bucket):
+if k == key:
+bucket[i] = (key, value)
+return
+bucket.append((key, value))
+def get(self, key):
+idx = self._hash(key)
+bucket = self.table[idx]
+for k, v in bucket:
+if k == key:
+return v
+raise KeyError(key)
+def remove(self, key):
+idx = self._hash(key)
+bucket = self.table[idx]
+for i, (k, v) in enumerate(bucket):
+if k == key:
+del bucket[i]
+return
+raise KeyError(key)
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="ht-key" placeholder="Key (string or number)">
+<input type="text" id="ht-value" placeholder="Value">
+<button onclick="htPut()">Insert/Update</button>
+<button onclick="htGet()">Get</button>
+<button onclick="htRemove()">Remove</button>
+<button onclick="htClear()">Clear Table</button>
+</div>
+<canvas id="ht-canvas" width="1100" height="400"></canvas>
+<div class="info" id="ht-status">Table empty</div>
+</div>
+<!-- =============== TOPOLOGICAL SORT SECTION =============== -->
+<div id="toposort" class="section">
+<h2>Topological Sort (Kahn's Algorithm)</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>Topological Sort</strong> orders vertices in a Directed Acyclic Graph (DAG) so that for every directed edge u→v, u comes before v. It’s used in task scheduling, course prerequisites, and build systems. Kahn’s algorithm uses in-degree counting and a queue: repeatedly remove nodes with zero in-degree. Time: O(V + E). If the graph has a cycle, no valid topological order exists.</p>
+<p><strong>Time Complexity:</strong> O(V + E). <strong>Space:</strong> O(V).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+from collections import deque, defaultdict
+def topological_sort(edges, num_nodes):
+graph = defaultdict(list)
+in_degree = [0] * num_nodes
+for u, v in edges:
+graph[u].append(v)
+in_degree[v] += 1
+queue = deque([i for i in range(num_nodes) if in_degree[i] == 0])
+result = []
+while queue:
+u = queue.popleft()
+result.append(u)
+for v in graph[u]:
+in_degree[v] -= 1
+if in_degree[v] == 0:
+queue.append(v)
+return result if len(result) == num_nodes else []  # Empty if cycle
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="topo-edges" value="0-1,0-2,1-3,2-3,3-4" placeholder="Edges: a-b,c-d,...">
+<input type="number" id="topo-nodes" value="5" placeholder="Number of nodes">
+<button onclick="runTopoSort()">Run Topo Sort</button>
+</div>
+<canvas id="topo-canvas" width="1100" height="400"></canvas>
+<div class="info" id="topo-result"></div>
+</div>
+<!-- =============== KRUSKAL'S MST SECTION =============== -->
+<div id="kruskal" class="section">
+<h2>Kruskal’s Minimum Spanning Tree</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>Kruskal’s Algorithm</strong> finds the Minimum Spanning Tree (MST) of a connected, undirected graph by greedily adding the smallest edge that doesn’t form a cycle. It uses Union-Find (Disjoint Set Union) to detect cycles. Ideal for sparse graphs. Time: O(E log E) due to sorting.</p>
+<p><strong>Time Complexity:</strong> O(E log E). <strong>Space:</strong> O(V).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+class UnionFind:
+def __init__(self, n):
+self.parent = list(range(n))
+def find(self, x):
+if self.parent[x] != x:
+self.parent[x] = self.find(self.parent[x])
+return self.parent[x]
+def union(self, x, y):
+rootX, rootY = self.find(x), self.find(y)
+if rootX != rootY:
+self.parent[rootY] = rootX
+return True
+return False
+def kruskal(edges, n):
+edges.sort(key=lambda x: x[2])  # sort by weight
+uf = UnionFind(n)
+mst = []
+for u, v, w in edges:
+if uf.union(u, v):
+mst.append((u, v, w))
+return mst
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="kruskal-edges" value="0-1:4,0-2:3,1-2:1,1-3:2,2-3:5" placeholder="Edges: a-b:w,...">
+<input type="number" id="kruskal-nodes" value="4" placeholder="Nodes">
+<button onclick="runKruskal()">Run Kruskal</button>
+</div>
+<canvas id="kruskal-canvas" width="1100" height="400"></canvas>
+<div class="info" id="kruskal-result"></div>
+</div>
+<!-- =============== FLOYD-WARSHALL SECTION =============== -->
+<div id="floyd" class="section">
+<h2>Floyd-Warshall (All-Pairs Shortest Path)</h2>
+<div class="details">
+<h3>Details</h3>
+<p><strong>Floyd-Warshall</strong> computes shortest paths between all pairs of vertices in a weighted graph (including negative weights, but not negative cycles). It uses dynamic programming with three nested loops. Time: O(V³). Useful when you need all shortest paths, not just from one source.</p>
+<p><strong>Time Complexity:</strong> O(V³). <strong>Space:</strong> O(V²).</p>
+</div>
+<div class="python-code">
+<div class="code-header">Python Implementation</div>
+<pre>
+def floyd_warshall(graph):
+n = len(graph)
+dist = [[float('inf')] * n for _ in range(n)]
+for i in range(n):
+dist[i][i] = 0
+for u in graph:
+for v, w in graph[u].items():
+dist[u][v] = w
+for k in range(n):
+for i in range(n):
+for j in range(n):
+if dist[i][k] + dist[k][j] < dist[i][j]:
+dist[i][j] = dist[i][k] + dist[k][j]
+return dist
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="floyd-edges" value="0-1:3,0-2:8,1-2:-4,2-3:1,3-0:2" placeholder="Directed edges: a-b:w,...">
+<input type="number" id="floyd-nodes" value="4" placeholder="Nodes">
+<button onclick="runFloyd()">Run Floyd-Warshall</button>
+</div>
+<canvas id="floyd-canvas" width="1100" height="300"></canvas>
+<div class="info" id="floyd-result"></div>
+</div>
+<!-- =============== SLIDING WINDOW SECTION =============== -->
+<div id="sliding" class="section">
+<h2>Sliding Window Technique</h2>
+<div class="details">
+<h3>Details</h3>
+<p>The <strong>Sliding Window</strong> technique optimizes array/string problems by maintaining a "window" (subarray) that satisfies given constraints. Instead of recalculating everything for each subarray, it adjusts the window by moving the start/end pointers. Common applications: max sum of subarray of size k, longest substring without repeating characters. Time: O(n).</p>
+<p><strong>Time Complexity:</strong> O(n). <strong>Space:</strong> O(1) or O(k) depending on problem.</p>
+</div>
+<div class="python-code">
+<div class="code-header">Max Sum Subarray of Size K</div>
+<pre>
+def max_sum_subarray(arr, k):
+if len(arr) < k: return 0
+window_sum = sum(arr[:k])
+max_sum = window_sum
+for i in range(k, len(arr)):
+window_sum = window_sum - arr[i-k] + arr[i]
+max_sum = max(max_sum, window_sum)
+return max_sum
+</pre>
+</div>
+<div class="controls">
+<input type="text" id="sw-array" value="2,1,5,1,3,2" placeholder="Array">
+<input type="number" id="sw-k" value="3" placeholder="Window size k">
+<button onclick="runSlidingWindow()">Run</button>
+</div>
+<canvas id="sw-canvas" width="1100" height="200"></canvas>
+<div class="info" id="sw-result"></div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <script>
-// Navigation
-function show(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+// ====================== LANGUAGE SWITCHING ======================
+function switchLanguage(lang) {
+  localStorage.setItem('app-lang', lang);
+  if (lang === 'en') {
+    location.reload();
+  } else if (lang === 'uz') {
+    setTimeout(() => {
+      const select = document.querySelector('.goog-te-combo');
+      if (select) {
+        select.value = 'uz';
+        select.dispatchEvent(new Event('change'));
+      }
+    }, 500);
+  }
 }
 
+// Initialize language on load
+window.addEventListener('load', () => {
+  const savedLang = localStorage.getItem('app-lang') || 'en';
+  document.getElementById('lang-select').value = savedLang;
+});
+
+// ====================== YOUR ORIGINAL JS CODE BELOW ======================
+// Navigation
+function show(id) {
+document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
 // Utility
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
+// ====================== GLOBAL SEARCH ======================
+const dsaIndex = [
+{ id: 'arrays', title: 'Dynamic Array Operations', keywords: 'array list dynamic resize push pop insert delete search' },
+{ id: 'sorting', title: 'Sorting Algorithms', keywords: 'sort bubble quick merge heap insertion selection' },
+{ id: 'searching', title: 'Search Algorithms', keywords: 'search linear binary jump exponential find' },
+{ id: 'bt', title: 'Binary Tree (BT)', keywords: 'tree binary complete node parent child' },
+{ id: 'bst', title: 'Binary Search Tree (BST)', keywords: 'bst binary search tree ordered sorted' },
+{ id: 'avl', title: 'AVL Tree (Self-Balancing BST)', keywords: 'avl balanced rotation height factor' },
+{ id: 'trie', title: 'Trie (Prefix Tree)', keywords: 'trie prefix string dictionary autocomplete' },
+{ id: 'heaps', title: 'Heaps & Heap Sort', keywords: 'heap min max priority queue heap sort' },
+{ id: 'graphs', title: 'Graph Traversal', keywords: 'graph bfs dfs breadth depth first' },
+{ id: 'bellman', title: 'Bellman-Ford Algorithm', keywords: 'bellman ford shortest path negative weight' },
+{ id: 'dijkstra', title: "Dijkstra's Algorithm", keywords: 'dijkstra shortest path non-negative' },
+{ id: 'astar', title: 'A* Pathfinding', keywords: 'a star astar pathfinding heuristic grid' },
+{ id: 'recursion', title: 'Towers of Hanoi (Recursion)', keywords: 'recursion hanoi tower divide conquer' },
+{ id: 'linkedlist', title: 'Linked List (Singly)', keywords: 'linked list node pointer prepend append delete' },
+{ id: 'hashtable', title: 'Hash Table (Chaining)', keywords: 'hash table map dictionary key value collision' },
+{ id: 'toposort', title: 'Topological Sort', keywords: 'topo sort dag dependency ordering' },
+{ id: 'kruskal', title: "Kruskal's MST", keywords: 'kruskal mst minimum spanning tree union find' },
+{ id: 'floyd', title: 'Floyd-Warshall', keywords: 'floyd warshall all pairs shortest path' },
+{ id: 'sliding', title: 'Sliding Window', keywords: 'sliding window subarray substring' },
+{ id: 'time-complexity', title: 'Time Complexity Deep Dive', keywords: 'big o time complexity growth rate' },
+{ id: 'space-complexity', title: 'Space Complexity Deep Dive', keywords: 'space memory auxiliary stack' },
+{ id: 'complexity', title: 'Complexity Race', keywords: 'race comparison big o visualization' }
+];
+function debounce(func, wait) {
+let timeout;
+return function executedFunction(...args) {
+const later = () => {
+clearTimeout(timeout);
+func(...args);
+};
+clearTimeout(timeout);
+timeout = setTimeout(later, wait);
+};
+}
+function fuzzyMatch(query, text) {
+query = query.toLowerCase();
+text = text.toLowerCase();
+let j = 0;
+for (let i = 0; i < query.length; i++) {
+const index = text.indexOf(query[i], j);
+if (index === -1) return false;
+j = index + 1;
+}
+return true;
+}
+function performSearch() {
+const input = document.getElementById('global-search');
+const resultsDiv = document.getElementById('search-results');
+const query = input.value.trim();
+if (!query) {
+resultsDiv.style.display = 'none';
+return;
+}
+const matches = dsaIndex.filter(item =>
+fuzzyMatch(query, item.title) || fuzzyMatch(query, item.keywords)
+);
+if (matches.length === 0) {
+resultsDiv.innerHTML = '<div style="padding:12px;color:#888;">No results found</div>';
+resultsDiv.style.display = 'block';
+return;
+}
+resultsDiv.innerHTML = matches.map(item =>
+`<div onclick="show('${item.id}'); document.getElementById('global-search').value=''; resultsDiv.style.display='none';"
+style="padding:12px 16px; cursor:pointer; border-bottom:1px solid #333; transition:background 0.2s;">
+<strong>${item.title}</strong>
+</div>`
+).join('');
+resultsDiv.style.display = 'block';
+}
+document.getElementById('global-search').addEventListener('input', debounce(performSearch, 200));
+document.addEventListener('click', (e) => {
+const searchBox = document.getElementById('global-search');
+const resultsDiv = document.getElementById('search-results');
+if (!searchBox.contains(e.target) && !resultsDiv.contains(e.target)) {
+resultsDiv.style.display = 'none';
+}
+});
+// ====================== TIME COMPLEXITY ANIMATION ======================
+async function animateTimeGrowth() {
+const n = parseInt(document.getElementById('time-n').value) || 50;
+const canvas = document.getElementById('time-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+ctx.strokeStyle = '#888';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(80, 450);
+ctx.lineTo(1050, 450);
+ctx.moveTo(80, 50);
+ctx.lineTo(80, 450);
+ctx.stroke();
+const funcs = [
+{name: 'O(1)', color: '#00ff88', fn: () => 1},
+{name: 'O(log n)', color: '#00ccff', fn: (x) => Math.log2(x || 1)},
+{name: 'O(n)', color: '#ffeb3b', fn: (x) => x},
+{name: 'O(n log n)', color: '#ff9800', fn: (x) => x * Math.log2(x || 1)},
+{name: 'O(n²)', color: '#ff5252', fn: (x) => x * x},
+{name: 'O(2ⁿ)', color: '#e040fb', fn: (x) => Math.pow(2, Math.min(x / 5, 15))}
+];
+const maxVal = Math.max(...funcs.map(f => f.fn(n)));
+const scaleY = 400 / (maxVal || 1);
+for (let step = 1; step <= n; step += Math.max(1, Math.floor(n / 100))) {
+ctx.clearRect(81, 0, 970, 450);
+ctx.strokeStyle = '#888';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(80, 450);
+ctx.lineTo(1050, 450);
+ctx.moveTo(80, 50);
+ctx.lineTo(80, 450);
+ctx.stroke();
+funcs.forEach(f => {
+ctx.strokeStyle = f.color;
+ctx.lineWidth = 3;
+ctx.beginPath();
+for (let x = 1; x <= step; x++) {
+const y = 450 - f.fn(x) * scaleY;
+const screenX = 80 + (x / n) * 970;
+if (x === 1) ctx.moveTo(screenX, y);
+else ctx.lineTo(screenX, y);
+}
+ctx.stroke();
+});
+document.getElementById('time-info').textContent = `Simulating growth for n = ${step}...`;
+await sleep(20);
+}
+document.getElementById('time-info').innerHTML = '<span style="color:#0f0">Animation complete! Lower curve = more efficient.</span>';
+}
+function resetTimeCanvas() {
+const ctx = document.getElementById('time-canvas').getContext('2d');
+ctx.clearRect(0, 0, 1100, 500);
+document.getElementById('time-info').textContent = 'Adjust n and click "Animate Growth"';
+}
+// ====================== SPACE COMPLEXITY ANIMATION ======================
+async function animateSpaceUsage() {
+const n = parseInt(document.getElementById('space-n').value) || 10;
+const canvas = document.getElementById('space-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+const recursiveSpace = n;
+const iterativeSpace = 1;
+const barWidth = 200;
+const gap = 100;
+const startX1 = (canvas.width - (2 * barWidth + gap)) / 2;
+const startX2 = startX1 + barWidth + gap;
+const baseY = 300;
+const scaleY = 200 / Math.max(recursiveSpace, 10);
+ctx.fillStyle = '#ff5252';
+ctx.fillRect(startX1, baseY - recursiveSpace * scaleY, barWidth, recursiveSpace * scaleY);
+ctx.strokeStyle = '#fff';
+ctx.lineWidth = 3;
+ctx.strokeRect(startX1, baseY - recursiveSpace * scaleY, barWidth, recursiveSpace * scaleY);
+ctx.fillStyle = '#00ff88';
+ctx.fillRect(startX2, baseY - iterativeSpace * scaleY, barWidth, iterativeSpace * scaleY);
+ctx.strokeStyle = '#fff';
+ctx.lineWidth = 3;
+ctx.strokeRect(startX2, baseY - iterativeSpace * scaleY, barWidth, iterativeSpace * scaleY);
+ctx.fillStyle = 'white';
+ctx.font = '24px Arial';
+ctx.textAlign = 'center';
+ctx.fillText('Recursive', startX1 + barWidth / 2, baseY + 40);
+ctx.fillText('Iterative', startX2 + barWidth / 2, baseY + 40);
+ctx.fillText(`O(n) = ${recursiveSpace}`, startX1 + barWidth / 2, baseY - recursiveSpace * scaleY - 20);
+ctx.fillText(`O(1) = ${iterativeSpace}`, startX2 + barWidth / 2, baseY - iterativeSpace * scaleY - 20);
+ctx.font = '28px Arial';
+ctx.fillText(`Memory Usage for n = ${n}`, canvas.width / 2, 80);
+document.getElementById('space-info').innerHTML = `<span style="color:#0f0">Recursive uses ${recursiveSpace}x more memory than iterative!</span>`;
+}
+// ====================== COMPLEXITY RACE ======================
+const complexityAlgos = {
+'bubble': {
+name: 'Bubble Sort',
+time: 'O(n²)',
+space: 'O(1)',
+desc: 'Repeatedly swaps adjacent elements if in wrong order. Inefficient for large datasets.',
+code: `def bubble_sort(arr):
+n = len(arr)
+for i in range(n):
+for j in range(0, n - i - 1):
+if arr[j] > arr[j + 1]:
+arr[j], arr[j + 1] = arr[j + 1], arr[j]
+return arr`,
+simulate: (n) => n * n
+},
+'quick': {
+name: 'Quick Sort',
+time: 'O(n log n) avg, O(n²) worst',
+space: 'O(log n)',
+desc: 'Divide-and-conquer using a pivot. Fast in practice but worst-case is poor.',
+code: `def quick_sort(arr):
+if len(arr) <= 1:
+return arr
+pivot = arr[len(arr) // 2]
+left = [x for x in arr if x < pivot]
+middle = [x for x in arr if x == pivot]
+right = [x for x in arr if x > pivot]
+return quick_sort(left) + middle + quick_sort(right)`,
+simulate: (n) => n * Math.log2(n || 1)
+},
+'merge': {
+name: 'Merge Sort',
+time: 'O(n log n)',
+space: 'O(n)',
+desc: 'Stable, divide-and-conquer. Always O(n log n) but uses extra memory.',
+code: `def merge_sort(arr):
+if len(arr) <= 1:
+return arr
+mid = len(arr) // 2
+left = merge_sort(arr[:mid])
+right = merge_sort(arr[mid:])
+return merge(left, right)`,
+simulate: (n) => n * Math.log2(n || 1)
+},
+'linear': {
+name: 'Linear Search',
+time: 'O(n)',
+space: 'O(1)',
+desc: 'Checks each element sequentially. Works on unsorted data.',
+code: `def linear_search(arr, target):
+for i, val in enumerate(arr):
+if val == target:
+return i
+return -1`,
+simulate: (n) => n
+},
+'binary': {
+name: 'Binary Search',
+time: 'O(log n)',
+space: 'O(1)',
+desc: 'Halves search space each step. Requires sorted input.',
+code: `def binary_search(arr, target):
+left, right = 0, len(arr) - 1
+while left <= right:
+mid = (left + right) // 2
+if arr[mid] == target:
+return mid
+elif arr[mid] < target:
+left = mid + 1
+else:
+right = mid - 1
+return -1`,
+simulate: (n) => Math.log2(n || 1)
+},
+'fib-recursive': {
+name: 'Fibonacci (Recursive)',
+time: 'O(2ⁿ)',
+space: 'O(n)',
+desc: 'Naive recursion. Exponential time due to repeated calculations.',
+code: `def fib(n):
+if n <= 1:
+return n
+return fib(n-1) + fib(n-2)`,
+simulate: (n) => Math.pow(2, n)
+},
+'fib-dp': {
+name: 'Fibonacci (Dynamic Programming)',
+time: 'O(n)',
+space: 'O(n)',
+desc: 'Stores previous results to avoid recomputation. Linear time.',
+code: `def fib(n):
+if n <= 1:
+return n
+dp = [0] * (n+1)
+dp[1] = 1
+for i in range(2, n+1):
+dp[i] = dp[i-1] + dp[i-2]
+return dp[n]`,
+simulate: (n) => n
+}
+};
+function showComplexityDetails(algoKey) {
+const algo = complexityAlgos[algoKey];
+document.getElementById('complexity-title').textContent = algo.name;
+document.getElementById('complexity-code').textContent = algo.code;
+document.getElementById('complexity-desc').textContent = algo.desc;
+document.getElementById('time-complexity').textContent = algo.time;
+document.getElementById('space-complexity').textContent = algo.space;
+document.getElementById('complexity-explanation').style.display = 'block';
+}
+// Attach click listeners to canvas for interactivity
+document.getElementById('complexity-canvas').addEventListener('click', (e) => {
+const rect = e.target.getBoundingClientRect();
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+// Simple hit detection: if clicked near top half, show algo A; bottom half, algo B
+if (y < 250) {
+showComplexityDetails(document.getElementById('algo-a').value);
+} else {
+showComplexityDetails(document.getElementById('algo-b').value);
+}
+});
+async function runComplexityRace() {
+const algoA = document.getElementById('algo-a').value;
+const algoB = document.getElementById('algo-b').value;
+const canvas = document.getElementById('complexity-canvas');
+const ctx = canvas.getContext('2d');
+if (algoA === algoB) {
+document.getElementById('complexity-info').innerHTML = '<span style="color:#ffeb3b">Please select two different algorithms!</span>';
+return;
+}
+document.getElementById('complexity-info').textContent = 'Racing...';
+document.getElementById('complexity-explanation').style.display = 'none';
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+// Draw axes
+ctx.strokeStyle = '#888';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(80, 450);
+ctx.lineTo(1050, 450); // X-axis
+ctx.moveTo(80, 50);
+ctx.lineTo(80, 450);   // Y-axis
+ctx.stroke();
+// Labels
+ctx.fillStyle = '#aaa';
+ctx.font = '16px Arial';
+ctx.textAlign = 'center';
+for (let i = 0; i <= 10; i++) {
+const x = 80 + i * 97;
+const n = i * 10;
+ctx.fillText(`n=${n}`, x, 470);
+}
+ctx.textAlign = 'right';
+for (let i = 0; i <= 5; i++) {
+const y = 450 - i * 80;
+const ops = i * 100;
+ctx.fillText(`${ops}`, 70, y + 5);
+}
+// Simulate race
+const pointsA = [];
+const pointsB = [];
+const maxN = 100;
+const step = 5;
+for (let n = 5; n <= maxN; n += step) {
+const opsA = Math.min(complexityAlgos[algoA].simulate(n), 500);
+const opsB = Math.min(complexityAlgos[algoB].simulate(n), 500);
+pointsA.push({x: 80 + (n/100)*970, y: 450 - opsA});
+pointsB.push({x: 80 + (n/100)*970, y: 450 - opsB});
+// Draw up to current point
+ctx.clearRect(81, 0, 970, 450);
+// Redraw axes
+ctx.strokeStyle = '#888';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(80, 450);
+ctx.lineTo(1050, 450);
+ctx.moveTo(80, 50);
+ctx.lineTo(80, 450);
+ctx.stroke();
+// Draw curves
+drawCurve(ctx, pointsA, '#ff6b6b', 'Algorithm A');
+drawCurve(ctx, pointsB, '#4ecdc4', 'Algorithm B');
+await sleep(150);
+}
+document.getElementById('complexity-info').innerHTML =
+`<span style="color:#0f0">Race complete! Click on either curve to see details.</span>`;
+}
+function drawCurve(ctx, points, color, label) {
+if (points.length === 0) return;
+ctx.strokeStyle = color;
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.moveTo(points[0].x, points[0].y);
+for (let i = 1; i < points.length; i++) {
+ctx.lineTo(points[i].x, points[i].y);
+}
+ctx.stroke();
+// Draw label
+const last = points[points.length - 1];
+ctx.fillStyle = color;
+ctx.font = '16px Arial';
+ctx.textAlign = 'left';
+ctx.fillText(label, last.x + 10, last.y);
+}
+function resetComplexity() {
+document.getElementById('complexity-explanation').style.display = 'none';
+document.getElementById('complexity-info').textContent = 'Select algorithms and click "Start Race"';
+const ctx = document.getElementById('complexity-canvas').getContext('2d');
+ctx.clearRect(0, 0, 1100, 500);
+}
 // ====================== 1. DYNAMIC ARRAY ======================
 let dynamicArray = [];
 function loadArrayFromInput() {
-    const vals = document.getElementById('array-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
-    dynamicArray = vals;
-    visualizeArray();
+const vals = document.getElementById('array-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
+dynamicArray = vals;
+visualizeArray();
 }
 function updateArrayStatus() {
-    document.getElementById('array-status').textContent = `Array: [${dynamicArray.join(', ')}] | Length: ${dynamicArray.length}`;
+document.getElementById('array-status').textContent = `Array: [${dynamicArray.join(', ')}] | Length: ${dynamicArray.length}`;
 }
 function visualizeArray() {
-    const arr = dynamicArray;
-    const canvas = document.getElementById('array-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (arr.length === 0) {
-        ctx.fillStyle = '#666';
-        ctx.font = '28px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('Array is empty', canvas.width/2, canvas.height/2);
-        updateArrayStatus();
-        return;
-    }
-    const maxVal = Math.max(...arr, 10);
-    const cellW = Math.min(100, canvas.width / arr.length * 0.85);
-    const startX = (canvas.width - arr.length * cellW) / 2;
-    const baseY = canvas.height - 100;
-    arr.forEach((val, i) => {
-        const h = (val / maxVal) * 220;
-        const x = startX + i * cellW;
-        ctx.fillStyle = '#00d4ff';
-        ctx.fillRect(x + 10, baseY - h, cellW - 20, h);
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 3;
-        ctx.strokeRect(x + 10, baseY - h, cellW - 20, h);
-        ctx.fillStyle = 'white';
-        ctx.font = '22px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(val, x + cellW/2, baseY - h - 10);
-        ctx.fillStyle = '#aaa';
-        ctx.font = '16px Arial';
-        ctx.fillText(i, x + cellW/2, baseY + 30);
-    });
-    updateArrayStatus();
+const arr = dynamicArray;
+const canvas = document.getElementById('array-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+if (arr.length === 0) {
+ctx.fillStyle = '#666';
+ctx.font = '28px Arial';
+ctx.textAlign = 'center';
+ctx.fillText('Array is empty', canvas.width/2, canvas.height/2);
+updateArrayStatus();
+return;
 }
-function insertAt() { 
-    const v = Number(document.getElementById('insert-val').value); 
-    let i = Number(document.getElementById('insert-idx').value); 
-    if(isNaN(v)) return; 
-    i = Math.max(0, Math.min(i, dynamicArray.length)); 
-    dynamicArray.splice(i, 0, v); 
-    visualizeArray(); 
+const maxVal = Math.max(...arr, 10);
+const cellW = Math.min(100, canvas.width / arr.length * 0.85);
+const startX = (canvas.width - arr.length * cellW) / 2;
+const baseY = canvas.height - 100;
+arr.forEach((val, i) => {
+const h = (val / maxVal) * 220;
+const x = startX + i * cellW;
+ctx.fillStyle = '#00d4ff';
+ctx.fillRect(x + 10, baseY - h, cellW - 20, h);
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 3;
+ctx.strokeRect(x + 10, baseY - h, cellW - 20, h);
+ctx.fillStyle = 'white';
+ctx.font = '22px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(val, x + cellW/2, baseY - h - 10);
+ctx.fillStyle = '#aaa';
+ctx.font = '16px Arial';
+ctx.fillText(i, x + cellW/2, baseY + 30);
+});
+updateArrayStatus();
 }
-function deleteAt() { 
-    const i = Number(document.getElementById('delete-idx').value); 
-    if(i >= 0 && i < dynamicArray.length) { 
-        dynamicArray.splice(i,1); 
-        visualizeArray(); 
-    } 
+function insertAt() {
+const v = Number(document.getElementById('insert-val').value);
+let i = Number(document.getElementById('insert-idx').value);
+if(isNaN(v)) return;
+i = Math.max(0, Math.min(i, dynamicArray.length));
+dynamicArray.splice(i, 0, v);
+visualizeArray();
 }
-function pushValue() { 
-    const v = Number(document.getElementById('push-val').value); 
-    if(!isNaN(v)) { 
-        dynamicArray.push(v); 
-        visualizeArray(); 
-    } 
+function deleteAt() {
+const i = Number(document.getElementById('delete-idx').value);
+if(i >= 0 && i < dynamicArray.length) {
+dynamicArray.splice(i,1);
+visualizeArray();
 }
-function popValue() { 
-    if(dynamicArray.length>0) { 
-        dynamicArray.pop(); 
-        visualizeArray(); 
-    } 
 }
-function unshiftValue() { 
-    const v = Number(document.getElementById('unshift-val').value); 
-    if(!isNaN(v)) { 
-        dynamicArray.unshift(v); 
-        visualizeArray(); 
-    } 
+function pushValue() {
+const v = Number(document.getElementById('push-val').value);
+if(!isNaN(v)) {
+dynamicArray.push(v);
+visualizeArray();
 }
-function shiftValue() { 
-    if(dynamicArray.length>0) { 
-        dynamicArray.shift(); 
-        visualizeArray(); 
-    } 
 }
-function clearArray() { 
-    dynamicArray = []; 
-    visualizeArray(); 
+function popValue() {
+if(dynamicArray.length>0) {
+dynamicArray.pop();
+visualizeArray();
+}
+}
+function unshiftValue() {
+const v = Number(document.getElementById('unshift-val').value);
+if(!isNaN(v)) {
+dynamicArray.unshift(v);
+visualizeArray();
+}
+}
+function shiftValue() {
+if(dynamicArray.length>0) {
+dynamicArray.shift();
+visualizeArray();
+}
+}
+function clearArray() {
+dynamicArray = [];
+visualizeArray();
 }
 function searchArraySearch() {
-    const val = Number(document.getElementById('search-val').value);
-    const idx = dynamicArray.indexOf(val);
-    const canvas = document.getElementById('array-canvas');
-    const ctx = canvas.getContext('2d');
-    if(idx === -1) {
-        ctx.fillStyle = 'rgba(255,0,0,0.5)';
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = '#f66';
-        ctx.font = '36px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('Not Found', canvas.width/2, canvas.height/2);
-        setTimeout(visualizeArray, 1500);
-    } else {
-        const cellW = Math.min(100, canvas.width / dynamicArray.length * 0.85);
-        const startX = (canvas.width - dynamicArray.length * cellW) / 2;
-        const x = startX + idx * cellW;
-        ctx.fillStyle = 'rgba(0,255,0,0.4)';
-        ctx.fillRect(x, 50, cellW, canvas.height - 100);
-        ctx.fillStyle = '#0f0';
-        ctx.font = '32px Arial';
-        ctx.fillText(`Found at index ${idx}!`, canvas.width/2, 100);
-        setTimeout(visualizeArray, 2000);
-    }
+const val = Number(document.getElementById('search-val').value);
+const idx = dynamicArray.indexOf(val);
+const canvas = document.getElementById('array-canvas');
+const ctx = canvas.getContext('2d');
+if(idx === -1) {
+ctx.fillStyle = 'rgba(255,0,0,0.5)';
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle = '#f66';
+ctx.font = '36px Arial';
+ctx.textAlign = 'center';
+ctx.fillText('Not Found', canvas.width/2, canvas.height/2);
+setTimeout(visualizeArray, 1500);
+} else {
+const cellW = Math.min(100, canvas.width / dynamicArray.length * 0.85);
+const startX = (canvas.width - dynamicArray.length * cellW) / 2;
+const x = startX + idx * cellW;
+ctx.fillStyle = 'rgba(0,255,0,0.4)';
+ctx.fillRect(x, 50, cellW, canvas.height - 100);
+ctx.fillStyle = '#0f0';
+ctx.font = '32px Arial';
+ctx.fillText(`Found at index ${idx}!`, canvas.width/2, 100);
+setTimeout(visualizeArray, 2000);
 }
-
+}
 // ====================== 2. SORTING ======================
 let sortArray = [], sortingSteps = 0;
 async function startSorting() {
-    sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n));
-    sortingSteps = 0;
-    document.getElementById('sort-info').textContent = 'Running...';
-    drawSort(sortArray);
-    const algo = document.getElementById('sort-algo').value;
-    if(algo==='bubble') await bubbleSortVis();
-    if(algo==='quick') await quickSortVis(0, sortArray.length-1);
-    if(algo==='merge') await mergeSortVis(0, sortArray.length-1);
-    document.getElementById('sort-info').textContent = `Done – ${sortingSteps} steps`;
+sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+sortingSteps = 0;
+document.getElementById('sort-info').textContent = 'Running...';
+drawSort(sortArray);
+const algo = document.getElementById('sort-algo').value;
+if(algo==='bubble') await bubbleSortVis();
+if(algo==='quick') await quickSortVis(0, sortArray.length-1);
+if(algo==='merge') await mergeSortVis(0, sortArray.length-1);
+document.getElementById('sort-info').textContent = `Done – ${sortingSteps} steps`;
 }
 function drawSort(arr) {
-    const canvas = document.getElementById('sort-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    const w = canvas.width / arr.length;
-    arr.forEach((v,i)=>{
-        const h = (v/Math.max(...arr,1))*380;
-        ctx.fillStyle = `hsl(${v*4},80%,50%)`;
-        ctx.fillRect(i*w+5, canvas.height-h-40, w-10, h);
-        ctx.fillStyle = '#fff';
-        ctx.fillText(v, i*w + w/2, canvas.height-15);
-    });
+const canvas = document.getElementById('sort-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+const w = canvas.width / arr.length;
+arr.forEach((v,i)=>{
+const h = (v/Math.max(...arr,1))*380;
+ctx.fillStyle = `hsl(${v*4},80%,50%)`;
+ctx.fillRect(i*w+5, canvas.height-h-40, w-10, h);
+ctx.fillStyle = '#fff';
+ctx.fillText(v, i*w + w/2, canvas.height-15);
+});
 }
 async function bubbleSortVis() {
-    for (let i = 0; i < sortArray.length; i++) {
-        for (let j = 0; j < sortArray.length - i - 1; j++) {
-            if (sortArray[j] > sortArray[j + 1]) {
-                [sortArray[j], sortArray[j + 1]] = [sortArray[j + 1], sortArray[j]];
-                sortingSteps++;
-                drawSort(sortArray);
-                await sleep(30);
-            }
-        }
-    }
+for (let i = 0; i < sortArray.length; i++) {
+for (let j = 0; j < sortArray.length - i - 1; j++) {
+if (sortArray[j] > sortArray[j + 1]) {
+[sortArray[j], sortArray[j + 1]] = [sortArray[j + 1], sortArray[j]];
+sortingSteps++;
+drawSort(sortArray);
+await sleep(30);
+}
+}
+}
 }
 async function quickSortVis(low, high) {
-    if (low < high) {
-        let pi = await partition(low, high);
-        await quickSortVis(low, pi - 1);
-        await quickSortVis(pi + 1, high);
-    }
+if (low < high) {
+let pi = await partition(low, high);
+await quickSortVis(low, pi - 1);
+await quickSortVis(pi + 1, high);
+}
 }
 async function partition(low, high) {
-    let pivot = sortArray[high];
-    let i = low - 1;
-    for (let j = low; j < high; j++) {
-        if (sortArray[j] < pivot) {
-            i++;
-            [sortArray[i], sortArray[j]] = [sortArray[j], sortArray[i]];
-            drawSort(sortArray);
-            sortingSteps++;
-            await sleep(60);
-        }
-    }
-    [sortArray[i + 1], sortArray[high]] = [sortArray[high], sortArray[i + 1]];
-    drawSort(sortArray);
-    sortingSteps++;
-    await sleep(60);
-    return i + 1;
+let pivot = sortArray[high];
+let i = low - 1;
+for (let j = low; j < high; j++) {
+if (sortArray[j] < pivot) {
+i++;
+[sortArray[i], sortArray[j]] = [sortArray[j], sortArray[i]];
+drawSort(sortArray);
+sortingSteps++;
+await sleep(60);
+}
+}
+[sortArray[i + 1], sortArray[high]] = [sortArray[high], sortArray[i + 1]];
+drawSort(sortArray);
+sortingSteps++;
+await sleep(60);
+return i + 1;
 }
 async function mergeSortVis(l, r) {
-    if (l >= r) return;
-    let m = Math.floor((l + r) / 2);
-    await mergeSortVis(l, m);
-    await mergeSortVis(m + 1, r);
-    await merge(l, m, r);
+if (l >= r) return;
+let m = Math.floor((l + r) / 2);
+await mergeSortVis(l, m);
+await mergeSortVis(m + 1, r);
+await merge(l, m, r);
 }
 async function merge(l, m, r) {
-    let left = sortArray.slice(l, m + 1);
-    let right = sortArray.slice(m + 1, r + 1);
-    let i = 0, j = 0, k = l;
-    while (i < left.length && j < right.length) {
-        if (left[i] <= right[j]) {
-            sortArray[k++] = left[i++];
-        } else {
-            sortArray[k++] = right[j++];
-        }
-        drawSort(sortArray);
-        sortingSteps++;
-        await sleep(80);
-    }
-    while (i < left.length) { 
-        sortArray[k++] = left[i++]; 
-        drawSort(sortArray); 
-        await sleep(40); 
-    }
-    while (j < right.length) { 
-        sortArray[k++] = right[j++]; 
-        drawSort(sortArray); 
-        await sleep(40); 
-    }
+let left = sortArray.slice(l, m + 1);
+let right = sortArray.slice(m + 1, r + 1);
+let i = 0, j = 0, k = l;
+while (i < left.length && j < right.length) {
+if (left[i] <= right[j]) {
+sortArray[k++] = left[i++];
+} else {
+sortArray[k++] = right[j++];
 }
-function resetSorting() { 
-    sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n)); 
-    drawSort(sortArray); 
-    document.getElementById('sort-info').textContent = 'Steps: 0'; 
+drawSort(sortArray);
+sortingSteps++;
+await sleep(80);
 }
-
+while (i < left.length) {
+sortArray[k++] = left[i++];
+drawSort(sortArray);
+await sleep(40);
+}
+while (j < right.length) {
+sortArray[k++] = right[j++];
+drawSort(sortArray);
+await sleep(40);
+}
+}
+function resetSorting() {
+sortArray = document.getElementById('sort-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+drawSort(sortArray);
+document.getElementById('sort-info').textContent = 'Steps: 0';
+}
 // ====================== 3. SEARCHING ======================
 let searchArray = [], searchSteps = 0;
 function loadSearchArray() {
-    searchArray = document.getElementById('search-input').value.split(',').map(Number).filter(n=>!isNaN(n));
-    searchSteps = 0;
-    document.getElementById('search-steps').textContent = 'Steps: 0';
-    document.getElementById('search-result').textContent = '';
-    drawSearchArray([]);
+searchArray = document.getElementById('search-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+searchSteps = 0;
+document.getElementById('search-steps').textContent = 'Steps: 0';
+document.getElementById('search-result').textContent = '';
+drawSearchArray([]);
 }
 function drawSearchArray(highlightIndices = [], foundIndex = -1, isSortedSearch = false) {
-    const canvas = document.getElementById('search-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.font = '28px Arial';
-    ctx.textAlign = 'center';
-    if(searchArray.length===0) { 
-        ctx.fillStyle='#888'; 
-        ctx.fillText('Load array first', canvas.width/2, canvas.height/2); 
-        return; 
-    }
-    const boxW=90, gap=15;
-    const totalW = searchArray.length * (boxW + gap) - gap;
-    const startX = (canvas.width - totalW) / 2;
-    searchArray.forEach((v,i)=>{
-        const x = startX + i*(boxW+gap);
-        let fillStyle = foundIndex === i ? '#00ff88' : highlightIndices.includes(i) ? '#ffeb3b' : '#4488ff';
-        if (isSortedSearch && !highlightIndices.includes(i)) fillStyle = '#333';
-        ctx.fillStyle = fillStyle;
-        ctx.fillRect(x,140,boxW,90);
-        ctx.strokeStyle='#fff'; 
-        ctx.lineWidth=3; 
-        ctx.strokeRect(x,140,boxW,90);
-        ctx.fillStyle='white'; 
-        ctx.font='32px Arial'; 
-        ctx.textBaseline='middle';
-        ctx.fillText(v, x+boxW/2, 185);
-        ctx.fillStyle='#aaa'; 
-        ctx.font='16px Arial'; 
-        ctx.fillText(i, x+boxW/2, 260);
-    });
+const canvas = document.getElementById('search-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.font = '28px Arial';
+ctx.textAlign = 'center';
+if(searchArray.length===0) {
+ctx.fillStyle='#888';
+ctx.fillText('Load array first', canvas.width/2, canvas.height/2);
+return;
+}
+const boxW=90, gap=15;
+const totalW = searchArray.length * (boxW + gap) - gap;
+const startX = (canvas.width - totalW) / 2;
+searchArray.forEach((v,i)=>{
+const x = startX + i*(boxW+gap);
+let fillStyle = foundIndex === i ? '#00ff88' : highlightIndices.includes(i) ? '#ffeb3b' : '#4488ff';
+if (isSortedSearch && !highlightIndices.includes(i)) fillStyle = '#333';
+ctx.fillStyle = fillStyle;
+ctx.fillRect(x,140,boxW,90);
+ctx.strokeStyle='#fff';
+ctx.lineWidth=3;
+ctx.strokeRect(x,140,boxW,90);
+ctx.fillStyle='white';
+ctx.font='32px Arial';
+ctx.textBaseline='middle';
+ctx.fillText(v, x+boxW/2, 185);
+ctx.fillStyle='#aaa';
+ctx.font='16px Arial';
+ctx.fillText(i, x+boxW/2, 260);
+});
 }
 async function startSearch() {
-    const target = Number(document.getElementById('target-val').value);
-    const algo = document.getElementById('search-algo').value;
-    searchSteps = 0;
-    document.getElementById('search-result').textContent = 'Searching...';
-    document.getElementById('search-steps').textContent = 'Steps: 0';
-    
-    const needsSort = algo !== 'linear';
-    if(needsSort) {
-        searchArray.sort((a,b)=>a-b);
-        drawSearchArray([], -1, false);
-        await sleep(600);
-    }
-
-    if(algo==='linear') await linearSearchVis(target);
-    else if(algo==='binary') await binarySearchVis(target);
-    else if(algo==='jump') await jumpSearchVis(target);
-    else if(algo==='exponential') await exponentialSearchVis(target);
+const target = Number(document.getElementById('target-val').value);
+const algo = document.getElementById('search-algo').value;
+searchSteps = 0;
+document.getElementById('search-result').textContent = 'Searching...';
+document.getElementById('search-steps').textContent = 'Steps: 0';
+const needsSort = algo !== 'linear';
+if(needsSort) {
+searchArray.sort((a,b)=>a-b);
+drawSearchArray([], -1, false);
+await sleep(600);
+}
+if(algo==='linear') await linearSearchVis(target);
+else if(algo==='binary') await binarySearchVis(target);
+else if(algo==='jump') await jumpSearchVis(target);
+else if(algo==='exponential') await exponentialSearchVis(target);
 }
 async function linearSearchVis(target) {
-    let found = false;
-    for (let i = 0; i < searchArray.length; i++) {
-        searchSteps++;
-        document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
-        drawSearchArray([i], -1, false);
-        await sleep(800);
-        if (searchArray[i] === target) {
-            found = true;
-            drawSearchArray([i], i, false);
-            document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${i}!</span>`;
-            return;
-        }
-    }
-    drawSearchArray([], -1, false);
-    document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+let found = false;
+for (let i = 0; i < searchArray.length; i++) {
+searchSteps++;
+document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
+drawSearchArray([i], -1, false);
+await sleep(800);
+if (searchArray[i] === target) {
+found = true;
+drawSearchArray([i], i, false);
+document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${i}!</span>`;
+return;
+}
+}
+drawSearchArray([], -1, false);
+document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
 }
 async function binarySearchVisHelper(target, left, right) {
-    let resultIndex = -1;
-    while (left <= right) {
-        const mid = Math.floor((left + right) / 2);
-        searchSteps++;
-        document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
-        
-        // Highlight range
-        const range = [];
-        for (let k = left; k <= right; k++) range.push(k);
-        drawSearchArray(range, -1, true); 
-
-        // Highlight mid
-        const canvas = document.getElementById('search-canvas');
-        const ctx = canvas.getContext('2d');
-        const boxW = 90, gap = 15;
-        const totalW = searchArray.length * (boxW + gap) - gap;
-        const startX = (canvas.width - totalW) / 2;
-        ctx.fillStyle = '#ffff00';
-        ctx.font = '40px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('▼', startX + mid * (boxW + gap) + boxW / 2, 100);
-        
-        await sleep(1400);
-
-        if (searchArray[mid] === target) {
-            resultIndex = mid;
-            break; 
-        } else if (searchArray[mid] < target) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
-    }
-    
-    if (resultIndex !== -1) {
-        const range = [];
-        for (let k = left; k <= right; k++) range.push(k);
-        drawSearchArray(range, resultIndex, true);
-        return resultIndex;
-    }
-    return -1;
+let resultIndex = -1;
+while (left <= right) {
+const mid = Math.floor((left + right) / 2);
+searchSteps++;
+document.getElementById('search-steps').textContent = `Steps: ${searchSteps}`;
+// Highlight range
+const range = [];
+for (let k = left; k <= right; k++) range.push(k);
+drawSearchArray(range, -1, true);
+// Highlight mid
+const canvas = document.getElementById('search-canvas');
+const ctx = canvas.getContext('2d');
+const boxW = 90, gap = 15;
+const totalW = searchArray.length * (boxW + gap) - gap;
+const startX = (canvas.width - totalW) / 2;
+ctx.fillStyle = '#ffff00';
+ctx.font = '40px Arial';
+ctx.textAlign = 'center';
+ctx.fillText('▼', startX + mid * (boxW + gap) + boxW / 2, 100);
+await sleep(1400);
+if (searchArray[mid] === target) {
+resultIndex = mid;
+break;
+} else if (searchArray[mid] < target) {
+left = mid + 1;
+} else {
+right = mid - 1;
+}
+}
+if (resultIndex !== -1) {
+const range = [];
+for (let k = left; k <= right; k++) range.push(k);
+drawSearchArray(range, resultIndex, true);
+return resultIndex;
+}
+return -1;
 }
 async function binarySearchVis(target) {
-    const result = await binarySearchVisHelper(target, 0, searchArray.length - 1);
-    if (result !== -1) {
-        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${result}!</span>`;
-    } else {
-        drawSearchArray([], -1, true);
-        document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
-    }
+const result = await binarySearchVisHelper(target, 0, searchArray.length - 1);
+if (result !== -1) {
+document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${result}!</span>`;
+} else {
+drawSearchArray([], -1, true);
+document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+}
 }
 async function jumpSearchVis(target) {
-    let n = searchArray.length;
-    if (n === 0) return -1;
-    let step = Math.floor(Math.sqrt(n));
-    let prev = 0;
-
-    // Phase 1: Jumping
-    while (searchArray[Math.min(step, n) - 1] < target) {
-        searchSteps++;
-        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Jump Check)`;
-        // Highlight the block being skipped
-        let blockRange = [];
-        for(let k = prev; k < Math.min(step, n); k++) blockRange.push(k);
-        drawSearchArray(blockRange, -1, true); 
-        await sleep(1000);
-
-        prev = step;
-        step += Math.floor(Math.sqrt(n));
-        
-        if (prev >= n) break; // Reached end of array
-    }
-
-    // Phase 2: Linear Search in block [prev, Math.min(step, n) - 1]
-    let end = Math.min(step, n);
-    document.getElementById('search-result').textContent = `Linear search in range [${prev}, ${end - 1}]`;
-    
-    // Set up the final block visualization (darken outside range)
-    let finalRange = [];
-    for(let k = prev; k < end; k++) finalRange.push(k);
-    drawSearchArray(finalRange, -1, true); 
-    await sleep(800);
-
-    let resultIndex = -1;
-    for (let i = prev; i < end; i++) {
-        searchSteps++;
-        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Linear Check)`;
-        
-        // Highlight current check
-        drawSearchArray([i], -1, true);
-        await sleep(800);
-        
-        if (searchArray[i] === target) {
-            resultIndex = i;
-            break;
-        }
-    }
-
-    if (resultIndex !== -1) {
-        drawSearchArray([resultIndex], resultIndex, true);
-        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${resultIndex}!</span>`;
-    } else {
-        drawSearchArray([], -1, true);
-        document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
-    }
-    return resultIndex;
+let n = searchArray.length;
+if (n === 0) return -1;
+let step = Math.floor(Math.sqrt(n));
+let prev = 0;
+// Phase 1: Jumping
+while (searchArray[Math.min(step, n) - 1] < target) {
+searchSteps++;
+document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Jump Check)`;
+// Highlight the block being skipped
+let blockRange = [];
+for(let k = prev; k < Math.min(step, n); k++) blockRange.push(k);
+drawSearchArray(blockRange, -1, true);
+await sleep(1000);
+prev = step;
+step += Math.floor(Math.sqrt(n));
+if (prev >= n) break; // Reached end of array
+}
+// Phase 2: Linear Search in block [prev, Math.min(step, n) - 1]
+let end = Math.min(step, n);
+document.getElementById('search-result').textContent = `Linear search in range [${prev}, ${end - 1}]`;
+// Set up the final block visualization (darken outside range)
+let finalRange = [];
+for(let k = prev; k < end; k++) finalRange.push(k);
+drawSearchArray(finalRange, -1, true);
+await sleep(800);
+let resultIndex = -1;
+for (let i = prev; i < end; i++) {
+searchSteps++;
+document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Linear Check)`;
+// Highlight current check
+drawSearchArray([i], -1, true);
+await sleep(800);
+if (searchArray[i] === target) {
+resultIndex = i;
+break;
+}
+}
+if (resultIndex !== -1) {
+drawSearchArray([resultIndex], resultIndex, true);
+document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${resultIndex}!</span>`;
+} else {
+drawSearchArray([], -1, true);
+document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+}
+return resultIndex;
 }
 async function exponentialSearchVis(target) {
-    let n = searchArray.length;
-    if (n === 0) return -1;
-    
-    if (searchArray[0] === target) {
-        searchSteps++;
-        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Initial Check)`;
-        drawSearchArray([0], 0, false);
-        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index 0!</span>`;
-        return 0;
-    }
-
-    let i = 1;
-    // Phase 1: Find range
-    while (i < n && searchArray[i] <= target) {
-        searchSteps++;
-        document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Exponential Jump Check)`;
-        drawSearchArray([i], -1, false); // No need to darken outside yet
-        await sleep(1000);
-        i *= 2;
-    }
-    
-    // Phase 2: Binary Search in range [i/2, Math.min(i, n - 1)]
-    let left = Math.floor(i / 2);
-    let right = Math.min(i, n - 1);
-    
-    document.getElementById('search-result').textContent = `Binary search in range [${left}, ${right}]`;
-
-    // Highlight the final range before binary search starts
-    let finalRange = [];
-    for(let k = left; k <= right; k++) finalRange.push(k);
-    drawSearchArray(finalRange, -1, true); // True to darken outside
-    await sleep(800);
-
-    const result = await binarySearchVisHelper(target, left, right);
-    
-    if (result === -1) {
-        drawSearchArray([], -1, true);
-        document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
-    } else {
-        document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${result}!</span>`;
-    }
+let n = searchArray.length;
+if (n === 0) return -1;
+if (searchArray[0] === target) {
+searchSteps++;
+document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Initial Check)`;
+drawSearchArray([0], 0, false);
+document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index 0!</span>`;
+return 0;
 }
-function resetSearch(){ 
-    loadSearchArray(); 
+let i = 1;
+// Phase 1: Find range
+while (i < n && searchArray[i] <= target) {
+searchSteps++;
+document.getElementById('search-steps').textContent = `Steps: ${searchSteps} (Exponential Jump Check)`;
+drawSearchArray([i], -1, false); // No need to darken outside yet
+await sleep(1000);
+i *= 2;
 }
-
+// Phase 2: Binary Search in range [i/2, Math.min(i, n - 1)]
+let left = Math.floor(i / 2);
+let right = Math.min(i, n - 1);
+document.getElementById('search-result').textContent = `Binary search in range [${left}, ${right}]`;
+// Highlight the final range before binary search starts
+let finalRange = [];
+for(let k = left; k <= right; k++) finalRange.push(k);
+drawSearchArray(finalRange, -1, true); // True to darken outside
+await sleep(800);
+const result = await binarySearchVisHelper(target, left, right);
+if (result === -1) {
+drawSearchArray([], -1, true);
+document.getElementById('search-result').innerHTML = `<span style="color:#f66">Not found after ${searchSteps} steps</span>`;
+} else {
+document.getElementById('search-result').innerHTML = `<span style="color:#0f0">Found ${target} at index ${result}!</span>`;
+}
+}
+function resetSearch(){
+loadSearchArray();
+}
 // ====================== 4. BINARY TREE (BT) ======================
 let btArray = [];
 let highlightBTNode = null;
 function buildBT() {
-    btArray = document.getElementById('bt-input').value.split(',').map(Number).filter(n=>!isNaN(n));
-    drawTree(btArray, 'bt-canvas', highlightBTNode);
+btArray = document.getElementById('bt-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+drawTree(btArray, 'bt-canvas', highlightBTNode);
 }
-function drawTree(dataArray, canvasId, highlightNode, extraTextFn = null) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(dataArray.length===0) { 
-        ctx.fillStyle='#888'; 
-        ctx.font='28px Arial'; 
-        ctx.textAlign='center';
-        ctx.fillText('Enter values and click Build Tree', canvas.width/2, canvas.height/2);
-        return;
-    }
-    
-    const nodePositions = [];
-    const maxNodes = dataArray.length;
-    const maxLevel = Math.floor(Math.log2(maxNodes)) + 1;
-    const levelGap = 80;
-    const nodeR = 28;
-
-    for (let i = 0; i < maxNodes; i++) {
-        const level = Math.floor(Math.log2(i + 1));
-        const y = 60 + level * levelGap;
-        const nodesAtLevel = Math.pow(2, level);
-        const positionInLevel = i - (nodesAtLevel - 1);
-        
-        // Calculate dynamic horizontal spacing based on max depth
-        const totalWidthAtLevel = canvas.width / nodesAtLevel;
-        const x = totalWidthAtLevel * positionInLevel + totalWidthAtLevel / 2;
-
-        nodePositions.push({x, y, val: dataArray[i], index: i});
-
-        // Draw line to parent
-        if (i > 0) {
-            const parentIndex = Math.floor((i - 1) / 2);
-            const parentPos = nodePositions[parentIndex];
-            ctx.strokeStyle = '#00d4ff';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(parentPos.x, parentPos.y + nodeR * Math.cos(Math.atan2(y - parentPos.y, x - parentPos.x)));
-            ctx.lineTo(x, y - nodeR * Math.cos(Math.atan2(y - parentPos.y, x - parentPos.x)));
-            ctx.stroke();
-        }
-    }
-    
-    // Draw nodes and values
-    nodePositions.forEach(pos => {
-        const nodeVal = pos.val;
-        
-        ctx.fillStyle = (pos.index === highlightNode) ? '#ff0' : '#667eea';
-        ctx.beginPath();
-        ctx.arc(pos.x, pos.y, nodeR, 0, Math.PI*2);
-        ctx.fill();
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        
-        ctx.fillStyle = 'white';
-        ctx.font = '20px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(nodeVal, pos.x, pos.y);
-        
-        // Draw extra text (e.g., Balance Factor for AVL)
-        if (extraTextFn) {
-            extraTextFn(ctx, pos);
-        }
-    });
+function clearBT() {
+btArray = [];
+drawTree(btArray, 'bt-canvas', highlightBTNode);
+document.getElementById('bt-traversal-output').textContent = '';
 }
+// Enhanced tree drawing with better spacing
+function drawTree(dataArray, canvasId, highlightNode) {
+const canvas = document.getElementById(canvasId);
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+if(dataArray.length===0) {
+ctx.fillStyle='#888';
+ctx.font='28px Arial';
+ctx.textAlign='center';
+ctx.fillText('Enter values and click Build Tree', canvas.width/2, canvas.height/2);
+return;
+}
+const nodeRadius = 30;
+const levelHeight = 90;
+const baseX = canvas.width / 2;
+const baseY = 80;
+// Get tree depth
+const depth = Math.floor(Math.log2(dataArray.length)) + 1;
+const maxNodesAtDepth = Math.pow(2, depth - 1);
+const totalWidth = canvas.width - 100;
+const nodeSpacing = totalWidth / (maxNodesAtDepth + 1);
+// Draw nodes and connections
+for (let i = 0; i < dataArray.length; i++) {
+const level = Math.floor(Math.log2(i + 1));
+const nodesAtLevel = Math.pow(2, level);
+const positionInLevel = i - (nodesAtLevel - 1);
+// Calculate x position based on level spacing
+const levelWidth = nodeSpacing * (Math.pow(2, level) + 1);
+const startX = (canvas.width - levelWidth) / 2;
+const x = startX + (positionInLevel + 1) * nodeSpacing;
+const y = baseY + level * levelHeight;
+// Draw connection to parent
+if (i > 0) {
+const parentIndex = Math.floor((i - 1) / 2);
+const parentLevel = Math.floor(Math.log2(parentIndex + 1));
+const parentNodesAtLevel = Math.pow(2, parentLevel);
+const parentPosition = parentIndex - (parentNodesAtLevel - 1);
+const parentLevelWidth = nodeSpacing * (Math.pow(2, parentLevel) + 1);
+const parentStartX = (canvas.width - parentLevelWidth) / 2;
+const parentX = parentStartX + (parentPosition + 1) * nodeSpacing;
+const parentY = baseY + parentLevel * levelHeight;
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(parentX, parentY + nodeRadius);
+ctx.lineTo(x, y - nodeRadius);
+ctx.stroke();
+}
+// Draw node
+ctx.fillStyle = (i === highlightNode) ? '#ff0' : '#667eea';
+ctx.beginPath();
+ctx.arc(x, y, nodeRadius, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 3;
+ctx.stroke();
+// Draw value
+ctx.fillStyle = 'white';
+ctx.font = '20px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(dataArray[i], x, y);
+// Draw index
+ctx.fillStyle = '#aaa';
+ctx.font = '14px Arial';
+ctx.fillText(`[${i}]`, x, y + nodeRadius + 15);
+}
+}
+// FIXED BT TRAVERSAL IMPLEMENTATION
 async function traverseBT(type) {
-    const result = [];
-    highlightBTNode = null;
-    drawTree(btArray, 'bt-canvas', highlightBTBTNode);
-    if(btArray.length === 0) return;
-    
-    if(type==='inorder') await traverseBTRec(0, result, (i) => btArray[i], (i) => 2*i + 1, (i) => 2*i + 2);
-    else if(type==='preorder') await traverseBTRec(0, result, (i) => btArray[i], (i) => 2*i + 1, (i) => 2*i + 2);
-    else if(type==='postorder') await traverseBTRec(0, result, (i) => btArray[i], (i) => 2*i + 1, (i) => 2*i + 2);
-    
-    document.getElementById('bt-traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
-    highlightBTNode = null;
-    drawTree(btArray, 'bt-canvas', highlightBTNode);
+const result = [];
+highlightBTNode = null;
+drawTree(btArray, 'bt-canvas', highlightBTNode);
+if(btArray.length === 0) return;
+if(type === 'inorder') {
+await inorderBT(0, result);
+} else if(type === 'preorder') {
+await preorderBT(0, result);
+} else if(type === 'postorder') {
+await postorderBT(0, result);
 }
-async function traverseBTRec(i, res, getVal, getLeft, getRight) {
-    if (i >= btArray.length) return;
-    
-    const left = getLeft(i);
-    const right = getRight(i);
-    const val = getVal(i);
-
-    if (document.getElementById('bt').classList.contains('active')) {
-        if (left < btArray.length) await traverseBTRec(left, res, getVal, getLeft, getRight);
-        
-        res.push(val);
-        highlightBTNode = i;
-        drawTree(btArray, 'bt-canvas', highlightBTNode);
-        await sleep(800);
-        
-        if (right < btArray.length) await traverseBTRec(right, res, getVal, getLeft, getRight);
-
-    } else if (document.getElementById('bst').classList.contains('active')) {
-        // This is complex because BST visualization uses nested objects not an array.
-        // For simplicity, BST will use its own recursive traversal without array indices.
-        // The BT implementation is solely for the array-based complete BT.
-    }
+document.getElementById('bt-traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
+highlightBTNode = null;
+drawTree(btArray, 'bt-canvas', highlightBTNode);
 }
-
-
+async function inorderBT(i, res) {
+if(i >= btArray.length) return;
+await inorderBT(2*i+1, res);
+res.push(btArray[i]);
+highlightBTNode = i;
+drawTree(btArray, 'bt-canvas', highlightBTNode);
+await sleep(800);
+await inorderBT(2*i+2, res);
+}
+async function preorderBT(i, res) {
+if(i >= btArray.length) return;
+res.push(btArray[i]);
+highlightBTNode = i;
+drawTree(btArray, 'bt-canvas', highlightBTNode);
+await sleep(800);
+await preorderBT(2*i+1, res);
+await preorderBT(2*i+2, res);
+}
+async function postorderBT(i, res) {
+if(i >= btArray.length) return;
+await postorderBT(2*i+1, res);
+await postorderBT(2*i+2, res);
+res.push(btArray[i]);
+highlightBTNode = i;
+drawTree(btArray, 'bt-canvas', highlightBTNode);
+await sleep(800);
+}
 // ====================== 5. BINARY SEARCH TREE (BST) ======================
 class TreeNode {
-    constructor(val) {
-        this.val = val;
-        this.left = null;
-        this.right = null;
-    }
+constructor(val) {
+this.val = val;
+this.left = null;
+this.right = null;
+}
 }
 let bstRoot = null;
 let highlightBSTNode = null;
 function buildBST() {
-    const vals = document.getElementById('bst-input').value.split(',').map(Number).filter(n=>!isNaN(n));
-    bstRoot = null;
-    vals.forEach(v => bstRoot = insertBST(bstRoot, v));
-    drawBST();
+const vals = document.getElementById('bst-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+bstRoot = null;
+vals.forEach(v => bstRoot = insertBST(bstRoot, v));
+drawBST();
 }
 function insertBST(node, val) {
-    if(!node) return new TreeNode(val);
-    if(val < node.val) node.left = insertBST(node.left, val);
-    else if(val > node.val) node.right = insertBST(node.right, val);
-    return node;
+if(!node) return new TreeNode(val);
+if(val < node.val) node.left = insertBST(node.left, val);
+else if(val > node.val) node.right = insertBST(node.right, val);
+return node;
 }
 function drawBST() {
-    const canvas = document.getElementById('bst-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(!bstRoot) {
-        ctx.fillStyle='#888'; 
-        ctx.font='28px Arial'; 
-        ctx.textAlign='center';
-        ctx.fillText('Enter values and click Build BST', canvas.width/2, canvas.height/2);
-        return;
-    }
-    assignBSTPositions(bstRoot, canvas.width/2, 60, canvas.width/4);
-    drawBSTNode(ctx, bstRoot);
+const canvas = document.getElementById('bst-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+if(!bstRoot) {
+ctx.fillStyle='#888';
+ctx.font='28px Arial';
+ctx.textAlign='center';
+ctx.fillText('Enter values and click Build BST', canvas.width/2, canvas.height/2);
+return;
+}
+assignBSTPositions(bstRoot, canvas.width/2, 60, canvas.width/4);
+drawBSTNode(ctx, bstRoot);
 }
 function assignBSTPositions(node, x, y, offset) {
-    if(!node) return;
-    node.x = x;
-    node.y = y;
-    if(node.left) assignBSTPositions(node.left, x - offset, y + 80, offset/2);
-    if(node.right) assignBSTPositions(node.right, x + offset, y + 80, offset/2);
+if(!node) return;
+node.x = x;
+node.y = y;
+if(node.left) assignBSTPositions(node.left, x - offset, y + 80, offset/2);
+if(node.right) assignBSTPositions(node.right, x + offset, y + 80, offset/2);
 }
 function drawBSTNode(ctx, node) {
-    if(!node) return;
-    const nodeR = 28;
-    if(node.left) {
-        ctx.strokeStyle = '#00d4ff';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(node.x, node.y);
-        ctx.lineTo(node.left.x, node.left.y);
-        ctx.stroke();
-        drawBSTNode(ctx, node.left);
-    }
-    if(node.right) {
-        ctx.strokeStyle = '#00d4ff';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(node.x, node.y);
-        ctx.lineTo(node.right.x, node.right.y);
-        ctx.stroke();
-        drawBSTNode(ctx, node.right);
-    }
-    ctx.fillStyle = (node === highlightBSTNode) ? '#ff0' : '#667eea';
-    ctx.beginPath();
-    ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = '#0ff';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.fillStyle = 'white';
-    ctx.font = '20px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(node.val, node.x, node.y);
+if(!node) return;
+const nodeR = 28;
+if(node.left) {
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.moveTo(node.x, node.y);
+ctx.lineTo(node.left.x, node.left.y);
+ctx.stroke();
+drawBSTNode(ctx, node.left);
+}
+if(node.right) {
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.moveTo(node.x, node.y);
+ctx.lineTo(node.right.x, node.right.y);
+ctx.stroke();
+drawBSTNode(ctx, node.right);
+}
+ctx.fillStyle = (node === highlightBSTNode) ? '#ff0' : '#667eea';
+ctx.beginPath();
+ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 3;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '20px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(node.val, node.x, node.y);
 }
 async function traverseBST(type) {
-    const result = [];
-    highlightBSTNode = null;
-    drawBST();
-    if(!bstRoot) return;
-    if(type==='inorder') await inorderBST(bstRoot, result);
-    else if(type==='preorder') await preorderBST(bstRoot, result);
-    else if(type==='postorder') await postorderBST(bstRoot, result);
-    document.getElementById('bst-traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
-    highlightBSTNode = null;
-    drawBST();
+const result = [];
+highlightBSTNode = null;
+drawBST();
+if(!bstRoot) return;
+if(type==='inorder') await inorderBST(bstRoot, result);
+else if(type==='preorder') await preorderBST(bstRoot, result);
+else if(type==='postorder') await postorderBST(bstRoot, result);
+document.getElementById('bst-traversal-output').textContent = `${type.toUpperCase()}: ${result.join(' → ')}`;
+highlightBSTNode = null;
+drawBST();
 }
 async function inorderBST(node, res) {
-    if(node) {
-        await inorderBST(node.left, res);
-        res.push(node.val);
-        highlightBSTNode = node;
-        drawBST();
-        await sleep(800);
-        highlightBSTNode = null;
-        drawBST();
-        await inorderBST(node.right, res);
-    }
+if(node) {
+await inorderBST(node.left, res);
+res.push(node.val);
+highlightBSTNode = node;
+drawBST();
+await sleep(800);
+highlightBSTNode = null;
+drawBST();
+await inorderBST(node.right, res);
+}
 }
 async function preorderBST(node, res) {
-    if(node) {
-        res.push(node.val);
-        highlightBSTNode = node;
-        drawBST();
-        await sleep(800);
-        highlightBSTNode = null;
-        drawBST();
-        await preorderBST(node.left, res);
-        await preorderBST(node.right, res);
-    }
+if(node) {
+res.push(node.val);
+highlightBSTNode = node;
+drawBST();
+await sleep(800);
+highlightBSTNode = null;
+drawBST();
+await preorderBST(node.left, res);
+await preorderBST(node.right, res);
+}
 }
 async function postorderBST(node, res) {
-    if(node) {
-        await postorderBST(node.left, res);
-        await postorderBST(node.right, res);
-        res.push(node.val);
-        highlightBSTNode = node;
-        drawBST();
-        await sleep(800);
-        highlightBSTNode = null;
-        drawBST();
-    }
+if(node) {
+await postorderBST(node.left, res);
+await postorderBST(node.right, res);
+res.push(node.val);
+highlightBSTNode = node;
+drawBST();
+await sleep(800);
+highlightBSTNode = null;
+drawBST();
 }
-
+}
 // ====================== 6. AVL TREE ======================
 class AVLNode {
-    constructor(val) {
-        this.val = val;
-        this.left = null;
-        this.right = null;
-        this.height = 1;
-        this.x = 0; // for visualization
-        this.y = 0;
-    }
+constructor(val) {
+this.val = val;
+this.left = null;
+this.right = null;
+this.height = 1;
+this.x = 0; // for visualization
+this.y = 0;
+}
 }
 let avlRoot = null;
 function getHeight(node) {
-    return node ? node.height : 0;
+return node ? node.height : 0;
 }
 function getBalance(node) {
-    return node ? getHeight(node.left) - getHeight(node.right) : 0;
+return node ? getHeight(node.left) - getHeight(node.right) : 0;
 }
 function updateHeight(node) {
-    node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
 }
 function rotateRight(y) {
-    const x = y.left;
-    const T2 = x.right;
-    x.right = y;
-    y.left = T2;
-    updateHeight(y);
-    updateHeight(x);
-    drawAVL(x, `Right Rotation on node ${y.val}`);
-    return x;
+const x = y.left;
+const T2 = x.right;
+x.right = y;
+y.left = T2;
+updateHeight(y);
+updateHeight(x);
+drawAVL(x, `Right Rotation on node ${y.val}`);
+return x;
 }
 function rotateLeft(x) {
-    const y = x.right;
-    const T2 = y.left;
-    y.left = x;
-    x.right = T2;
-    updateHeight(x);
-    updateHeight(y);
-    drawAVL(y, `Left Rotation on node ${x.val}`);
-    return y;
+const y = x.right;
+const T2 = y.left;
+y.left = x;
+x.right = T2;
+updateHeight(x);
+updateHeight(y);
+drawAVL(y, `Left Rotation on node ${x.val}`);
+return y;
 }
 async function insertAVLValue(node, val) {
-    if(!node) return new AVLNode(val);
-    
-    if(val < node.val) node.left = await insertAVLValue(node.left, val);
-    else if(val > node.val) node.right = await insertAVLValue(node.right, val);
-    else return node; // Duplicate values not allowed
-    
-    updateHeight(node);
-    const balance = getBalance(node);
-    
-    // Check for rotations (Wait after insertion and before rotation)
-    drawAVL(avlRoot, `Checking balance at ${node.val}. BF: ${balance}`);
-    await sleep(600);
-    
-    // Left Left Case (Rotation Right)
-    if(balance > 1 && val < node.left.val) {
-        return rotateRight(node);
-    }
-    // Right Right Case (Rotation Left)
-    if(balance < -1 && val > node.right.val) {
-        return rotateLeft(node);
-    }
-    // Left Right Case (Rotation Left then Right)
-    if(balance > 1 && val > node.left.val) {
-        node.left = rotateLeft(node.left);
-        drawAVL(avlRoot, `LR Case: Inner Left Rotation on ${node.left.val}`);
-        await sleep(600);
-        return rotateRight(node);
-    }
-    // Right Left Case (Rotation Right then Left)
-    if(balance < -1 && val < node.right.val) {
-        node.right = rotateRight(node.right);
-        drawAVL(avlRoot, `RL Case: Inner Right Rotation on ${node.right.val}`);
-        await sleep(600);
-        return rotateLeft(node);
-    }
-    return node;
+if(!node) return new AVLNode(val);
+if(val < node.val) node.left = await insertAVLValue(node.left, val);
+else if(val > node.val) node.right = await insertAVLValue(node.right, val);
+else return node; // Duplicate values not allowed
+updateHeight(node);
+const balance = getBalance(node);
+// Check for rotations (Wait after insertion and before rotation)
+drawAVL(avlRoot, `Checking balance at ${node.val}. BF: ${balance}`);
+await sleep(600);
+// Left Left Case (Rotation Right)
+if(balance > 1 && val < node.left.val) {
+return rotateRight(node);
+}
+// Right Right Case (Rotation Left)
+if(balance < -1 && val > node.right.val) {
+return rotateLeft(node);
+}
+// Left Right Case (Rotation Left then Right)
+if(balance > 1 && val > node.left.val) {
+node.left = rotateLeft(node.left);
+drawAVL(avlRoot, `LR Case: Inner Left Rotation on ${node.left.val}`);
+await sleep(600);
+return rotateRight(node);
+}
+// Right Left Case (Rotation Right then Left)
+if(balance < -1 && val < node.right.val) {
+node.right = rotateRight(node.right);
+drawAVL(avlRoot, `RL Case: Inner Right Rotation on ${node.right.val}`);
+await sleep(600);
+return rotateLeft(node);
+}
+return node;
 }
 async function insertAVL() {
-    const val = Number(document.getElementById('avl-insert-val').value);
-    if(isNaN(val)) return;
-    document.getElementById('avl-insert-val').value = '';
-    avlRoot = await insertAVLValue(avlRoot, val);
-    drawAVL(avlRoot, `Inserted ${val}. Final Tree.`);
+const val = Number(document.getElementById('avl-insert-val').value);
+if(isNaN(val)) return;
+document.getElementById('avl-insert-val').value = '';
+avlRoot = await insertAVLValue(avlRoot, val);
+drawAVL(avlRoot, `Inserted ${val}. Final Tree.`);
 }
 async function buildAVL() {
-    clearAVL();
-    const vals = document.getElementById('avl-input').value.split(',').map(Number).filter(n=>!isNaN(n));
-    for(const val of vals) {
-        avlRoot = await insertAVLValue(avlRoot, val);
-        drawAVL(avlRoot, `Inserted ${val}`);
-        await sleep(1000);
-    }
-    drawAVL(avlRoot, `AVL Tree Built.`);
+clearAVL();
+const vals = document.getElementById('avl-input').value.split(',').map(Number).filter(n=>!isNaN(n));
+for(const val of vals) {
+avlRoot = await insertAVLValue(avlRoot, val);
+drawAVL(avlRoot, `Inserted ${val}`);
+await sleep(1000);
+}
+drawAVL(avlRoot, `AVL Tree Built.`);
 }
 function clearAVL() {
-    avlRoot = null;
-    drawAVL(avlRoot, 'Tree cleared.');
+avlRoot = null;
+drawAVL(avlRoot, 'Tree cleared.');
 }
 function drawAVL(node, status = '') {
-    const canvas = document.getElementById('avl-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    document.getElementById('avl-canvas').style.border = getBalance(node) > 1 || getBalance(node) < -1 ? '4px solid #f66' : 'none';
-
-    if(!node) {
-        ctx.fillStyle='#888'; 
-        ctx.font='28px Arial'; 
-        ctx.textAlign='center';
-        ctx.fillText(status, canvas.width/2, canvas.height/2);
-        return;
-    }
-    
-    assignAVLPositions(node, canvas.width/2, 60, canvas.width/4);
-    drawAVLNode(ctx, node);
-
-    ctx.fillStyle = '#0f0';
-    ctx.font = '20px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText(`Status: ${status}`, canvas.width/2, 20);
+const canvas = document.getElementById('avl-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+document.getElementById('avl-canvas').style.border = getBalance(node) > 1 || getBalance(node) < -1 ? '4px solid #f66' : 'none';
+if(!node) {
+ctx.fillStyle='#888';
+ctx.font='28px Arial';
+ctx.textAlign='center';
+ctx.fillText(status, canvas.width/2, canvas.height/2);
+return;
+}
+assignAVLPositions(node, canvas.width/2, 60, canvas.width/4);
+drawAVLNode(ctx, node);
+ctx.fillStyle = '#0f0';
+ctx.font = '20px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(`Status: ${status}`, canvas.width/2, 20);
 }
 function assignAVLPositions(node, x, y, offset) {
-    if(!node) return;
-    node.x = x;
-    node.y = y;
-    if(node.left) assignAVLPositions(node.left, x - offset, y + 80, offset/2);
-    if(node.right) assignAVLPositions(node.right, x + offset, y + 80, offset/2);
+if(!node) return;
+node.x = x;
+node.y = y;
+if(node.left) assignAVLPositions(node.left, x - offset, y + 80, offset/2);
+if(node.right) assignAVLPositions(node.right, x + offset, y + 80, offset/2);
 }
 function drawAVLNode(ctx, node) {
-    if(!node) return;
-    const nodeR = 28;
-    if(node.left) {
-        ctx.strokeStyle = '#00d4ff';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(node.x, node.y);
-        ctx.lineTo(node.left.x, node.left.y);
-        ctx.stroke();
-        drawAVLNode(ctx, node.left);
-    }
-    if(node.right) {
-        ctx.strokeStyle = '#00d4ff';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(node.x, node.y);
-        ctx.lineTo(node.right.x, node.right.y);
-        ctx.stroke();
-        drawAVLNode(ctx, node.right);
-    }
-    
-    const balance = getBalance(node);
-    let color = '#667eea'; // Balanced
-    if (balance > 1 || balance < -1) color = '#f66'; // Imbalanced
-    else if (balance !== 0) color = '#ffeb3b'; // Slightly Imbalanced
-
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = '#0ff';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    
-    ctx.fillStyle = (color === '#ffeb3b' || color === '#f66') ? '#000' : 'white';
-    ctx.font = '20px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(node.val, node.x, node.y - 10);
-    
-    // Draw Balance Factor (BF)
-    ctx.font = '14px Arial';
-    ctx.fillText(`BF:${balance}`, node.x, node.y + 10);
+if(!node) return;
+const nodeR = 28;
+if(node.left) {
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.moveTo(node.x, node.y);
+ctx.lineTo(node.left.x, node.left.y);
+ctx.stroke();
+drawAVLNode(ctx, node.left);
 }
-
+if(node.right) {
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.moveTo(node.x, node.y);
+ctx.lineTo(node.right.x, node.right.y);
+ctx.stroke();
+drawAVLNode(ctx, node.right);
+}
+const balance = getBalance(node);
+let color = '#667eea'; // Balanced
+if (balance > 1 || balance < -1) color = '#f66'; // Imbalanced
+else if (balance !== 0) color = '#ffeb3b'; // Slightly Imbalanced
+ctx.fillStyle = color;
+ctx.beginPath();
+ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 3;
+ctx.stroke();
+ctx.fillStyle = (color === '#ffeb3b' || color === '#f66') ? '#000' : 'white';
+ctx.font = '20px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(node.val, node.x, node.y - 10);
+// Draw Balance Factor (BF)
+ctx.font = '14px Arial';
+ctx.fillText(`BF:${balance}`, node.x, node.y + 10);
+}
 // ====================== 7. TRIE (PREFIX TREE) ======================
 class TrieNode {
-    constructor(char) {
-        this.char = char;
-        this.children = {};
-        this.isEndOfWord = false;
-        this.x = 0;
-        this.y = 0;
-    }
+constructor(char) {
+this.char = char;
+this.children = {};
+this.isEndOfWord = false;
+this.x = 0;
+this.y = 0;
+}
 }
 let trieRoot = new TrieNode(null);
 let highlightTrieNode = null;
 function insertTrie(word) {
-    let node = trieRoot;
-    for (const char of word) {
-        if (!node.children[char]) {
-            node.children[char] = new TrieNode(char);
-        }
-        node = node.children[char];
-    }
-    node.isEndOfWord = true;
+let node = trieRoot;
+for (const char of word) {
+if (!node.children[char]) {
+node.children[char] = new TrieNode(char);
+}
+node = node.children[char];
+}
+node.isEndOfWord = true;
 }
 function buildTrie() {
-    const words = document.getElementById('trie-input').value.split(',').map(s => s.trim()).filter(s => s.length > 0);
-    trieRoot = new TrieNode(null);
-    words.forEach(insertTrie);
-    drawTrie('Trie Built with ' + words.length + ' words.');
+const words = document.getElementById('trie-input').value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+trieRoot = new TrieNode(null);
+words.forEach(insertTrie);
+drawTrie('Trie Built with ' + words.length + ' words.');
 }
 function insertTrieWord() {
-    const word = document.getElementById('trie-insert-word').value.trim();
-    if (word) {
-        insertTrie(word);
-        drawTrie(`Inserted word: ${word}`);
-    }
+const word = document.getElementById('trie-insert-word').value.trim();
+if (word) {
+insertTrie(word);
+drawTrie(`Inserted word: ${word}`);
+}
 }
 function clearTrie() {
-    trieRoot = new TrieNode(null);
-    drawTrie('Trie is empty.');
+trieRoot = new TrieNode(null);
+drawTrie('Trie is empty.');
 }
 async function searchTrieWord() {
-    const word = document.getElementById('trie-search-word').value.trim();
-    if (!word) return;
-
-    let node = trieRoot;
-    highlightTrieNode = trieRoot;
-    drawTrie(`Searching for: ${word}`);
-    await sleep(800);
-
-    for (const char of word) {
-        if (!node.children[char]) {
-            drawTrie(`Prefix/Word not found: ${word}`);
-            highlightTrieNode = null;
-            return;
-        }
-        node = node.children[char];
-        highlightTrieNode = node;
-        drawTrie(`Current prefix: ${char}`);
-        await sleep(800);
-    }
-    
-    if(node.isEndOfWord) {
-        document.getElementById('trie-status').innerHTML = `<span style="color:#0f0">Found word: ${word}</span>`;
-    } else {
-        document.getElementById('trie-status').innerHTML = `<span style="color:#ffeb3b">Prefix found, but not a full word: ${word}</span>`;
-    }
-    highlightTrieNode = null;
+const word = document.getElementById('trie-search-word').value.trim();
+if (!word) return;
+let node = trieRoot;
+highlightTrieNode = trieRoot;
+drawTrie(`Searching for: ${word}`);
+await sleep(800);
+for (const char of word) {
+if (!node.children[char]) {
+drawTrie(`Prefix/Word not found: ${word}`);
+highlightTrieNode = null;
+return;
+}
+node = node.children[char];
+highlightTrieNode = node;
+drawTrie(`Current prefix: ${char}`);
+await sleep(800);
+}
+if(node.isEndOfWord) {
+document.getElementById('trie-status').innerHTML = `<span style="color:#0f0">Found word: ${word}</span>`;
+} else {
+document.getElementById('trie-status').innerHTML = `<span style="color:#ffeb3b">Prefix found, but not a full word: ${word}</span>`;
+}
+highlightTrieNode = null;
 }
 function drawTrie(status) {
-    const canvas = document.getElementById('trie-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    document.getElementById('trie-status').textContent = status;
-
-    if (Object.keys(trieRoot.children).length === 0) {
-        ctx.fillStyle='#888'; 
-        ctx.font='28px Arial'; 
-        ctx.textAlign='center';
-        ctx.fillText('Trie is empty', canvas.width/2, canvas.height/2);
-        return;
-    }
-
-    const nodeR = 25;
-    const hGap = 60;
-    const vGap = 80;
-
-    // 1. Assign positions using BFS for organized levels
-    const queue = [{node: trieRoot, level: 0, parentX: canvas.width/2, parentY: 0}];
-    trieRoot.x = canvas.width / 2;
-    trieRoot.y = 50;
-    
-    let currentY = trieRoot.y;
-    let levelPositions = {}; // Tracks nodes per level
-    levelPositions[0] = [trieRoot];
-
-    while(queue.length > 0) {
-        const {node, level} = queue.shift();
-        const children = Object.values(node.children);
-        if(children.length === 0) continue;
-        
-        if (!levelPositions[level + 1]) levelPositions[level + 1] = [];
-        
-        // Calculate new level Y position if not set
-        if (levelPositions[level+1].length === children.length) {
-            currentY = node.y + vGap;
-        }
-
-        children.forEach((childNode) => {
-            levelPositions[level + 1].push(childNode);
-            queue.push({node: childNode, level: level + 1});
-        });
-    }
-
-    // Recalculate horizontal positions based on total width and level node count
-    Object.keys(levelPositions).forEach(level => {
-        const nodes = levelPositions[level];
-        const numNodes = nodes.length;
-        const totalWidth = canvas.width;
-        const spacing = totalWidth / (numNodes + 1);
-
-        nodes.forEach((node, index) => {
-            node.x = spacing * (index + 1);
-            node.y = 50 + level * vGap;
-        });
-    });
-
-    // 2. Draw connections and nodes (DFS for lines, then draw all nodes)
-    function drawTrieConnections(node) {
-        Object.values(node.children).forEach(child => {
-            // Draw line
-            ctx.strokeStyle = '#00d4ff';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(node.x, node.y);
-            ctx.lineTo(child.x, child.y);
-            ctx.stroke();
-
-            // Draw character label
-            const mx = (node.x + child.x)/2;
-            const my = (node.y + child.y)/2;
-            ctx.fillStyle = '#ffeb3b';
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(child.char, mx, my - 5);
-
-            drawTrieConnections(child);
-        });
-    }
-    drawTrieConnections(trieRoot);
-
-    // 3. Draw Nodes
-    function drawTrieNodes(node) {
-        if(node.char !== null) { // Skip the dummy root node visually
-            let color = node === highlightTrieNode ? '#ff0' : (node.isEndOfWord ? '#0f0' : '#667eea');
-            
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
-            ctx.fill();
-            ctx.strokeStyle = '#0ff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            ctx.fillStyle = (color === '#ffeb3b' || color === '#ff0') ? '#000' : 'white';
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(node.char, node.x, node.y);
-        }
-        Object.values(node.children).forEach(drawTrieNodes);
-    }
-    drawTrieNodes(trieRoot);
+const canvas = document.getElementById('trie-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+document.getElementById('trie-status').textContent = status;
+if (Object.keys(trieRoot.children).length === 0) {
+ctx.fillStyle='#888';
+ctx.font='28px Arial';
+ctx.textAlign='center';
+ctx.fillText('Trie is empty', canvas.width/2, canvas.height/2);
+return;
 }
-
+const nodeR = 25;
+const hGap = 60;
+const vGap = 80;
+// 1. Assign positions using BFS for organized levels
+const queue = [{node: trieRoot, level: 0, parentX: canvas.width/2, parentY: 0}];
+trieRoot.x = canvas.width / 2;
+trieRoot.y = 50;
+let currentY = trieRoot.y;
+let levelPositions = {}; // Tracks nodes per level
+levelPositions[0] = [trieRoot];
+while(queue.length > 0) {
+const {node, level} = queue.shift();
+const children = Object.values(node.children);
+if(children.length === 0) continue;
+if (!levelPositions[level + 1]) levelPositions[level + 1] = [];
+// Calculate new level Y position if not set
+if (levelPositions[level+1].length === children.length) {
+currentY = node.y + vGap;
+}
+children.forEach((childNode) => {
+levelPositions[level + 1].push(childNode);
+queue.push({node: childNode, level: level + 1});
+});
+}
+// Recalculate horizontal positions based on total width and level node count
+Object.keys(levelPositions).forEach(level => {
+const nodes = levelPositions[level];
+const numNodes = nodes.length;
+const totalWidth = canvas.width;
+const spacing = totalWidth / (numNodes + 1);
+nodes.forEach((node, index) => {
+node.x = spacing * (index + 1);
+node.y = 50 + level * vGap;
+});
+});
+// 2. Draw connections and nodes (DFS for lines, then draw all nodes)
+function drawTrieConnections(node) {
+Object.values(node.children).forEach(child => {
+// Draw line
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(node.x, node.y);
+ctx.lineTo(child.x, child.y);
+ctx.stroke();
+// Draw character label
+const mx = (node.x + child.x)/2;
+const my = (node.y + child.y)/2;
+ctx.fillStyle = '#ffeb3b';
+ctx.font = '16px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(child.char, mx, my - 5);
+drawTrieConnections(child);
+});
+}
+drawTrieConnections(trieRoot);
+// 3. Draw Nodes
+function drawTrieNodes(node) {
+if(node.char !== null) { // Skip the dummy root node visually
+let color = node === highlightTrieNode ? '#ff0' : (node.isEndOfWord ? '#0f0' : '#667eea');
+ctx.fillStyle = color;
+ctx.beginPath();
+ctx.arc(node.x, node.y, nodeR, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.fillStyle = (color === '#ffeb3b' || color === '#ff0') ? '#000' : 'white';
+ctx.font = '16px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(node.char, node.x, node.y);
+}
+Object.values(node.children).forEach(drawTrieNodes);
+}
+drawTrieNodes(trieRoot);
+}
 // ====================== 8. HEAPS ======================
 let heap = [];
 let heapType = 'min';
+let isSorting = false;
+function resetHeap() {
+heap = [];
+isSorting = false;
+drawHeap();
+document.getElementById('heap-info').textContent = 'Heap cleared';
+}
+function runHeapSort() {
+if (heap.length === 0) {
+alert('Load data first');
+return;
+}
+isSorting = true;
+document.getElementById('heap-info').textContent = 'Running Heap Sort...';
+heapSortVisualization([...heap]);
+}
+async function heapSortVisualization(arr) {
+// Build max-heap
+buildMaxHeap(arr);
+drawHeapSort(arr, arr.length, 'Building max-heap...');
+await sleep(800);
+// Extract elements one by one
+for (let i = arr.length - 1; i > 0; i--) {
+// Move current root to end
+[arr[0], arr[i]] = [arr[i], arr[0]];
+drawHeapSort(arr, i, `Moved max to position ${i}`);
+await sleep(800);
+// Call heapify on reduced heap
+heapifyMax(arr, i, 0);
+drawHeapSort(arr, i, `Heapified root (size: ${i})`);
+await sleep(800);
+}
+heap = arr;
+isSorting = false;
+document.getElementById('heap-info').textContent = 'Heap Sort completed!';
+}
+function buildMaxHeap(arr) {
+const n = arr.length;
+for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+heapifyMax(arr, n, i);
+}
+}
+function heapifyMax(arr, heapSize, i) {
+let largest = i;
+const left = 2 * i + 1;
+const right = 2 * i + 2;
+if (left < heapSize && arr[left] > arr[largest]) {
+largest = left;
+}
+if (right < heapSize && arr[right] > arr[largest]) {
+largest = right;
+}
+if (largest !== i) {
+[arr[i], arr[largest]] = [arr[largest], arr[i]];
+heapifyMax(arr, heapSize, largest);
+}
+}
 function updateHeapType(type) {
-    heapType = type;
-    if (heap.length > 0) {
-        buildHeap(heap.slice());
-        drawHeap();
-    }
+heapType = type;
+if (heap.length > 0 && !isSorting) {
+if (type === 'sort') {
+document.getElementById('heap-info').textContent = 'Select "Run Heap Sort" to start';
+} else {
+// Rebuild heap based on type
+const original = [...heap];
+if (type === 'min') {
+heap = [...original];
+buildHeap(heap);
+} else if (type === 'max') {
+// For visualization, we don't actually convert to max-heap
+// The heap property is maintained logically
+heap = [...original];
+}
+drawHeap();
+}
+}
 }
 function getCompare() {
-    return heapType === 'min' ? (a, b) => a < b : (a, b) => a > b;
+return heapType === 'min' ? (a, b) => a < b : (a, b) => a > b;
 }
 function heapInsert() {
-    const val = Number(document.getElementById('heap-val').value);
-    if (isNaN(val)) return;
-    heap.push(val);
-    heapifyUp(heap.length - 1);
-    drawHeap();
+const val = Number(document.getElementById('heap-val').value);
+if (isNaN(val)) return;
+heap.push(val);
+heapifyUp(heap.length - 1);
+drawHeap();
 }
 function heapExtract() {
-    if(heap.length === 0) return;
-    heap[0] = heap[heap.length - 1];
-    heap.pop();
-    if(heap.length > 0) heapifyDown(0);
-    drawHeap();
+if(heap.length === 0) return;
+heap[0] = heap[heap.length - 1];
+heap.pop();
+if(heap.length > 0) heapifyDown(0);
+drawHeap();
 }
 function heapifyUp(i) {
-    const compare = getCompare();
-    while(i > 0) {
-        const parent = Math.floor((i-1)/2);
-        if(!compare(heap[i], heap[parent])) break;
-        [heap[i], heap[parent]] = [heap[parent], heap[i]];
-        i = parent;
-    }
+const compare = getCompare();
+while(i > 0) {
+const parent = Math.floor((i-1)/2);
+if(!compare(heap[i], heap[parent])) break;
+[heap[i], heap[parent]] = [heap[parent], heap[i]];
+i = parent;
+}
 }
 function heapifyDown(i) {
-    const compare = getCompare();
-    while(true) {
-        let smallest = i;
-        const left = 2*i + 1;
-        const right = 2*i + 2;
-        if(left < heap.length && compare(heap[left], heap[smallest])) smallest = left;
-        if(right < heap.length && compare(heap[right], heap[smallest])) smallest = right;
-        if(smallest === i) break;
-        [heap[i], heap[smallest]] = [heap[smallest], heap[i]];
-        i = smallest;
-    }
+const compare = getCompare();
+while(true) {
+let smallest = i;
+const left = 2*i + 1;
+const right = 2*i + 2;
+if(left < heap.length && compare(heap[left], heap[smallest])) smallest = left;
+if(right < heap.length && compare(heap[right], heap[smallest])) smallest = right;
+if(smallest === i) break;
+[heap[i], heap[smallest]] = [heap[smallest], heap[i]];
+i = smallest;
+}
 }
 function buildHeap(arr) {
-    heap = arr;
-    for (let i = Math.floor(heap.length / 2) - 1; i >= 0; i--) {
-        heapifyDown(i);
-    }
+heap = arr;
+for (let i = Math.floor(heap.length / 2) - 1; i >= 0; i--) {
+heapifyDown(i);
+}
 }
 function loadHeap() {
-    const vals = document.getElementById('heap-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
-    buildHeap(vals);
-    drawHeap();
+const vals = document.getElementById('heap-input').value.split(',').map(n => Number(n.trim())).filter(n => !isNaN(n));
+if (vals.length === 0) return;
+heap = [...vals];
+isSorting = false;
+if (heapType === 'min') {
+buildHeap(heap);
+} else if (heapType === 'max') {
+// For visualization, we don't actually convert to max-heap
+// The heap property is maintained logically
+}
+drawHeap();
+document.getElementById('heap-info').textContent = `Loaded ${heap.length} elements`;
 }
 function randomHeap() {
-    const size = Number(document.getElementById('heap-size').value);
-    const arr = [];
-    for (let i = 0; i < size; i++) {
-        arr.push(Math.floor(Math.random() * 100) + 1);
-    }
-    buildHeap(arr);
-    drawHeap();
+const size = Number(document.getElementById('heap-size').value);
+const arr = [];
+for (let i = 0; i < size; i++) {
+arr.push(Math.floor(Math.random() * 100) + 1);
+}
+heap = [...arr];
+isSorting = false;
+if (heapType === 'min') {
+buildHeap(heap);
+}
+drawHeap();
+document.getElementById('heap-info').textContent = `Generated ${size} random elements`;
 }
 function drawHeap() {
-    const canvas = document.getElementById('heap-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(heap.length === 0) {
-        ctx.fillStyle='#888'; 
-        ctx.font='28px Arial'; 
-        ctx.textAlign='center';
-        ctx.fillText('Heap is empty - Insert elements', canvas.width/2, canvas.height/2);
-        return;
-    }
-    const levels = Math.floor(Math.log2(heap.length)) + 1;
-    const startY = 60;
-    const levelGap = 90;
-    for(let i = 0; i < heap.length; i++) {
-        const level = Math.floor(Math.log2(i + 1));
-        const posInLevel = i - (Math.pow(2, level) - 1);
-        const nodesInLevel = Math.pow(2, level);
-        const spacing = canvas.width / (nodesInLevel + 1);
-        const x = spacing * (posInLevel + 1);
-        const y = startY + level * levelGap;
-        if(i > 0) {
-            const parent = Math.floor((i-1)/2);
-            const pLevel = Math.floor(Math.log2(parent + 1));
-            const pPos = parent - (Math.pow(2, pLevel) - 1);
-            const pNodes = Math.pow(2, pLevel);
-            const pSpacing = canvas.width / (pNodes + 1);
-            const px = pSpacing * (pPos + 1);
-            const py = startY + pLevel * levelGap;
-            ctx.strokeStyle = '#00d4ff';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(px, py);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-        }
-        ctx.fillStyle = '#764ba2';
-        ctx.beginPath();
-        ctx.arc(x, y, 26, 0, Math.PI*2);
-        ctx.fill();
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.fillStyle = 'white';
-        ctx.font = '18px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(heap[i], x, y);
-    }
+if (isSorting) return; // Don't interfere with sort visualization
+const canvas = document.getElementById('heap-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+if(heap.length === 0) {
+ctx.fillStyle='#888';
+ctx.font='28px Arial';
+ctx.textAlign='center';
+ctx.fillText('Heap is empty - Load data', canvas.width/2, canvas.height/2);
+return;
 }
-
+const levels = Math.floor(Math.log2(heap.length)) + 1;
+const startY = 60;
+const levelGap = 90;
+const nodeRadius = 28;
+for(let i = 0; i < heap.length; i++) {
+const level = Math.floor(Math.log2(i + 1));
+const posInLevel = i - (Math.pow(2, level) - 1);
+const nodesInLevel = Math.pow(2, level);
+const spacing = canvas.width / (nodesInLevel + 1);
+const x = spacing * (posInLevel + 1);
+const y = startY + level * levelGap;
+// Draw connection to parent
+if(i > 0) {
+const parent = Math.floor((i-1)/2);
+const pLevel = Math.floor(Math.log2(parent + 1));
+const pPos = parent - (Math.pow(2, pLevel) - 1);
+const pNodes = Math.pow(2, pLevel);
+const pSpacing = canvas.width / (pNodes + 1);
+const px = pSpacing * (pPos + 1);
+const py = startY + pLevel * levelGap;
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(px, py + nodeRadius);
+ctx.lineTo(x, y - nodeRadius);
+ctx.stroke();
+}
+// Color based on heap type
+let color = '#764ba2'; // Default
+if (heapType === 'min') {
+// Highlight min at root
+color = (i === 0) ? '#0f0' : '#764ba2';
+} else if (heapType === 'max') {
+// Highlight max at root
+color = (i === 0) ? '#ff5252' : '#764ba2';
+}
+ctx.fillStyle = color;
+ctx.beginPath();
+ctx.arc(x, y, nodeRadius, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(heap[i], x, y);
+}
+}
+function drawHeapSort(arr, heapSize, status) {
+const canvas = document.getElementById('heap-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+const levels = Math.floor(Math.log2(arr.length)) + 1;
+const startY = 60;
+const levelGap = 90;
+const nodeRadius = 28;
+for (let i = 0; i < arr.length; i++) {
+const level = Math.floor(Math.log2(i + 1));
+const posInLevel = i - (Math.pow(2, level) - 1);
+const nodesInLevel = Math.pow(2, level);
+const spacing = canvas.width / (nodesInLevel + 1);
+const x = spacing * (posInLevel + 1);
+const y = startY + level * levelGap;
+// Draw connection to parent
+if(i > 0 && i < heapSize) {
+const parent = Math.floor((i-1)/2);
+if (parent < heapSize) {
+const pLevel = Math.floor(Math.log2(parent + 1));
+const pPos = parent - (Math.pow(2, pLevel) - 1);
+const pNodes = Math.pow(2, pLevel);
+const pSpacing = canvas.width / (pNodes + 1);
+const px = pSpacing * (pPos + 1);
+const py = startY + pLevel * levelGap;
+ctx.strokeStyle = i < heapSize ? '#00d4ff' : '#555';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(px, py + nodeRadius);
+ctx.lineTo(x, y - nodeRadius);
+ctx.stroke();
+}
+}
+// Color based on position
+ctx.fillStyle = i >= heapSize ? '#555' : (i === 0 ? '#ff5252' : '#764ba2');
+ctx.beginPath();
+ctx.arc(x, y, nodeRadius, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(arr[i], x, y);
+}
+// Update status
+document.getElementById('heap-info').textContent = status;
+}
 // ====================== 9. GRAPH BFS/DFS ======================
 const graphNodes = [
-    {id:0, x:200, y:150}, {id:1, x:400, y:100}, {id:2, x:600, y:150},
-    {id:3, x:300, y:300}, {id:4, x:500, y:300}, {id:5, x:700, y:350}
+{id:0, x:200, y:150}, {id:1, x:400, y:100}, {id:2, x:600, y:150},
+{id:3, x:300, y:300}, {id:4, x:500, y:300}, {id:5, x:700, y:350}
 ];
 const graphEdges = [[0,1],[0,3],[1,2],[1,4],[2,5],[3,4],[4,5]];
 async function runBFS() {
-    const canvas = document.getElementById('graph-canvas');
-    const ctx = canvas.getContext('2d');
-    const visited = new Set();
-    const queue = [0];
-    visited.add(0);
-    while(queue.length > 0) {
-        const node = queue.shift();
-        drawGraph(ctx, visited, node);
-        await sleep(800);
-        for(let [a,b] of graphEdges) {
-            const neighbor = a === node ? b : (b === node ? a : -1);
-            if(neighbor !== -1 && !visited.has(neighbor)) {
-                visited.add(neighbor);
-                queue.push(neighbor);
-            }
-        }
-    }
-    drawGraph(ctx, visited, -1);
+const canvas = document.getElementById('graph-canvas');
+const ctx = canvas.getContext('2d');
+const visited = new Set();
+const queue = [0];
+visited.add(0);
+while(queue.length > 0) {
+const node = queue.shift();
+drawGraph(ctx, visited, node);
+await sleep(800);
+for(let [a,b] of graphEdges) {
+const neighbor = a === node ? b : (b === node ? a : -1);
+if(neighbor !== -1 && !visited.has(neighbor)) {
+visited.add(neighbor);
+queue.push(neighbor);
+}
+}
+}
+drawGraph(ctx, visited, -1);
 }
 async function runDFS() {
-    const canvas = document.getElementById('graph-canvas');
-    const ctx = canvas.getContext('2d');
-    const visited = new Set();
-    await dfsVisit(0, visited, ctx);
-    drawGraph(ctx, visited, -1);
+const canvas = document.getElementById('graph-canvas');
+const ctx = canvas.getContext('2d');
+const visited = new Set();
+await dfsVisit(0, visited, ctx);
+drawGraph(ctx, visited, -1);
 }
 async function dfsVisit(node, visited, ctx) {
-    visited.add(node);
-    drawGraph(ctx, visited, node);
-    await sleep(800);
-    for(let [a,b] of graphEdges) {
-        const neighbor = a === node ? b : (b === node ? a : -1);
-        if(neighbor !== -1 && !visited.has(neighbor)) {
-            await dfsVisit(neighbor, visited, ctx);
-        }
-    }
+visited.add(node);
+drawGraph(ctx, visited, node);
+await sleep(800);
+for(let [a,b] of graphEdges) {
+const neighbor = a === node ? b : (b === node ? a : -1);
+if(neighbor !== -1 && !visited.has(neighbor)) {
+await dfsVisit(neighbor, visited, ctx);
+}
+}
 }
 function drawGraph(ctx, visited, current) {
-    ctx.clearRect(0,0,1100,500);
-    ctx.strokeStyle = '#444';
-    ctx.lineWidth = 3;
-    graphEdges.forEach(([a,b]) => {
-        ctx.beginPath();
-        ctx.moveTo(graphNodes[a].x, graphNodes[a].y);
-        ctx.lineTo(graphNodes[b].x, graphNodes[b].y);
-        ctx.stroke();
-    });
-    graphNodes.forEach(n => {
-        ctx.fillStyle = current === n.id ? '#ff0' : (visited.has(n.id) ? '#0f0' : '#667eea');
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 30, 0, Math.PI*2);
-        ctx.fill();
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.fillStyle = 'white';
-        ctx.font = '22px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(n.id, n.x, n.y);
-    });
+ctx.clearRect(0,0,1100,500);
+ctx.strokeStyle = '#444';
+ctx.lineWidth = 3;
+graphEdges.forEach(([a,b]) => {
+ctx.beginPath();
+ctx.moveTo(graphNodes[a].x, graphNodes[a].y);
+ctx.lineTo(graphNodes[b].x, graphNodes[b].y);
+ctx.stroke();
+});
+graphNodes.forEach(n => {
+ctx.fillStyle = current === n.id ? '#ff0' : (visited.has(n.id) ? '#0f0' : '#667eea');
+ctx.beginPath();
+ctx.arc(n.x, n.y, 30, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 3;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '22px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(n.id, n.x, n.y);
+});
 }
-
 // ====================== 10. BELLMAN-FORD ======================
 async function runBellmanFord() {
-    const canvas = document.getElementById('bellman-canvas');
-    const ctx = canvas.getContext('2d');
-    const nodes = [{id:0,x:150,y:250},{id:1,x:400,y:150},{id:2,x:650,y:250},{id:3,x:400,y:350}];
-    const edges = [{from:0,to:1,weight:4},{from:0,to:3,weight:5},{from:1,to:2,weight:3},{from:3,to:1,weight:-6},{from:3,to:2,weight:2}];
-    const dist = Array(nodes.length).fill(Infinity);
-    dist[0] = 0;
-    for(let i = 0; i < nodes.length - 1; i++) {
-        for(let e of edges) {
-            if(dist[e.from] !== Infinity && dist[e.from] + e.weight < dist[e.to]) {
-                dist[e.to] = dist[e.from] + e.weight;
-            }
-        }
-        drawBellman(ctx, nodes, edges, dist);
-        await sleep(800);
-    }
-    document.getElementById('bellman-output').textContent = `Shortest distances from node 0: ${dist.map((d,i)=>`${i}:${d}`).join(', ')}`;
+const canvas = document.getElementById('bellman-canvas');
+const ctx = canvas.getContext('2d');
+const nodes = [{id:0,x:150,y:250},{id:1,x:400,y:150},{id:2,x:650,y:250},{id:3,x:400,y:350}];
+const edges = [{from:0,to:1,weight:4},{from:0,to:3,weight:5},{from:1,to:2,weight:3},{from:3,to:1,weight:-6},{from:3,to:2,weight:2}];
+const dist = Array(nodes.length).fill(Infinity);
+dist[0] = 0;
+for(let i = 0; i < nodes.length - 1; i++) {
+for(let e of edges) {
+if(dist[e.from] !== Infinity && dist[e.from] + e.weight < dist[e.to]) {
+dist[e.to] = dist[e.from] + e.weight;
+}
+}
+drawBellman(ctx, nodes, edges, dist);
+await sleep(800);
+}
+document.getElementById('bellman-output').textContent = `Shortest distances from node 0: ${dist.map((d,i)=>`${i}:${d}`).join(', ')}`;
 }
 function drawBellman(ctx, nodes, edges, dist) {
-    ctx.clearRect(0,0,1100,500);
-    edges.forEach(e => {
-        const from = nodes[e.from];
-        const to = nodes[e.to];
-        ctx.strokeStyle = '#555';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(from.x, from.y);
-        ctx.lineTo(to.x, to.y);
-        ctx.stroke();
-        const mx = (from.x + to.x)/2;
-        const my = (from.y + to.y)/2;
-        ctx.fillStyle = '#ff0';
-        ctx.font = '18px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(e.weight, mx, my-10);
-    });
-    nodes.forEach((n,i) => {
-        ctx.fillStyle = i===0 ? '#0f0' : '#667eea';
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 35, 0, Math.PI*2);
-        ctx.fill();
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.fillStyle = 'white';
-        ctx.font = '20px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(n.id, n.x, n.y-8);
-        ctx.font = '16px Arial';
-        ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
-    });
+ctx.clearRect(0,0,1100,500);
+edges.forEach(e => {
+const from = nodes[e.from];
+const to = nodes[e.to];
+ctx.strokeStyle = '#555';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(from.x, from.y);
+ctx.lineTo(to.x, to.y);
+ctx.stroke();
+const mx = (from.x + to.x)/2;
+const my = (from.y + to.y)/2;
+ctx.fillStyle = '#ff0';
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(e.weight, mx, my-10);
+});
+nodes.forEach((n,i) => {
+ctx.fillStyle = i===0 ? '#0f0' : '#667eea';
+ctx.beginPath();
+ctx.arc(n.x, n.y, 35, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 3;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '20px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(n.id, n.x, n.y-8);
+ctx.font = '16px Arial';
+ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
+});
 }
-
 // ====================== 11. DIJKSTRA ======================
 let dijkstraNodes = [];
 let dijkstraEdges = [];
 function loadDijkstraGraph() {
-    const edgesInput = document.getElementById('graph-edges').value;
-    const edgeList = edgesInput.split(',').map(s => s.trim());
-    let maxNode = 0;
-    dijkstraEdges = [];
-    edgeList.forEach(e => {
-        if (!e) return;
-        const [fromTo, w] = e.split(':');
-        const [from, to] = fromTo.split('-').map(Number);
-        const weight = w ? Number(w) : 1;
-        dijkstraEdges.push({from, to, weight});
-        maxNode = Math.max(maxNode, from, to);
-    });
-    const numNodes = maxNode + 1;
-    const isUndirected = document.getElementById('graph-dir').value === 'undirected';
-    if (isUndirected) {
-        for (let i = 0; i < dijkstraEdges.length; i++) {
-            const e = dijkstraEdges[i];
-            if (!dijkstraEdges.some(ee => ee.from === e.to && ee.to === e.from && ee.weight === e.weight)) {
-                dijkstraEdges.push({from: e.to, to: e.from, weight: e.weight});
-            }
-        }
-    }
-    dijkstraNodes = [];
-    for (let i = 0; i < numNodes; i++) {
-        const angle = 2 * Math.PI * i / numNodes;
-        const x = 550 + 300 * Math.cos(angle);
-        const y = 250 + 200 * Math.sin(angle);
-        dijkstraNodes.push({id: i, x, y});
-    }
+const edgesInput = document.getElementById('graph-edges').value;
+const edgeList = edgesInput.split(',').map(s => s.trim());
+let maxNode = 0;
+dijkstraEdges = [];
+edgeList.forEach(e => {
+if (!e) return;
+const [fromTo, w] = e.split(':');
+const [from, to] = fromTo.split('-').map(Number);
+const weight = w ? Number(w) : 1;
+dijkstraEdges.push({from, to, weight});
+maxNode = Math.max(maxNode, from, to);
+});
+const numNodes = maxNode + 1;
+const isUndirected = document.getElementById('graph-dir').value === 'undirected';
+if (isUndirected) {
+for (let i = 0; i < dijkstraEdges.length; i++) {
+const e = dijkstraEdges[i];
+if (!dijkstraEdges.some(ee => ee.from === e.to && ee.to === e.from && ee.weight === e.weight)) {
+dijkstraEdges.push({from: e.to, to: e.from, weight: e.weight});
+}
+}
+}
+dijkstraNodes = [];
+for (let i = 0; i < numNodes; i++) {
+const angle = 2 * Math.PI * i / numNodes;
+const x = 550 + 300 * Math.cos(angle);
+const y = 250 + 200 * Math.sin(angle);
+dijkstraNodes.push({id: i, x, y});
+}
 }
 async function runDijkstra() {
-    if (dijkstraNodes.length === 0) loadDijkstraGraph();
-    const canvas = document.getElementById('dijkstra-canvas');
-    const ctx = canvas.getContext('2d');
-    const start = Number(document.getElementById('dijkstra-start').value);
-    const end = Number(document.getElementById('dijkstra-end').value);
-    const numNodes = dijkstraNodes.length;
-    const dist = Array(numNodes).fill(Infinity);
-    const prev = Array(numNodes).fill(-1);
-    const visited = new Set();
-    dist[start] = 0;
-    while (visited.size < numNodes) {
-        let u = -1;
-        for (let i = 0; i < numNodes; i++) {
-            if (!visited.has(i) && (u === -1 || dist[i] < dist[u])) u = i;
-        }
-        if (dist[u] === Infinity) break;
-        visited.add(u);
-        for (let e of dijkstraEdges) {
-            if (e.from === u && dist[u] + e.weight < dist[e.to]) {
-                dist[e.to] = dist[u] + e.weight;
-                prev[e.to] = u;
-            }
-        }
-        drawDijkstra(ctx, dijkstraNodes, dijkstraEdges, dist, visited, []);
-        await sleep(1000);
-    }
-    let output = `Shortest distances from node ${start}: ${dist.map((d,i)=>`${i}:${d === Infinity ? '∞' : d}`).join(', ')}`;
-    if (!isNaN(end) && end >= 0 && end < numNodes) {
-        if (dist[end] === Infinity) {
-            output += ' | No path to end';
-        } else {
-            let path = [];
-            let curr = end;
-            while (curr !== -1) {
-                path.push(curr);
-                curr = prev[curr];
-            }
-            path.reverse();
-            output += ` | Path to ${end}: ${path.join(' -> ')} | Distance: ${dist[end]}`;
-            drawDijkstra(ctx, dijkstraNodes, dijkstraEdges, dist, visited, path);
-        }
-    }
-    document.getElementById('dijkstra-output').textContent = output;
+if (dijkstraNodes.length === 0) loadDijkstraGraph();
+const canvas = document.getElementById('dijkstra-canvas');
+const ctx = canvas.getContext('2d');
+const start = Number(document.getElementById('dijkstra-start').value);
+const end = Number(document.getElementById('dijkstra-end').value);
+const numNodes = dijkstraNodes.length;
+const dist = Array(numNodes).fill(Infinity);
+const prev = Array(numNodes).fill(-1);
+const visited = new Set();
+dist[start] = 0;
+while (visited.size < numNodes) {
+let u = -1;
+for (let i = 0; i < numNodes; i++) {
+if (!visited.has(i) && (u === -1 || dist[i] < dist[u])) u = i;
+}
+if (dist[u] === Infinity) break;
+visited.add(u);
+for (let e of dijkstraEdges) {
+if (e.from === u && dist[u] + e.weight < dist[e.to]) {
+dist[e.to] = dist[u] + e.weight;
+prev[e.to] = u;
+}
+}
+drawDijkstra(ctx, dijkstraNodes, dijkstraEdges, dist, visited, []);
+await sleep(1000);
+}
+let output = `Shortest distances from node ${start}: ${dist.map((d,i)=>`${i}:${d === Infinity ? '∞' : d}`).join(', ')}`;
+if (!isNaN(end) && end >= 0 && end < numNodes) {
+if (dist[end] === Infinity) {
+output += ' | No path to end';
+} else {
+let path = [];
+let curr = end;
+while (curr !== -1) {
+path.push(curr);
+curr = prev[curr];
+}
+path.reverse();
+output += ` | Path to ${end}: ${path.join(' -> ')} | Distance: ${dist[end]}`;
+drawDijkstra(ctx, dijkstraNodes, dijkstraEdges, dist, visited, path);
+}
+}
+document.getElementById('dijkstra-output').textContent = output;
 }
 function drawDijkstra(ctx, nodes, edges, dist, visited, path) {
-    ctx.clearRect(0,0,1100,500);
-    edges.forEach(e => {
-        const from = nodes[e.from];
-        const to = nodes[e.to];
-        ctx.strokeStyle = '#555';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(from.x, from.y);
-        ctx.lineTo(to.x, to.y);
-        ctx.stroke();
-        const mx = (from.x + to.x)/2;
-        const my = (from.y + to.y)/2;
-        ctx.fillStyle = '#ff0';
-        ctx.font = '18px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(e.weight, mx, my-10);
-    });
-    nodes.forEach((n,i) => {
-        ctx.fillStyle = path.includes(i) ? '#ff0' : (visited.has(i) ? '#0f0' : '#667eea');
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 35, 0, Math.PI*2);
-        ctx.fill();
-        ctx.strokeStyle = '#0ff';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.fillStyle = 'white';
-        ctx.font = '20px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(n.id, n.x, n.y-8);
-        ctx.font = '16px Arial';
-        ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
-    });
+ctx.clearRect(0,0,1100,500);
+edges.forEach(e => {
+const from = nodes[e.from];
+const to = nodes[e.to];
+ctx.strokeStyle = '#555';
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(from.x, from.y);
+ctx.lineTo(to.x, to.y);
+ctx.stroke();
+const mx = (from.x + to.x)/2;
+const my = (from.y + to.y)/2;
+ctx.fillStyle = '#ff0';
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(e.weight, mx, my-10);
+});
+nodes.forEach((n,i) => {
+ctx.fillStyle = path.includes(i) ? '#ff0' : (visited.has(i) ? '#0f0' : '#667eea');
+ctx.beginPath();
+ctx.arc(n.x, n.y, 35, 0, Math.PI*2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 3;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '20px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(n.id, n.x, n.y-8);
+ctx.font = '16px Arial';
+ctx.fillText(dist[i]===Infinity ? '∞' : dist[i], n.x, n.y+12);
+});
 }
-
 // ====================== 12. A* PATHFINDING ======================
 const gridSize = 30;
 const gridRows = 18;
@@ -2337,205 +3247,785 @@ let grid = [];
 let startCell = {r:1,c:1};
 let endCell = {r:16,c:28};
 function initGrid() {
-    grid = [];
-    for(let r = 0; r < gridRows; r++) {
-        grid[r] = [];
-        for(let c = 0; c < gridCols; c++) {
-            grid[r][c] = {wall:false, visited:false, path:false};
-        }
-    }
+grid = [];
+for(let r = 0; r < gridRows; r++) {
+grid[r] = [];
+for(let c = 0; c < gridCols; c++) {
+grid[r][c] = {wall:false, visited:false, path:false};
+}
+}
 }
 initGrid();
 document.getElementById('astar-canvas').addEventListener('click', (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const c = Math.floor(x / gridSize);
-    const r = Math.floor(y / gridSize);
-    if(r >= 0 && r < gridRows && c >= 0 && c < gridCols) {
-        if((r===startCell.r && c===startCell.c) || (r===endCell.r && c===endCell.c)) return;
-        grid[r][c].wall = !grid[r][c].wall;
-        drawAstarGrid();
-    }
+const rect = e.target.getBoundingClientRect();
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+const c = Math.floor(x / gridSize);
+const r = Math.floor(y / gridSize);
+if(r >= 0 && r < gridRows && c >= 0 && c < gridCols) {
+if((r===startCell.r && c===startCell.c) || (r===endCell.r && c===endCell.c)) return;
+grid[r][c].wall = !grid[r][c].wall;
+drawAstarGrid();
+}
 });
 function clearGrid() {
-    initGrid();
-    drawAstarGrid();
+initGrid();
+drawAstarGrid();
 }
 function drawAstarGrid() {
-    const canvas = document.getElementById('astar-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    for(let r = 0; r < gridRows; r++) {
-        for(let c = 0; c < gridCols; c++) {
-            const cell = grid[r][c];
-            if(r===startCell.r && c===startCell.c) ctx.fillStyle = '#0f0';
-            else if(r===endCell.r && c===endCell.c) ctx.fillStyle = '#f00';
-            else if(cell.path) ctx.fillStyle = '#ffeb3b';
-            else if(cell.visited) ctx.fillStyle = '#00bcd4';
-            else if(cell.wall) ctx.fillStyle = '#333';
-            else ctx.fillStyle = '#1a1a2e';
-            ctx.fillRect(c*gridSize, r*gridSize, gridSize-1, gridSize-1);
-        }
-    }
+const canvas = document.getElementById('astar-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+for(let r = 0; r < gridRows; r++) {
+for(let c = 0; c < gridCols; c++) {
+const cell = grid[r][c];
+if(r===startCell.r && c===startCell.c) ctx.fillStyle = '#0f0';
+else if(r===endCell.r && c===endCell.c) ctx.fillStyle = '#f00';
+else if(cell.path) ctx.fillStyle = '#ffeb3b';
+else if(cell.visited) ctx.fillStyle = '#00bcd4';
+else if(cell.wall) ctx.fillStyle = '#333';
+else ctx.fillStyle = '#1a1a2e';
+ctx.fillRect(c*gridSize, r*gridSize, gridSize-1, gridSize-1);
+}
+}
 }
 function heuristic(r, c) {
-    // Manhattan distance
-    return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
+// Manhattan distance
+return Math.abs(r - endCell.r) + Math.abs(c - endCell.c);
 }
-
 // IMPROVED A* LOGIC
 async function runAstar() {
-    const walls = [];
-    // Re-initialize grid state but preserve walls
-    for(let r = 0; r < gridRows; r++) {
-        for(let c = 0; c < gridCols; c++) {
-            if(grid[r][c].wall) walls.push({r,c});
-            grid[r][c].visited = false;
-            grid[r][c].path = false;
-        }
-    }
-    initGrid();
-    walls.forEach(w => grid[w.r][w.c].wall = true);
-
-    const speed = 101 - document.getElementById('astar-speed').value;
-    
-    // Data structures for A* state
-    // openSet: Stores all nodes currently being considered, ordered by fScore
-    let openSet = [{r:startCell.r, c:startCell.c}]; // Only store coordinates
-    
-    // cameFrom: For reconstructing the path
-    let cameFrom = {}; // Key: "r,c", Value: {r:r, c:c} of parent
-    
-    // gScore: Cost from start to current node
-    let gScore = {}; // Key: "r,c", Value: number (Infinity by default)
-    gScore[`${startCell.r},${startCell.c}`] = 0;
-
-    // fScore: Estimated total cost from start to goal through current node
-    let fScore = {}; // Key: "r,c", Value: number (Infinity by default)
-    fScore[`${startCell.r},${startCell.c}`] = heuristic(startCell.r, startCell.c);
-
-    // Helper to get score from map or Infinity
-    const getScore = (map, r, c) => map[`${r},${c}`] === undefined ? Infinity : map[`${r},${c}`];
-    
-    while(openSet.length > 0) {
-        // Find the node with the lowest fScore in the openSet
-        // Using sort here is inefficient (O(N log N)), but avoids a complex Min-Heap implementation in native JS
-        openSet.sort((a,b) => getScore(fScore, a.r, a.c) - getScore(fScore, b.r, b.c));
-        let current = openSet.shift(); // Get and remove the best node
-        const currentKey = `${current.r},${current.c}`;
-
-        if(current.r === endCell.r && current.c === endCell.c) {
-            // Path found! Reconstruct and draw path
-            let pathNode = current;
-            while(pathNode.r !== startCell.r || pathNode.c !== startCell.c) {
-                grid[pathNode.r][pathNode.c].path = true;
-                pathNode = cameFrom[`${pathNode.r},${pathNode.c}`];
-            }
-            grid[startCell.r][startCell.c].path = true; // Mark start node as part of path
-            drawAstarGrid();
-            return;
-        }
-
-        // Mark as visited (Closed set is implicit, we only remove from openSet)
-        grid[current.r][current.c].visited = true;
-        drawAstarGrid();
-        await sleep(speed);
-
-        const neighbors = [{r:current.r-1,c:current.c},{r:current.r+1,c:current.c},{r:current.r,c:current.c-1},{r:current.r,c:current.c+1}];
-        
-        for(let n of neighbors) {
-            if(n.r<0||n.r>=gridRows||n.c<0||n.c>=gridCols) continue; // Out of bounds
-            if(grid[n.r][n.c].wall) continue; // Is a wall
-            
-            const neighborKey = `${n.r},${n.c}`;
-            
-            // tentative_gScore is the distance from start to neighbor through current
-            const tentative_gScore = getScore(gScore, current.r, current.c) + 1;
-
-            if (tentative_gScore < getScore(gScore, n.r, n.c)) {
-                // This path to neighbor is better than any previous one. Record it!
-                cameFrom[neighborKey] = current;
-                gScore[neighborKey] = tentative_gScore;
-                fScore[neighborKey] = tentative_gScore + heuristic(n.r, n.c);
-
-                // Check if neighbor is already in openSet (O(N) check, better with a hash set/map)
-                const inOpenSet = openSet.some(o => o.r === n.r && o.c === n.c);
-                
-                if (!inOpenSet) {
-                    openSet.push(n);
-                }
-            }
-        }
-    }
-    // No path found
-    drawAstarGrid();
+const walls = [];
+// Re-initialize grid state but preserve walls
+for(let r = 0; r < gridRows; r++) {
+for(let c = 0; c < gridCols; c++) {
+if(grid[r][c].wall) walls.push({r,c});
+grid[r][c].visited = false;
+grid[r][c].path = false;
+}
+}
+initGrid();
+walls.forEach(w => grid[w.r][w.c].wall = true);
+const speed = 101 - document.getElementById('astar-speed').value;
+// Data structures for A* state
+// openSet: Stores all nodes currently being considered, ordered by fScore
+let openSet = [{r:startCell.r, c:startCell.c}]; // Only store coordinates
+// cameFrom: For reconstructing the path
+let cameFrom = {}; // Key: "r,c", Value: {r:r, c:c} of parent
+// gScore: Cost from start to current node
+let gScore = {}; // Key: "r,c", Value: number (Infinity by default)
+gScore[`${startCell.r},${startCell.c}`] = 0;
+// fScore: Estimated total cost from start to goal through current node
+let fScore = {}; // Key: "r,c", Value: number (Infinity by default)
+fScore[`${startCell.r},${startCell.c}`] = heuristic(startCell.r, startCell.c);
+// Helper to get score from map or Infinity
+const getScore = (map, r, c) => map[`${r},${c}`] === undefined ? Infinity : map[`${r},${c}`];
+while(openSet.length > 0) {
+// Find the node with the lowest fScore in the openSet
+// Using sort here is inefficient (O(N log N)), but avoids a complex Min-Heap implementation in native JS
+openSet.sort((a,b) => getScore(fScore, a.r, a.c) - getScore(fScore, b.r, b.c));
+let current = openSet.shift(); // Get and remove the best node
+const currentKey = `${current.r},${current.c}`;
+if(current.r === endCell.r && current.c === endCell.c) {
+// Path found! Reconstruct and draw path
+let pathNode = current;
+while(pathNode.r !== startCell.r || pathNode.c !== startCell.c) {
+grid[pathNode.r][pathNode.c].path = true;
+pathNode = cameFrom[`${pathNode.r},${pathNode.c}`];
+}
+grid[startCell.r][startCell.c].path = true; // Mark start node as part of path
+drawAstarGrid();
+return;
+}
+// Mark as visited (Closed set is implicit, we only remove from openSet)
+grid[current.r][current.c].visited = true;
+drawAstarGrid();
+await sleep(speed);
+const neighbors = [{r:current.r-1,c:current.c},{r:current.r+1,c:current.c},{r:current.r,c:current.c-1},{r:current.r,c:current.c+1}];
+for(let n of neighbors) {
+if(n.r<0||n.r>=gridRows||n.c<0||n.c>=gridCols) continue; // Out of bounds
+if(grid[n.r][n.c].wall) continue; // Is a wall
+const neighborKey = `${n.r},${n.c}`;
+// tentative_gScore is the distance from start to neighbor through current
+const tentative_gScore = getScore(gScore, current.r, current.c) + 1;
+if (tentative_gScore < getScore(gScore, n.r, n.c)) {
+// This path to neighbor is better than any previous one. Record it!
+cameFrom[neighborKey] = current;
+gScore[neighborKey] = tentative_gScore;
+fScore[neighborKey] = tentative_gScore + heuristic(n.r, n.c);
+// Check if neighbor is already in openSet (O(N) check, better with a hash set/map)
+const inOpenSet = openSet.some(o => o.r === n.r && o.c === n.c);
+if (!inOpenSet) {
+openSet.push(n);
+}
+}
+}
+}
+// No path found
+drawAstarGrid();
 }
 // END OF IMPROVED A* LOGIC
-
-
 // ====================== 13. TOWERS OF HANOI ======================
 let hanoiState = {pegs:[[],[],[]], moves:0};
 async function solveHanoi() {
-    const n = Number(document.getElementById('hanoi-disks').value);
-    hanoiState = {pegs:[[],[],[]], moves:0};
-    for(let i = n; i >= 1; i--) hanoiState.pegs[0].push(i);
-    drawHanoi();
-    await sleep(500);
-    await hanoi(n, 0, 2, 1);
+const n = Number(document.getElementById('hanoi-disks').value);
+hanoiState = {pegs:[[],[],[]], moves:0};
+for(let i = n; i >= 1; i--) hanoiState.pegs[0].push(i);
+drawHanoi();
+await sleep(500);
+await hanoi(n, 0, 2, 1);
 }
 async function hanoi(n, from, to, aux) {
-    if(n === 1) {
-        const disk = hanoiState.pegs[from].pop();
-        hanoiState.pegs[to].push(disk);
-        hanoiState.moves++;
-        drawHanoi();
-        await sleep(600);
-        return;
-    }
-    await hanoi(n-1, from, aux, to);
-    const disk = hanoiState.pegs[from].pop();
-    hanoiState.pegs[to].push(disk);
-    hanoiState.moves++;
-    drawHanoi();
-    await sleep(600);
-    await hanoi(n-1, aux, to, from);
+if(n === 1) {
+const disk = hanoiState.pegs[from].pop();
+hanoiState.pegs[to].push(disk);
+hanoiState.moves++;
+drawHanoi();
+await sleep(600);
+return;
+}
+await hanoi(n-1, from, aux, to);
+const disk = hanoiState.pegs[from].pop();
+hanoiState.pegs[to].push(disk);
+hanoiState.moves++;
+drawHanoi();
+await sleep(600);
+await hanoi(n-1, aux, to, from);
 }
 function drawHanoi() {
-    const canvas = document.getElementById('hanoi-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    const pegX = [200, 550, 900];
-    const baseY = 380;
-    ctx.strokeStyle = '#00d4ff';
-    ctx.lineWidth = 8;
-    pegX.forEach(x => {
-        ctx.beginPath();
-        ctx.moveTo(x, baseY);
-        ctx.lineTo(x, baseY-250);
-        ctx.stroke();
-        ctx.fillStyle = '#444';
-        ctx.fillRect(x-80, baseY, 160, 15);
-    });
-    hanoiState.pegs.forEach((peg, i) => {
-        peg.forEach((disk, j) => {
-            const w = disk * 20 + 40;
-            const h = 25;
-            const x = pegX[i] - w/2;
-            const y = baseY - (j+1)*h - 5;
-            ctx.fillStyle = `hsl(${disk*30}, 80%, 60%)`;
-            ctx.fillRect(x, y, w, h);
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(x, y, w, h);
-        });
-    });
-    ctx.fillStyle = '#0f0';
-    ctx.font = '24px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText(`Moves: ${hanoiState.moves}`, canvas.width/2, 50);
+const canvas = document.getElementById('hanoi-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0,0,canvas.width,canvas.height);
+const pegX = [200, 550, 900];
+const baseY = 380;
+ctx.strokeStyle = '#00d4ff';
+ctx.lineWidth = 8;
+pegX.forEach(x => {
+ctx.beginPath();
+ctx.moveTo(x, baseY);
+ctx.lineTo(x, baseY-250);
+ctx.stroke();
+ctx.fillStyle = '#444';
+ctx.fillRect(x-80, baseY, 160, 15);
+});
+hanoiState.pegs.forEach((peg, i) => {
+peg.forEach((disk, j) => {
+const w = disk * 20 + 40;
+const h = 25;
+const x = pegX[i] - w/2;
+const y = baseY - (j+1)*h - 5;
+ctx.fillStyle = `hsl(${disk*30}, 80%, 60%)`;
+ctx.fillRect(x, y, w, h);
+ctx.strokeStyle = '#fff';
+ctx.lineWidth = 2;
+ctx.strokeRect(x, y, w, h);
+});
+});
+ctx.fillStyle = '#0f0';
+ctx.font = '24px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(`Moves: ${hanoiState.moves}`, canvas.width/2, 50);
 }
-
+// ====================== 14. LINKED LIST ======================
+let linkedListHead = null;
+class ListNode {
+constructor(val) {
+this.val = val;
+this.next = null;
+}
+}
+function buildLinkedList() {
+const input = document.getElementById('ll-input').value.trim();
+if (!input) {
+linkedListHead = null;
+drawLinkedList();
+return;
+}
+const vals = input.split(',').map(s => s.trim()).filter(s => !isNaN(s)).map(Number);
+if (vals.length === 0) {
+alert('Please enter valid numbers');
+return;
+}
+linkedListHead = null;
+vals.forEach(v => appendToLL(v));
+drawLinkedList();
+}
+function appendToLL(val) {
+if (!linkedListHead) {
+linkedListHead = new ListNode(val);
+} else {
+let curr = linkedListHead;
+while (curr.next) curr = curr.next;
+curr.next = new ListNode(val);
+}
+}
+function prependLL() {
+const valStr = document.getElementById('ll-prepend-val').value.trim();
+if (!valStr) return;
+const val = Number(valStr);
+if (isNaN(val)) {
+alert('Invalid number');
+return;
+}
+const newNode = new ListNode(val);
+newNode.next = linkedListHead;
+linkedListHead = newNode;
+document.getElementById('ll-prepend-val').value = '';
+drawLinkedList();
+}
+function appendLL() {
+const valStr = document.getElementById('ll-append-val').value.trim();
+if (!valStr) return;
+const val = Number(valStr);
+if (isNaN(val)) {
+alert('Invalid number');
+return;
+}
+appendToLL(val);
+document.getElementById('ll-append-val').value = '';
+drawLinkedList();
+}
+function deleteLL() {
+const valStr = document.getElementById('ll-delete-val').value.trim();
+if (!valStr) return;
+const val = Number(valStr);
+if (isNaN(val)) {
+alert('Invalid number');
+return;
+}
+if (!linkedListHead) return;
+if (linkedListHead.val === val) {
+linkedListHead = linkedListHead.next;
+} else {
+let curr = linkedListHead;
+while (curr.next && curr.next.val !== val) {
+curr = curr.next;
+}
+if (curr.next) curr.next = curr.next.next;
+}
+document.getElementById('ll-delete-val').value = '';
+drawLinkedList();
+}
+function drawLinkedList() {
+const canvas = document.getElementById('ll-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+const vals = [];
+let curr = linkedListHead;
+while (curr) {
+vals.push(curr.val);
+curr = curr.next;
+}
+document.getElementById('ll-status').textContent = `List: [${vals.join(', ')}]`;
+if (vals.length === 0) {
+ctx.fillStyle = '#888';
+ctx.font = '24px Arial';
+ctx.textAlign = 'center';
+ctx.fillText('Empty Linked List', canvas.width / 2, canvas.height / 2);
+return;
+}
+const startX = 100;
+const startY = canvas.height / 2;
+const nodeW = 80;
+const nodeH = 40;
+const gap = 30;
+vals.forEach((val, i) => {
+const x = startX + i * (nodeW + gap);
+// Draw node
+ctx.fillStyle = '#667eea';
+ctx.fillRect(x, startY, nodeW, nodeH);
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.strokeRect(x, startY, nodeW, nodeH);
+// Draw value
+ctx.fillStyle = 'white';
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(val, x + nodeW / 2, startY + nodeH / 2);
+// Draw arrow
+if (i < vals.length - 1) {
+ctx.beginPath();
+ctx.moveTo(x + nodeW, startY + nodeH / 2);
+ctx.lineTo(x + nodeW + gap, startY + nodeH / 2);
+ctx.lineTo(x + nodeW + gap - 10, startY + nodeH / 2 - 5);
+ctx.moveTo(x + nodeW + gap, startY + nodeH / 2);
+ctx.lineTo(x + nodeW + gap - 10, startY + nodeH / 2 + 5);
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.stroke();
+}
+});
+}
+// ====================== 15. HASH TABLE ======================
+let hashTable = null;
+function htPut() {
+const key = document.getElementById('ht-key').value.trim();
+const val = document.getElementById('ht-value').value.trim();
+if (!key) {
+alert('Key cannot be empty');
+return;
+}
+if (!hashTable) hashTable = new Map();
+hashTable.set(key, val);
+drawHashTable();
+document.getElementById('ht-key').value = '';
+document.getElementById('ht-value').value = '';
+}
+function htGet() {
+const key = document.getElementById('ht-key').value.trim();
+if (!key || !hashTable) {
+document.getElementById('ht-status').innerHTML = '<span style="color:#f66">Enter a key or build table first</span>';
+return;
+}
+const val = hashTable.get(key);
+if (val !== undefined) {
+document.getElementById('ht-status').innerHTML = `<span style="color:#0f0">Key '${key}' = '${val}'</span>`;
+} else {
+document.getElementById('ht-status').innerHTML = `<span style="color:#f66">Key '${key}' not found</span>`;
+}
+}
+function htRemove() {
+const key = document.getElementById('ht-key').value.trim();
+if (!key || !hashTable) return;
+const existed = hashTable.delete(key);
+drawHashTable();
+document.getElementById('ht-key').value = '';
+if (existed) {
+document.getElementById('ht-status').innerHTML = `<span style="color:#0f0">Key '${key}' removed</span>`;
+} else {
+document.getElementById('ht-status').innerHTML = `<span style="color:#f66">Key '${key}' not found</span>`;
+}
+}
+function htClear() {
+hashTable = null;
+drawHashTable();
+document.getElementById('ht-status').textContent = 'Table cleared';
+}
+function drawHashTable() {
+const canvas = document.getElementById('ht-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+if (!hashTable || hashTable.size === 0) {
+document.getElementById('ht-status').textContent = 'Table empty';
+ctx.fillStyle = '#888';
+ctx.font = '24px Arial';
+ctx.textAlign = 'center';
+ctx.fillText('Hash Table is empty', canvas.width / 2, canvas.height / 2);
+return;
+}
+const entries = Array.from(hashTable.entries());
+const buckets = 10;
+const bucketHeight = 35;
+const startX = 50;
+const startY = 50;
+const bucketWidth = (canvas.width - 100) / buckets;
+// Draw buckets
+for (let i = 0; i < buckets; i++) {
+ctx.fillStyle = '#1a1a2e';
+ctx.fillRect(startX + i * bucketWidth, startY, bucketWidth - 5, canvas.height - 100);
+ctx.strokeStyle = '#444';
+ctx.strokeRect(startX + i * bucketWidth, startY, bucketWidth - 5, canvas.height - 100);
+ctx.fillStyle = '#aaa';
+ctx.font = '14px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(`Bucket ${i}`, startX + i * bucketWidth + bucketWidth / 2, startY - 10);
+}
+// Distribute entries into buckets (simulate hash)
+const bucketEntries = Array(buckets).fill().map(() => []);
+entries.forEach(([k, v]) => {
+const bucket = Math.abs(hashCode(k)) % buckets;
+bucketEntries[bucket].push({k, v});
+});
+// Draw entries
+bucketEntries.forEach((entries, bucketIdx) => {
+entries.forEach((entry, idx) => {
+const x = startX + bucketIdx * bucketWidth + 10;
+const y = startY + 10 + idx * bucketHeight;
+ctx.fillStyle = '#667eea';
+ctx.fillRect(x, y, bucketWidth - 25, 25);
+ctx.strokeStyle = '#0ff';
+ctx.strokeRect(x, y, bucketWidth - 25, 25);
+ctx.fillStyle = 'white';
+ctx.font = '14px Arial';
+ctx.fillText(`${entry.k} → ${entry.v}`, x + 5, y + 16);
+});
+});
+document.getElementById('ht-status').textContent = `Entries: ${hashTable.size}`;
+}
+function hashCode(str) {
+let hash = 0;
+for (let i = 0; i < str.length; i++) {
+const char = str.charCodeAt(i);
+hash = (hash << 5) - hash + char;
+hash = hash & hash; // Convert to 32bit integer
+}
+return hash;
+}
+// ====================== 16. TOPOLOGICAL SORT ======================
+async function runTopoSort() {
+const edgeStr = document.getElementById('topo-edges').value.trim();
+const n = parseInt(document.getElementById('topo-nodes').value) || 0;
+if (n <= 0) {
+alert('Number of nodes must be > 0');
+return;
+}
+const edges = [];
+if (edgeStr) {
+edgeStr.split(',').forEach(pair => {
+const [u, v] = pair.split('-').map(x => parseInt(x.trim()));
+if (!isNaN(u) && !isNaN(v) && u >= 0 && v >= 0 && u < n && v < n) {
+edges.push([u, v]);
+}
+});
+}
+const result = topologicalSortJS(edges, n);
+if (result.length === 0) {
+document.getElementById('topo-result').innerHTML = '<span style="color:#f66">Cycle detected! No valid topological order.</span>';
+} else {
+document.getElementById('topo-result').innerHTML = `<span style="color:#0f0">Topological Order: ${result.join(' → ')}</span>`;
+}
+drawTopoGraph(edges, n, result);
+}
+function topologicalSortJS(edges, n) {
+const graph = {};
+const inDegree = Array(n).fill(0);
+for (let i = 0; i < n; i++) graph[i] = [];
+edges.forEach(([u, v]) => {
+graph[u].push(v);
+inDegree[v]++;
+});
+const queue = [];
+for (let i = 0; i < n; i++) {
+if (inDegree[i] === 0) queue.push(i);
+}
+const result = [];
+while (queue.length > 0) {
+const u = queue.shift();
+result.push(u);
+for (const v of graph[u]) {
+inDegree[v]--;
+if (inDegree[v] === 0) queue.push(v);
+}
+}
+return result.length === n ? result : [];
+}
+function drawTopoGraph(edges, n, order) {
+const canvas = document.getElementById('topo-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+if (n === 0) return;
+const nodes = [];
+const radius = 25;
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const angleStep = (2 * Math.PI) / n;
+for (let i = 0; i < n; i++) {
+const angle = i * angleStep - Math.PI / 2;
+const x = centerX + 200 * Math.cos(angle);
+const y = centerY + 150 * Math.sin(angle);
+nodes.push({x, y, id: i});
+}
+// Draw edges
+edges.forEach(([u, v]) => {
+const from = nodes[u];
+const to = nodes[v];
+drawArrow(ctx, from.x, from.y, to.x, to.y, '#555');
+});
+// Draw nodes
+nodes.forEach(node => {
+const idx = order.indexOf(node.id);
+ctx.fillStyle = idx !== -1 ? '#0f0' : '#667eea';
+ctx.beginPath();
+ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(node.id, node.x, node.y);
+if (idx !== -1) {
+ctx.fillStyle = '#ff0';
+ctx.font = '14px Arial';
+ctx.fillText(`(${idx})`, node.x, node.y + radius + 15);
+}
+});
+}
+function drawArrow(ctx, fromX, fromY, toX, toY, color) {
+const headLen = 15;
+const dx = toX - fromX;
+const dy = toY - fromY;
+const angle = Math.atan2(dy, dx);
+ctx.strokeStyle = color;
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(fromX, fromY);
+ctx.lineTo(toX, toY);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(toX, toY);
+ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), toY - headLen * Math.sin(angle - Math.PI / 6));
+ctx.moveTo(toX, toY);
+ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), toY - headLen * Math.sin(angle + Math.PI / 6));
+ctx.stroke();
+}
+// ====================== 17. KRUSKAL'S MST ======================
+async function runKruskal() {
+const edgeStr = document.getElementById('kruskal-edges').value.trim();
+const n = parseInt(document.getElementById('kruskal-nodes').value) || 0;
+if (n <= 0) {
+alert('Number of nodes must be > 0');
+return;
+}
+const edges = [];
+if (edgeStr) {
+edgeStr.split(',').forEach(pair => {
+const [nodes, w] = pair.split(':');
+const [u, v] = nodes.split('-').map(x => parseInt(x.trim()));
+const weight = parseFloat(w);
+if (!isNaN(u) && !isNaN(v) && !isNaN(weight) && u >= 0 && v >= 0 && u < n && v < n) {
+edges.push([u, v, weight]);
+}
+});
+}
+const mst = kruskalJS(edges, n);
+const totalWeight = mst.reduce((sum, [, , w]) => sum + w, 0);
+document.getElementById('kruskal-result').innerHTML =
+`<span style="color:#0f0">MST Edges: ${mst.map(([u,v,w]) => `${u}-${v}(${w})`).join(', ')} | Total Weight: ${totalWeight.toFixed(2)}</span>`;
+drawKruskalGraph(edges, mst, n);
+}
+function kruskalJS(edges, n) {
+// Union-Find
+const parent = Array(n).fill().map((_, i) => i);
+const rank = Array(n).fill(0);
+function find(x) {
+if (parent[x] !== x) parent[x] = find(parent[x]);
+return parent[x];
+}
+function union(x, y) {
+const rx = find(x), ry = find(y);
+if (rx === ry) return false;
+if (rank[rx] < rank[ry]) parent[rx] = ry;
+else if (rank[rx] > rank[ry]) parent[ry] = rx;
+else {
+parent[ry] = rx;
+rank[rx]++;
+}
+return true;
+}
+edges.sort((a, b) => a[2] - b[2]);
+const mst = [];
+for (const [u, v, w] of edges) {
+if (union(u, v)) {
+mst.push([u, v, w]);
+if (mst.length === n - 1) break;
+}
+}
+return mst;
+}
+function drawKruskalGraph(allEdges, mstEdges, n) {
+const canvas = document.getElementById('kruskal-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+if (n === 0) return;
+const nodes = [];
+const radius = 25;
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const angleStep = (2 * Math.PI) / n;
+for (let i = 0; i < n; i++) {
+const angle = i * angleStep - Math.PI / 2;
+const x = centerX + 200 * Math.cos(angle);
+const y = centerY + 150 * Math.sin(angle);
+nodes.push({x, y, id: i});
+}
+// Draw all edges (light gray)
+allEdges.forEach(([u, v, w]) => {
+const from = nodes[u];
+const to = nodes[v];
+ctx.strokeStyle = '#555';
+ctx.lineWidth = 1;
+ctx.beginPath();
+ctx.moveTo(from.x, from.y);
+ctx.lineTo(to.x, to.y);
+ctx.stroke();
+const mx = (from.x + to.x) / 2;
+const my = (from.y + to.y) / 2;
+ctx.fillStyle = '#aaa';
+ctx.font = '14px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(w.toFixed(1), mx, my - 10);
+});
+// Draw MST edges (green, bold)
+mstEdges.forEach(([u, v, w]) => {
+const from = nodes[u];
+const to = nodes[v];
+ctx.strokeStyle = '#0f0';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.moveTo(from.x, from.y);
+ctx.lineTo(to.x, to.y);
+ctx.stroke();
+});
+// Draw nodes
+nodes.forEach(node => {
+ctx.fillStyle = '#667eea';
+ctx.beginPath();
+ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+ctx.fill();
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.fillStyle = 'white';
+ctx.font = '18px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText(node.id, node.x, node.y);
+});
+}
+// ====================== 18. FLOYD-WARSHALL ======================
+async function runFloyd() {
+const edgeStr = document.getElementById('floyd-edges').value.trim();
+const n = parseInt(document.getElementById('floyd-nodes').value) || 0;
+if (n <= 0) {
+alert('Number of nodes must be > 0');
+return;
+}
+const graph = {};
+for (let i = 0; i < n; i++) graph[i] = {};
+if (edgeStr) {
+edgeStr.split(',').forEach(pair => {
+const [nodes, w] = pair.split(':');
+const [u, v] = nodes.split('-').map(x => parseInt(x.trim()));
+const weight = parseFloat(w);
+if (!isNaN(u) && !isNaN(v) && !isNaN(weight) && u >= 0 && v >= 0 && u < n && v < n) {
+graph[u][v] = weight;
+}
+});
+}
+const dist = floydWarshallJS(graph, n);
+let output = 'Distance Matrix:\n';
+for (let i = 0; i < n; i++) {
+output += dist[i].map(d => d === Infinity ? '∞' : d.toFixed(1)).join('\t') + '\n';
+}
+document.getElementById('floyd-result').textContent = output;
+drawFloydMatrix(dist, n);
+}
+function floydWarshallJS(graph, n) {
+const dist = Array(n).fill().map(() => Array(n).fill(Infinity));
+for (let i = 0; i < n; i++) dist[i][i] = 0;
+for (const u in graph) {
+for (const v in graph[u]) {
+dist[u][v] = graph[u][v];
+}
+}
+for (let k = 0; k < n; k++) {
+for (let i = 0; i < n; i++) {
+for (let j = 0; j < n; j++) {
+if (dist[i][k] + dist[k][j] < dist[i][j]) {
+dist[i][j] = dist[i][k] + dist[k][j];
+}
+}
+}
+}
+return dist;
+}
+function drawFloydMatrix(dist, n) {
+const canvas = document.getElementById('floyd-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+if (n === 0) return;
+const cellSize = Math.min(80, (canvas.width - 100) / n);
+const startX = (canvas.width - n * cellSize) / 2;
+const startY = 50;
+for (let i = 0; i < n; i++) {
+for (let j = 0; j < n; j++) {
+const x = startX + j * cellSize;
+const y = startY + i * cellSize;
+ctx.fillStyle = '#1a1a2e';
+ctx.fillRect(x, y, cellSize, cellSize);
+ctx.strokeStyle = '#444';
+ctx.strokeRect(x, y, cellSize, cellSize);
+ctx.fillStyle = 'white';
+ctx.font = '16px Arial';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+const val = dist[i][j];
+const text = val === Infinity ? '∞' : val.toFixed(1);
+ctx.fillText(text, x + cellSize / 2, y + cellSize / 2);
+}
+}
+// Draw row/column labels
+ctx.fillStyle = '#aaa';
+for (let i = 0; i < n; i++) {
+ctx.fillText(i, startX + i * cellSize + cellSize / 2, startY - 15);
+ctx.fillText(i, startX - 20, startY + i * cellSize + cellSize / 2);
+}
+}
+// ====================== 19. SLIDING WINDOW ======================
+async function runSlidingWindow() {
+const arrStr = document.getElementById('sw-array').value.trim();
+const k = parseInt(document.getElementById('sw-k').value);
+if (k <= 0) {
+alert('Window size must be > 0');
+return;
+}
+const arr = arrStr.split(',').map(s => parseFloat(s.trim())).filter(x => !isNaN(x));
+if (arr.length === 0) {
+alert('Enter valid numbers');
+return;
+}
+if (arr.length < k) {
+document.getElementById('sw-result').innerHTML = '<span style="color:#f66">Array too small!</span>';
+return;
+}
+let windowSum = arr.slice(0, k).reduce((a, b) => a + b, 0);
+let maxSum = windowSum;
+let bestStart = 0;
+for (let i = k; i < arr.length; i++) {
+windowSum = windowSum - arr[i - k] + arr[i];
+if (windowSum > maxSum) {
+maxSum = windowSum;
+bestStart = i - k + 1;
+}
+}
+document.getElementById('sw-result').innerHTML =
+`<span style="color:#0f0">Max sum of size ${k}: ${maxSum} (subarray: [${arr.slice(bestStart, bestStart + k).join(', ')}])</span>`;
+drawSlidingWindow(arr, k, bestStart);
+}
+function drawSlidingWindow(arr, k, bestStart) {
+const canvas = document.getElementById('sw-canvas');
+const ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+const barWidth = Math.min(60, (canvas.width - 100) / arr.length);
+const barSpacing = 10;
+const totalWidth = arr.length * (barWidth + barSpacing) - barSpacing;
+const startX = (canvas.width - totalWidth) / 2;
+const baseY = canvas.height - 50;
+const maxVal = Math.max(...arr, 1);
+arr.forEach((val, i) => {
+const x = startX + i * (barWidth + barSpacing);
+const h = (val / maxVal) * 100;
+// Highlight best window
+if (i >= bestStart && i < bestStart + k) {
+ctx.fillStyle = '#0f0';
+} else {
+ctx.fillStyle = '#667eea';
+}
+ctx.fillRect(x, baseY - h, barWidth, h);
+ctx.strokeStyle = '#0ff';
+ctx.lineWidth = 2;
+ctx.strokeRect(x, baseY - h, barWidth, h);
+ctx.fillStyle = 'white';
+ctx.font = '16px Arial';
+ctx.textAlign = 'center';
+ctx.fillText(val, x + barWidth / 2, baseY - h - 10);
+ctx.fillText(i, x + barWidth / 2, baseY + 20);
+});
+}
 // ====================== INITIALIZE ======================
 loadArrayFromInput();
 loadSearchArray();
@@ -2548,6 +4038,8 @@ buildBT();
 buildBST();
 buildAVL();
 buildTrie();
+drawLinkedList();
+drawHashTable();
 </script>
 </body>
 </html>
