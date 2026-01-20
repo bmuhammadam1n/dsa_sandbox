@@ -440,12 +440,2277 @@
     <a href="#" onclick="show('space-complexity')" data-i18n="nav_space_complexity">Space Complexity</a>
     <a href="#" onclick="show('complexity')" data-i18n="nav_complexity">Complexity Race</a>
     <a href="#" onclick="show('rotting')" data-i18n="nav_rotting">Rotting Oranges</a>
+    <a href="#" onclick="show('advanced-sorting')" data-i18n="nav_advanced_sorting">Advanced Sorting</a>
+    <a href="#" onclick="show('string-algos')" data-i18n="nav_string_algos">String Algorithms</a>
+    <a href="#" onclick="show('dp-algos')" data-i18n="nav_dp_algos">Dynamic Programming</a>
     <button onclick="if(confirm(T('confirm_reset'))) location.reload();"
       style="background:#ff6b6b;color:white;border:none;padding:8px 12px;border-radius:6px;margin-left:15px;cursor:pointer;font-weight:bold;"
       data-i18n="btn_reset_all">Reset All</button>
   </nav>
 
   <div class="container">
+
+    
+<!-- =============== DYNAMIC PROGRAMMING SECTION =============== -->
+<div id="dp-algos" class="section">
+  <h2 data-i18n="dp_algos_title">Dynamic Programming Algorithms</h2>
+  
+  <!-- ===== ALGORITHM SELECTION & INPUTS ===== -->
+  <div class="panel" style="margin-bottom:20px;">
+    <div class="row" style="flex-wrap:wrap; gap:15px;">
+      <label><strong data-i18n="select_algorithm">Select Algorithm:</strong></label>
+      <select id="dp-algo" style="flex:1; min-width:200px;">
+        <option value="knapsack">0/1 Knapsack</option>
+        <option value="lcs">Longest Common Subsequence (LCS)</option>
+        <option value="matrix-chain">Matrix Chain Multiplication</option>
+      </select>
+      
+      <button id="run-dp-algo" class="accent" style="padding:10px 24px; font-size:16px;">
+        <span data-i18n="btn_run_dp">Run Algorithm</span>
+      </button>
+      <button id="random-dp" style="padding:10px 24px; background:#6a5acd; border-color:#7a6add;">
+        <span data-i18n="btn_random_data">Random Data</span>
+      </button>
+    </div>
+    
+    <!-- Knapsack Inputs -->
+    <div id="knapsack-inputs" class="row" style="margin-top:15px; flex-wrap:wrap; gap:15px; display:none;">
+      <div style="flex:2; min-width:300px;">
+        <label><strong data-i18n="weights_input">Weights:</strong></label>
+        <input type="text" id="weights-input" placeholder="e.g., 10,20,30" style="width:100%; padding:10px; font-size:16px;">
+      </div>
+      <div style="flex:2; min-width:300px;">
+        <label><strong data-i18n="values_input">Values:</strong></label>
+        <input type="text" id="values-input" placeholder="e.g., 60,100,120" style="width:100%; padding:10px; font-size:16px;">
+      </div>
+      <div style="flex:1; min-width:150px;">
+        <label><strong data-i18n="capacity_input">Capacity:</strong></label>
+        <input type="number" id="capacity-input" placeholder="e.g., 50" style="width:100%; padding:10px; font-size:16px;">
+      </div>
+    </div>
+    
+    <!-- LCS Inputs -->
+    <div id="lcs-inputs" class="row" style="margin-top:15px; flex-wrap:wrap; gap:15px; display:none;">
+      <div style="flex:2; min-width:300px;">
+        <label><strong data-i18n="string1_input">String 1:</strong></label>
+        <input type="text" id="string1-input" placeholder="e.g., ABCBDAB" style="width:100%; padding:10px; font-size:16px;">
+      </div>
+      <div style="flex:2; min-width:300px;">
+        <label><strong data-i18n="string2_input">String 2:</strong></label>
+        <input type="text" id="string2-input" placeholder="e.g., BDCABA" style="width:100%; padding:10px; font-size:16px;">
+      </div>
+    </div>
+    
+    <!-- Matrix Chain Inputs -->
+    <div id="matrix-inputs" class="row" style="margin-top:15px; flex-wrap:wrap; gap:15px; display:none;">
+      <div style="flex:1; min-width:300px;">
+        <label><strong data-i18n="dimensions_input">Matrix Dimensions:</strong></label>
+        <input type="text" id="dimensions-input" placeholder="e.g., 10,30,5,60" style="width:100%; padding:10px; font-size:16px;">
+        <div style="margin-top:5px; font-size:12px; opacity:0.8;" data-i18n="matrix_help">For n matrices, provide n+1 dimensions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DETAILS & PYTHON CODE ===== -->
+  <div class="details">
+    <h3 data-i18n="details_heading">Algorithm Details</h3>
+    <p id="dp-desc">
+      <!-- Dynamically updated based on selected algorithm -->
+    </p>
+    
+    <div class="python-code" style="margin-top:15px;">
+      <div class="code-header" data-i18n="py_heading">Python Implementation</div>
+      <pre id="dp-python-code"></pre>
+    </div>
+    
+    <div class="row" style="margin-top:15px; padding:12px; background:#1a1a2e; border-radius:8px;">
+      <div style="display:flex; flex-wrap:wrap; gap:20px; flex:1;">
+        <div>
+          <strong data-i18n="time_complexity_label">Time Complexity:</strong>
+          <div id="time-complexity-dp" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+        <div>
+          <strong data-i18n="space_complexity_label">Space Complexity:</strong>
+          <div id="space-complexity-dp" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+        <div>
+          <strong data-i18n="best_for">Best For:</strong>
+          <div id="best-for-dp" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VISUALIZATION CANVAS ===== -->
+  <div class="panel" style="margin-top:20px;">
+    <div id="dp-canvas-container" style="overflow:auto; background:#0b1021; border-radius:12px; padding:15px; min-height:300px;">
+      <!-- Visualization will be rendered here -->
+    </div>
+  </div>
+
+  <!-- ===== RESULTS & FEEDBACK ===== -->
+  <div class="panel" style="margin-top:20px;">
+    <div class="row" style="justify-content:space-between; align-items:center;">
+      <h3 style="margin:0;" data-i18n="result_heading">Result</h3>
+      <div id="dp-status" style="font-weight:bold; padding:8px 16px; border-radius:8px;"></div>
+    </div>
+    <div id="dp-result" style="margin-top:15px; padding:15px; background:#1a1a2e; border-radius:8px; min-height:60px; font-size:18px; font-family:monospace;"></div>
+  </div>
+
+  <!-- ===== INSTRUCTIONS ===== -->
+  <div class="panel" style="margin-top:20px; background:#16213e; border-left:4px solid #f5d06f;">
+    <h3 style="margin:0 0 15px 0; color:#f5d06f;" data-i18n="instructions">How to Use</h3>
+    <ol style="padding-left:20px; line-height:1.6;">
+      <li data-i18n="dp_instr1">Select an algorithm from the dropdown</li>
+      <li data-i18n="dp_instr2">Enter required inputs or use "Random Data"</li>
+      <li data-i18n="dp_instr3">Click "Run Algorithm" to see step-by-step DP table construction</li>
+      <li data-i18n="dp_instr4">Green cells = optimal solution path, Blue = current computation</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+// ====================== DYNAMIC PROGRAMMING SANDBOX ======================
+(() => {
+  const container = document.getElementById('dp-algos');
+  if (!container) return;
+
+  // State
+  let isAnimating = false;
+  let animationSpeed = 400;
+
+  // DOM Elements
+  const algoSelect = container.querySelector('#dp-algo');
+  const runBtn = container.querySelector('#run-dp-algo');
+  const randomBtn = container.querySelector('#random-dp');
+  const canvasContainer = container.querySelector('#dp-canvas-container');
+  const descDiv = container.querySelector('#dp-desc');
+  const codeDiv = container.querySelector('#dp-python-code');
+  const timeComplexityDiv = container.querySelector('#time-complexity-dp');
+  const spaceComplexityDiv = container.querySelector('#space-complexity-dp');
+  const bestForDiv = container.querySelector('#best-for-dp');
+  const statusDiv = container.querySelector('#dp-status');
+  const resultDiv = container.querySelector('#dp-result');
+
+  // Input elements
+  const weightsInput = container.querySelector('#weights-input');
+  const valuesInput = container.querySelector('#values-input');
+  const capacityInput = container.querySelector('#capacity-input');
+  const string1Input = container.querySelector('#string1-input');
+  const string2Input = container.querySelector('#string2-input');
+  const dimensionsInput = container.querySelector('#dimensions-input');
+
+  // Input containers
+  const knapsackInputs = container.querySelector('#knapsack-inputs');
+  const lcsInputs = container.querySelector('#lcs-inputs');
+  const matrixInputs = container.querySelector('#matrix-inputs');
+
+  // Algorithm configurations
+  const algorithms = {
+    en: {
+      knapsack: {
+        name: "0/1 Knapsack",
+        desc: "The 0/1 Knapsack problem involves selecting items with given weights and values to maximize total value without exceeding a weight capacity. Each item can be taken at most once (0/1). It's solved using dynamic programming by building a 2D table where dp[i][w] represents the maximum value achievable with the first i items and weight limit w.",
+        python: `def knapsack(weights, values, capacity):
+    n = len(weights)
+    # Create DP table
+    dp = [[0 for _ in range(capacity + 1)] for _ in range(n + 1)]
+    
+    # Fill DP table
+    for i in range(1, n + 1):
+        for w in range(1, capacity + 1):
+            if weights[i-1] <= w:
+                # Include or exclude current item
+                dp[i][w] = max(
+                    values[i-1] + dp[i-1][w - weights[i-1]],
+                    dp[i-1][w]
+                )
+            else:
+                # Cannot include current item
+                dp[i][w] = dp[i-1][w]
+    
+    # Backtrack to find selected items
+    selected = []
+    w = capacity
+    for i in range(n, 0, -1):
+        if dp[i][w] != dp[i-1][w]:
+            selected.append(i-1)
+            w -= weights[i-1]
+    
+    return dp[n][capacity], selected[::-1]`,
+        time: "O(n × W)",
+        space: "O(n × W)",
+        bestFor: "Resource allocation, portfolio optimization"
+      },
+      lcs: {
+        name: "Longest Common Subsequence (LCS)",
+        desc: "LCS finds the longest subsequence common to two sequences. A subsequence maintains relative order but not necessarily continuity. It's used in diff utilities, bioinformatics (DNA sequence alignment), and version control systems. The DP approach builds a 2D table where dp[i][j] represents the LCS length of the first i characters of string1 and first j characters of string2.",
+        python: `def lcs_length(str1, str2):
+    m, n = len(str1), len(str2)
+    # Create DP table
+    dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+    
+    # Fill DP table
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i-1] == str2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    
+    return dp[m][n]
+
+def lcs_string(str1, str2):
+    m, n = len(str1), len(str2)
+    dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+    
+    # Fill DP table
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i-1] == str2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    
+    # Backtrack to construct LCS string
+    lcs = []
+    i, j = m, n
+    while i > 0 and j > 0:
+        if str1[i-1] == str2[j-1]:
+            lcs.append(str1[i-1])
+            i -= 1
+            j -= 1
+        elif dp[i-1][j] > dp[i][j-1]:
+            i -= 1
+        else:
+            j -= 1
+    
+    return ''.join(reversed(lcs))`,
+        time: "O(m × n)",
+        space: "O(m × n)",
+        bestFor: "Diff tools, DNA sequence alignment, plagiarism detection"
+      },
+      'matrix-chain': {
+        name: "Matrix Chain Multiplication",
+        desc: "Matrix Chain Multiplication finds the optimal way to parenthesize matrix multiplication to minimize scalar multiplications. Given matrices A₁, A₂, ..., Aₙ with dimensions p₀×p₁, p₁×p₂, ..., pₙ₋₁×pₙ, the goal is to find the multiplication order that minimizes operations. The DP solution uses a 2D table where m[i][j] stores the minimum cost to multiply matrices from i to j.",
+        python: `def matrix_chain_order(dimensions):
+    n = len(dimensions) - 1  # Number of matrices
+    # m[i][j] = minimum scalar multiplications needed
+    m = [[0 for _ in range(n)] for _ in range(n)]
+    # s[i][j] = split point for optimal parenthesization
+    s = [[0 for _ in range(n)] for _ in range(n)]
+    
+    # L is chain length
+    for L in range(2, n + 1):
+        for i in range(n - L + 1):
+            j = i + L - 1
+            m[i][j] = float('inf')
+            
+            for k in range(i, j):
+                # Cost = cost of left + cost of right + cost of multiplication
+                cost = m[i][k] + m[k+1][j] + dimensions[i] * dimensions[k+1] * dimensions[j+1]
+                
+                if cost < m[i][j]:
+                    m[i][j] = cost
+                    s[i][j] = k
+    
+    return m[0][n-1], s
+
+def print_optimal_parens(s, i, j):
+    if i == j:
+        return f"A{i+1}"
+    else:
+        k = s[i][j]
+        left = print_optimal_parens(s, i, k)
+        right = print_optimal_parens(s, k+1, j)
+        return f"({left} × {right})"`,
+        time: "O(n³)",
+        space: "O(n²)",
+        bestFor: "Optimizing matrix multiplication sequences, compiler design"
+      }
+    },
+    uz: {
+      knapsack: {
+        name: "0/1 Rucksak",
+        desc: "0/1 Rucksak muammosi berilgan og'irlik va qiymatlarga ega bo'lgan buyumlarni tanlash orqali og'irlik sig'imini oshirmasdan umumiy qiymatni maksimal darajada oshirishni nazarda tutadi. Har bir buyumni eng ko'pi bilan bir marta (0/1) olish mumkin. Bu dinamik dasturlash yordamida hal qilinadi, bu yerda dp[i][w] birinchi i ta buyum va w og'irlik chegarasi bilan erishish mumkin bo'lgan maksimal qiymatni ifodalaydi.",
+        python: `def knapsack(weights, values, capacity):
+    n = len(weights)
+    # DP jadvalini yaratish
+    dp = [[0 for _ in range(capacity + 1)] for _ in range(n + 1)]
+    
+    # DP jadvalini to'ldirish
+    for i in range(1, n + 1):
+        for w in range(1, capacity + 1):
+            if weights[i-1] <= w:
+                # Joriy buyumni kiritish yoki chiqarish
+                dp[i][w] = max(
+                    values[i-1] + dp[i-1][w - weights[i-1]],
+                    dp[i-1][w]
+                )
+            else:
+                # Joriy buyumni kiritib bo'lmaydi
+                dp[i][w] = dp[i-1][w]
+    
+    # Tanlangan buyumlarni topish uchun orqaga qaytish
+    selected = []
+    w = capacity
+    for i in range(n, 0, -1):
+        if dp[i][w] != dp[i-1][w]:
+            selected.append(i-1)
+            w -= weights[i-1]
+    
+    return dp[n][capacity], selected[::-1]`,
+        time: "O(n × W)",
+        space: "O(n × W)",
+        bestFor: "Resurs taqsimoti, portfel optimallashtirish"
+      },
+      lcs: {
+        name: "Eng Uzun Umumiy Ostki Ketma-ketlik (LCS)",
+        desc: "LCS ikkita ketma-ketlik uchun umumiy eng uzun ostki ketma-ketlikni topadi. Ostki ketma-ketlik nisbiy tartibni saqlaydi, lekin doimiy bo'lishi shart emas. U diff utilitalari, bioinformatika (DNK ketma-ketligini tekshirish) va versiya nazorati tizimlarida ishlatiladi. DP yondashuvi 2D jadval quradi, bu yerda dp[i][j] string1 ning birinchi i ta belgisi va string2 ning birinchi j ta belgisi uchun LCS uzunligini ifodalaydi.",
+        python: `def lcs_length(str1, str2):
+    m, n = len(str1), len(str2)
+    # DP jadvalini yaratish
+    dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+    
+    # DP jadvalini to'ldirish
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i-1] == str2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    
+    return dp[m][n]
+
+def lcs_string(str1, str2):
+    m, n = len(str1), len(str2)
+    dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+    
+    # DP jadvalini to'ldirish
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i-1] == str2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    
+    # LCS satrini qurish uchun orqaga qaytish
+    lcs = []
+    i, j = m, n
+    while i > 0 and j > 0:
+        if str1[i-1] == str2[j-1]:
+            lcs.append(str1[i-1])
+            i -= 1
+            j -= 1
+        elif dp[i-1][j] > dp[i][j-1]:
+            i -= 1
+        else:
+            j -= 1
+    
+    return ''.join(reversed(lcs))`,
+        time: "O(m × n)",
+        space: "O(m × n)",
+        bestFor: "Farqlash vositalari, DNK ketma-ketligini tekshirish, plagiatni aniqlash"
+      },
+      'matrix-chain': {
+        name: "Matritsa Zanjiri Ko'paytirish",
+        desc: "Matritsa zanjiri ko'paytirishi matritsalarni ko'paytirishning optimal usulini topish orqali skalar ko'paytirishlarni minimal darajada kamaytirishni nazarda tutadi. A₁, A₂, ..., Aₙ matritsalari p₀×p₁, p₁×p₂, ..., pₙ₋₁×pₙ o'lchamlariga ega bo'lsa, maqsad operatsiyalarni minimallashtiruvchi ko'paytirish tartibini topishdir. DP yechimi 2D jadvaldan foydalanadi, bu yerda m[i][j] i dan j gacha bo'lgan matritsalarni ko'paytirishning minimal xarajatini saqlaydi.",
+        python: `def matrix_chain_order(dimensions):
+    n = len(dimensions) - 1  # Matritsalar soni
+    # m[i][j] = kerakli minimal skalar ko'paytirishlar
+    m = [[0 for _ in range(n)] for _ in range(n)]
+    # s[i][j] = optimal qavslash uchun bo'linish nuqtasi
+    s = [[0 for _ in range(n)] for _ in range(n)]
+    
+    # L - zanjir uzunligi
+    for L in range(2, n + 1):
+        for i in range(n - L + 1):
+            j = i + L - 1
+            m[i][j] = float('inf')
+            
+            for k in range(i, j):
+                # Xarajat = chap xarajat + o'ng xarajat + ko'paytirish xarajati
+                cost = m[i][k] + m[k+1][j] + dimensions[i] * dimensions[k+1] * dimensions[j+1]
+                
+                if cost < m[i][j]:
+                    m[i][j] = cost
+                    s[i][j] = k
+    
+    return m[0][n-1], s
+
+def print_optimal_parens(s, i, j):
+    if i == j:
+        return f"A{i+1}"
+    else:
+        k = s[i][j]
+        left = print_optimal_parens(s, i, k)
+        right = print_optimal_parens(s, k+1, j)
+        return f"({left} × {right})"`,
+        time: "O(n³)",
+        space: "O(n²)",
+        bestFor: "Matritsa ko'paytirish ketma-ketligini optimallashtirish, kompilyator dizayni"
+      }
+    }
+  };
+
+  // Show/hide input fields based on selected algorithm
+  const updateInputFields = () => {
+    const algo = algoSelect.value;
+    knapsackInputs.style.display = algo === 'knapsack' ? 'flex' : 'none';
+    lcsInputs.style.display = algo === 'lcs' ? 'flex' : 'none';
+    matrixInputs.style.display = algo === 'matrix-chain' ? 'flex' : 'none';
+  };
+
+  // Update UI based on selected algorithm
+  const updateAlgorithmUI = () => {
+    const algo = algoSelect.value;
+    const lang = localStorage.getItem('app-lang') || 'en';
+    const config = algorithms[lang][algo] || algorithms.en[algo];
+    
+    descDiv.textContent = config.desc;
+    codeDiv.textContent = config.python;
+    timeComplexityDiv.textContent = config.time;
+    spaceComplexityDiv.textContent = config.space;
+    bestForDiv.textContent = config.bestFor;
+    updateInputFields();
+  };
+
+  // Render DP table visualization
+  const renderDPTable = (table, headers = null, highlights = {}) => {
+    if (!table || table.length === 0) {
+      canvasContainer.innerHTML = '<div style="text-align:center; color:#888; padding:50px;">No table to display</div>';
+      return;
+    }
+    
+    let html = '<div style="overflow:auto; max-height:500px;">';
+    html += '<table style="border-collapse:collapse; margin:0 auto; background:#1a1a2e;">';
+    
+    // Add header row if provided
+    if (headers && headers.row) {
+      html += '<thead><tr><th style="border:1px solid #444; padding:8px; background:#2a2a3a;"></th>';
+      headers.row.forEach(header => {
+        html += `<th style="border:1px solid #444; padding:8px; background:#2a2a3a;">${header}</th>`;
+      });
+      html += '</tr></thead>';
+    }
+    
+    // Add table body
+    html += '<tbody>';
+    table.forEach((row, i) => {
+      html += '<tr>';
+      
+      // Add column header if provided
+      if (headers && headers.col && headers.col[i] !== undefined) {
+        html += `<td style="border:1px solid #444; padding:8px; background:#2a2a3a; font-weight:bold;">${headers.col[i]}</td>`;
+      }
+      
+      row.forEach((cell, j) => {
+        let bgColor = '#1a1a2e';
+        let color = 'white';
+        
+        // Highlight optimal path
+        if (highlights.path && highlights.path.some(([x, y]) => x === i && y === j)) {
+          bgColor = '#00c853'; // Green for optimal path
+          color = 'black';
+        }
+        // Highlight current cell being computed
+        else if (highlights.current && highlights.current[0] === i && highlights.current[1] === j) {
+          bgColor = '#4fc3f7'; // Blue for current computation
+          color = 'black';
+        }
+        
+        html += `<td style="border:1px solid #444; padding:8px; background:${bgColor}; color:${color}; min-width:40px; text-align:center;">${cell}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table></div>';
+    
+    canvasContainer.innerHTML = html;
+  };
+
+  // Sleep helper
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  // Knapsack simulation
+  const simulateKnapsack = async (weights, values, capacity) => {
+    const n = weights.length;
+    const dp = Array(n + 1).fill().map(() => Array(capacity + 1).fill(0));
+    
+    // Initialize base cases (already 0)
+    
+    // Fill DP table with visualization
+    for (let i = 1; i <= n; i++) {
+      for (let w = 0; w <= capacity; w++) {
+        if (weights[i-1] <= w) {
+          dp[i][w] = Math.max(
+            values[i-1] + dp[i-1][w - weights[i-1]],
+            dp[i-1][w]
+          );
+        } else {
+          dp[i][w] = dp[i-1][w];
+        }
+        
+        // Visualize current state
+        const headers = {
+          row: Array.from({length: capacity + 1}, (_, i) => i),
+          col: Array.from({length: n + 1}, (_, i) => i === 0 ? '0' : `Item ${i}`)
+        };
+        const highlights = {
+          current: [i, w]
+        };
+        renderDPTable(dp, headers, highlights);
+        await sleep(animationSpeed / 2);
+      }
+    }
+    
+    // Backtrack to find selected items
+    const selected = [];
+    let w = capacity;
+    const path = [];
+    
+    for (let i = n; i > 0; i--) {
+      if (dp[i][w] !== dp[i-1][w]) {
+        selected.push(i-1);
+        path.push([i, w]);
+        w -= weights[i-1];
+      }
+      path.push([i-1, w]);
+    }
+    
+    // Final visualization with optimal path
+    const finalHighlights = { path };
+    renderDPTable(dp, headers, finalHighlights);
+    await sleep(animationSpeed);
+    
+    return { maxValue: dp[n][capacity], selectedItems: selected.reverse(), dpTable: dp };
+  };
+
+  // LCS simulation
+  const simulateLCS = async (str1, str2) => {
+    const m = str1.length;
+    const n = str2.length;
+    const dp = Array(m + 1).fill().map(() => Array(n + 1).fill(0));
+    
+    // Fill DP table with visualization
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        if (str1[i-1] === str2[j-1]) {
+          dp[i][j] = dp[i-1][j-1] + 1;
+        } else {
+          dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+        }
+        
+        // Visualize current state
+        const headers = {
+          row: [''].concat(str2.split('')),
+          col: [''].concat(str1.split(''))
+        };
+        const highlights = {
+          current: [i, j]
+        };
+        renderDPTable(dp, headers, highlights);
+        await sleep(animationSpeed / 2);
+      }
+    }
+    
+    // Backtrack to construct LCS string
+    const lcs = [];
+    const path = [];
+    let i = m, j = n;
+    
+    while (i > 0 && j > 0) {
+      path.push([i, j]);
+      if (str1[i-1] === str2[j-1]) {
+        lcs.push(str1[i-1]);
+        i--;
+        j--;
+      } else if (dp[i-1][j] > dp[i][j-1]) {
+        i--;
+      } else {
+        j--;
+      }
+    }
+    path.push([i, j]);
+    
+    // Final visualization with optimal path
+    const finalHighlights = { path };
+    renderDPTable(dp, headers, finalHighlights);
+    await sleep(animationSpeed);
+    
+    return { lcsLength: dp[m][n], lcsString: lcs.reverse().join(''), dpTable: dp };
+  };
+
+  // Matrix Chain simulation
+  const simulateMatrixChain = async (dimensions) => {
+    const n = dimensions.length - 1; // Number of matrices
+    const m = Array(n).fill().map(() => Array(n).fill(0));
+    const s = Array(n).fill().map(() => Array(n).fill(0));
+    
+    // Fill DP table for chain lengths 2 to n
+    for (let L = 2; L <= n; L++) {
+      for (let i = 0; i <= n - L; i++) {
+        const j = i + L - 1;
+        m[i][j] = Infinity;
+        
+        for (let k = i; k < j; k++) {
+          const cost = m[i][k] + m[k+1][j] + dimensions[i] * dimensions[k+1] * dimensions[j+1];
+          
+          if (cost < m[i][j]) {
+            m[i][j] = cost;
+            s[i][j] = k;
+          }
+          
+          // Visualize current state
+          const headers = {
+            row: Array.from({length: n}, (_, i) => `A${i+1}`),
+            col: Array.from({length: n}, (_, i) => `A${i+1}`)
+          };
+          const highlights = {
+            current: [i, j]
+          };
+          renderDPTable(m, headers, highlights);
+          await sleep(animationSpeed / 3);
+        }
+      }
+    }
+    
+    // Construct optimal parenthesization
+    const constructParens = (s, i, j) => {
+      if (i === j) {
+        return `A${i+1}`;
+      } else {
+        const k = s[i][j];
+        const left = constructParens(s, i, k);
+        const right = constructParens(s, k+1, j);
+        return `(${left} × ${right})`;
+      }
+    };
+    
+    const optimalParens = constructParens(s, 0, n-1);
+    
+    // Final visualization
+    renderDPTable(m, headers);
+    await sleep(animationSpeed);
+    
+    return { minCost: m[0][n-1], optimalParens, costTable: m, splitTable: s };
+  };
+
+  // Run DP algorithm
+  const runDPAlgorithm = async () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    runBtn.disabled = true;
+    
+    try {
+      const algo = algoSelect.value;
+      let result;
+      
+      if (algo === 'knapsack') {
+        const weights = weightsInput.value.split(',').map(w => parseInt(w.trim())).filter(w => !isNaN(w));
+        const values = valuesInput.value.split(',').map(v => parseInt(v.trim())).filter(v => !isNaN(v));
+        const capacity = parseInt(capacityInput.value);
+        
+        if (weights.length === 0 || values.length === 0 || isNaN(capacity) || capacity <= 0) {
+          throw new Error("Invalid inputs for Knapsack");
+        }
+        
+        if (weights.length !== values.length) {
+          throw new Error("Weights and values must have same length");
+        }
+        
+        result = await simulateKnapsack(weights, values, capacity);
+        resultDiv.innerHTML = `
+          <div>Maximum Value: <span style="color:#00c853">${result.maxValue}</span></div>
+          <div>Selected Items (0-indexed): <span style="color:#ffab00">[${result.selectedItems.join(', ')}]</span></div>
+          <div>Weights: [${weights.join(', ')}]</div>
+          <div>Values: [${values.join(', ')}]</div>
+        `;
+        
+      } else if (algo === 'lcs') {
+        const str1 = string1Input.value.trim();
+        const str2 = string2Input.value.trim();
+        
+        if (!str1 || !str2) {
+          throw new Error("Both strings must be non-empty");
+        }
+        
+        result = await simulateLCS(str1, str2);
+        resultDiv.innerHTML = `
+          <div>LCS Length: <span style="color:#00c853">${result.lcsLength}</span></div>
+          <div>LCS String: <span style="color:#ffab00">"${result.lcsString}"</span></div>
+          <div>String 1: "${str1}"</div>
+          <div>String 2: "${str2}"</div>
+        `;
+        
+      } else if (algo === 'matrix-chain') {
+        const dimensions = dimensionsInput.value.split(',').map(d => parseInt(d.trim())).filter(d => !isNaN(d));
+        
+        if (dimensions.length < 2) {
+          throw new Error("At least 2 dimensions required");
+        }
+        
+        if (dimensions.some(d => d <= 0)) {
+          throw new Error("All dimensions must be positive");
+        }
+        
+        result = await simulateMatrixChain(dimensions);
+        resultDiv.innerHTML = `
+          <div>Minimum Scalar Multiplications: <span style="color:#00c853">${result.minCost}</span></div>
+          <div>Optimal Parenthesization: <span style="color:#ffab00">${result.optimalParens}</span></div>
+          <div>Dimensions: [${dimensions.join(', ')}]</div>
+        `;
+      }
+      
+      statusDiv.textContent = '✅ Algorithm completed successfully!';
+      statusDiv.style.backgroundColor = 'rgba(0, 200, 83, 0.2)';
+      
+    } catch (error) {
+      statusDiv.textContent = '❌ Error during execution';
+      statusDiv.style.backgroundColor = 'rgba(255, 82, 82, 0.2)';
+      resultDiv.innerHTML = `<span style="color:#ff5252">${error.message}</span>`;
+    }
+    
+    isAnimating = false;
+    runBtn.disabled = false;
+  };
+
+  // Generate random data
+  const generateRandomData = () => {
+    const algo = algoSelect.value;
+    
+    if (algo === 'knapsack') {
+      const n = Math.floor(Math.random() * 5) + 3; // 3-7 items
+      const weights = Array.from({length: n}, () => Math.floor(Math.random() * 30) + 10);
+      const values = Array.from({length: n}, () => Math.floor(Math.random() * 100) + 50);
+      const capacity = Math.floor(Math.random() * 100) + 50;
+      
+      weightsInput.value = weights.join(', ');
+      valuesInput.value = values.join(', ');
+      capacityInput.value = capacity.toString();
+      
+    } else if (algo === 'lcs') {
+      const strings = [
+        ["ABCDGH", "AEDFHR"],
+        ["AGGTAB", "GXTXAYB"],
+        ["ABCBDAB", "BDCABA"],
+        ["XMJYAUZ", "MZJAWXU"],
+        ["BANANA", "ATANA"]
+      ];
+      const randomPair = strings[Math.floor(Math.random() * strings.length)];
+      string1Input.value = randomPair[0];
+      string2Input.value = randomPair[1];
+      
+    } else if (algo === 'matrix-chain') {
+      const n = Math.floor(Math.random() * 4) + 3; // 3-6 matrices
+      const dimensions = Array.from({length: n + 1}, () => Math.floor(Math.random() * 30) + 10);
+      dimensionsInput.value = dimensions.join(', ');
+    }
+  };
+
+  // Event Listeners
+  algoSelect.addEventListener('change', updateAlgorithmUI);
+  runBtn.addEventListener('click', runDPAlgorithm);
+  randomBtn.addEventListener('click', generateRandomData);
+
+  // Initialize
+  updateAlgorithmUI();
+
+  // Listen for language changes
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'app-lang') updateAlgorithmUI();
+  });
+})();
+</script>
+
+<!-- =============== STRING ALGORITHMS SECTION =============== -->
+<div id="string-algos" class="section">
+  <h2 data-i18n="string_algos_title">String Matching Algorithms</h2>
+  
+ 
+  <!-- ===== DETAILS & PYTHON CODE ===== -->
+  <div class="details">
+    <h3 data-i18n="details_heading">Algorithm Details</h3>
+    <p id="string-desc">
+      <!-- Dynamically updated based on selected algorithm -->
+    </p>
+    
+    <div class="python-code" style="margin-top:15px;">
+      <div class="code-header" data-i18n="py_heading">Python Implementation</div>
+      <pre id="string-python-code"></pre>
+    </div>
+    
+    <div class="row" style="margin-top:15px; padding:12px; background:#1a1a2e; border-radius:8px;">
+      <div style="display:flex; flex-wrap:wrap; gap:20px; flex:1;">
+        <div>
+          <strong data-i18n="time_complexity_label">Time Complexity:</strong>
+          <div id="time-complexity-str" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+        <div>
+          <strong data-i18n="space_complexity_label">Space Complexity:</strong>
+          <div id="space-complexity-str" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+        <div>
+          <strong data-i18n="best_for">Best For:</strong>
+          <div id="best-for-str" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+ <!-- ===== ALGORITHM SELECTION & INPUTS ===== -->
+  <div class="panel" style="margin-bottom:20px;">
+    <div class="row" style="flex-wrap:wrap; gap:15px;">
+      <label><strong data-i18n="select_algorithm">Select Algorithm:</strong></label>
+      <select id="string-algo" style="flex:1; min-width:200px;">
+        <option value="kmp">Knuth-Morris-Pratt (KMP)</option>
+        <option value="rabin-karp">Rabin-Karp</option>
+        <option value="z-algo">Z-Algorithm</option>
+      </select>
+      
+      <button id="run-string-algo" class="accent" style="padding:10px 24px; font-size:16px;">
+        <span data-i18n="btn_run_search">Run Search</span>
+      </button>
+      <button id="random-string" style="padding:10px 24px; background:#6a5acd; border-color:#7a6add;">
+        <span data-i18n="btn_random_text">Random Text</span>
+      </button>
+    </div>
+    
+    <div class="row" style="margin-top:15px; flex-wrap:wrap; gap:15px;">
+      <div style="flex:2; min-width:300px;">
+        <label><strong data-i18n="text_input">Text:</strong></label>
+        <input type="text" id="text-input" placeholder="e.g., ABABDABACDABABCABCABCABD" style="width:100%; padding:10px; font-size:16px;">
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <label><strong data-i18n="pattern_input">Pattern:</strong></label>
+        <input type="text" id="pattern-input" placeholder="e.g., ABABCABAB" style="width:100%; padding:10px; font-size:16px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VISUALIZATION CANVAS ===== -->
+  <div class="panel" style="margin-top:20px;">
+    <div id="string-canvas-container" style="overflow:auto; background:#0b1021; border-radius:12px; padding:15px; min-height:200px;">
+      <!-- Visualization will be rendered here -->
+    </div>
+  </div>
+
+  <!-- ===== RESULTS & FEEDBACK ===== -->
+  <div class="panel" style="margin-top:20px;">
+    <div class="row" style="justify-content:space-between; align-items:center;">
+      <h3 style="margin:0;" data-i18n="result_heading">Result</h3>
+      <div id="string-status" style="font-weight:bold; padding:8px 16px; border-radius:8px;"></div>
+    </div>
+    <div id="string-result" style="margin-top:15px; padding:15px; background:#1a1a2e; border-radius:8px; min-height:60px; font-size:18px; font-family:monospace;"></div>
+  </div>
+
+  <!-- ===== INSTRUCTIONS ===== -->
+  <div class="panel" style="margin-top:20px; background:#16213e; border-left:4px solid #f5d06f;">
+    <h3 style="margin:0 0 15px 0; color:#f5d06f;" data-i18n="instructions">How to Use</h3>
+    <ol style="padding-left:20px; line-height:1.6;">
+      <li data-i18n="str_instr1">Enter text and pattern or use "Random Text"</li>
+      <li data-i18n="str_instr2">Select an algorithm from the dropdown</li>
+      <li data-i18n="str_instr3">Click "Run Search" to see step-by-step matching process</li>
+      <li data-i18n="str_instr4">Green = match found, Yellow = current comparison, Red = mismatch</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+// ====================== STRING ALGORITHMS SANDBOX ======================
+(() => {
+  const container = document.getElementById('string-algos');
+  if (!container) return;
+
+  // State
+  let isAnimating = false;
+  let animationSpeed = 300;
+
+  // DOM Elements
+  const algoSelect = container.querySelector('#string-algo');
+  const textInput = container.querySelector('#text-input');
+  const patternInput = container.querySelector('#pattern-input');
+  const runBtn = container.querySelector('#run-string-algo');
+  const randomBtn = container.querySelector('#random-string');
+  const canvasContainer = container.querySelector('#string-canvas-container');
+  const descDiv = container.querySelector('#string-desc');
+  const codeDiv = container.querySelector('#string-python-code');
+  const timeComplexityDiv = container.querySelector('#time-complexity-str');
+  const spaceComplexityDiv = container.querySelector('#space-complexity-str');
+  const bestForDiv = container.querySelector('#best-for-str');
+  const statusDiv = container.querySelector('#string-status');
+  const resultDiv = container.querySelector('#string-result');
+
+  // Algorithm configurations
+  const algorithms = {
+    en: {
+      kmp: {
+        name: "Knuth-Morris-Pratt (KMP)",
+        desc: "KMP is a linear-time string matching algorithm that avoids unnecessary comparisons by using a prefix function (LPS array). When a mismatch occurs, it uses the LPS array to determine how much to shift the pattern, skipping previously matched characters. This makes it optimal for cases where the pattern has repeating substrings.",
+        python: `def compute_lps(pattern):
+    m = len(pattern)
+    lps = [0] * m
+    length = 0
+    i = 1
+    
+    while i < m:
+        if pattern[i] == pattern[length]:
+            length += 1
+            lps[i] = length
+            i += 1
+        else:
+            if length != 0:
+                length = lps[length - 1]
+            else:
+                lps[i] = 0
+                i += 1
+    return lps
+
+def kmp_search(text, pattern):
+    n = len(text)
+    m = len(pattern)
+    
+    if m == 0:
+        return []
+    
+    lps = compute_lps(pattern)
+    i = 0  # index for text
+    j = 0  # index for pattern
+    matches = []
+    
+    while i < n:
+        if pattern[j] == text[i]:
+            i += 1
+            j += 1
+        
+        if j == m:
+            matches.append(i - j)
+            j = lps[j - 1]
+        elif i < n and pattern[j] != text[i]:
+            if j != 0:
+                j = lps[j - 1]
+            else:
+                i += 1
+    
+    return matches`,
+        time: "O(n + m)",
+        space: "O(m)",
+        bestFor: "Patterns with repeating prefixes/suffixes"
+      },
+      'rabin-karp': {
+        name: "Rabin-Karp",
+        desc: "Rabin-Karp uses hashing to find patterns in text. It computes hash values for the pattern and each substring of the text of the same length. When hash values match, it performs a character-by-character comparison to confirm. It's efficient for multiple pattern searches and can handle large alphabets, but may have false positives due to hash collisions.",
+        python: `def rabin_karp_search(text, pattern, prime=101):
+    n = len(text)
+    m = len(pattern)
+    
+    if m == 0 or n < m:
+        return []
+    
+    # Calculate hash values
+    pattern_hash = 0
+    text_hash = 0
+    h = 1
+    
+    # Calculate h = pow(d, m-1) % prime
+    d = 256  # number of characters in alphabet
+    for i in range(m - 1):
+        h = (h * d) % prime
+    
+    # Calculate hash for pattern and first window of text
+    for i in range(m):
+        pattern_hash = (d * pattern_hash + ord(pattern[i])) % prime
+        text_hash = (d * text_hash + ord(text[i])) % prime
+    
+    matches = []
+    for i in range(n - m + 1):
+        # Check if hash values match
+        if pattern_hash == text_hash:
+            # Verify character by character
+            if text[i:i + m] == pattern:
+                matches.append(i)
+        
+        # Calculate hash for next window
+        if i < n - m:
+            text_hash = (d * (text_hash - ord(text[i]) * h) + ord(text[i + m])) % prime
+            # Handle negative hash
+            if text_hash < 0:
+                text_hash += prime
+    
+    return matches`,
+        time: "O(n + m) average, O(nm) worst",
+        space: "O(1)",
+        bestFor: "Multiple pattern searches, plagiarism detection"
+      },
+      'z-algo': {
+        name: "Z-Algorithm",
+        desc: "The Z-algorithm constructs a Z-array where Z[i] represents the length of the longest substring starting from i that matches the prefix of the string. For pattern matching, we concatenate pattern + '$' + text and compute the Z-array. Positions where Z[i] equals the pattern length indicate matches. It's simple to implement and has linear time complexity.",
+        python: `def compute_z_array(s):
+    n = len(s)
+    z = [0] * n
+    l, r = 0, 0
+    
+    for i in range(1, n):
+        if i <= r:
+            z[i] = min(r - i + 1, z[i - l])
+        
+        while i + z[i] < n and s[z[i]] == s[i + z[i]]:
+            z[i] += 1
+        
+        if i + z[i] - 1 > r:
+            l, r = i, i + z[i] - 1
+    
+    return z
+
+def z_algorithm_search(text, pattern):
+    if not pattern:
+        return []
+    
+    combined = pattern + '$' + text
+    z = compute_z_array(combined)
+    m = len(pattern)
+    matches = []
+    
+    for i in range(m + 1, len(z)):
+        if z[i] == m:
+            matches.append(i - m - 1)
+    
+    return matches`,
+        time: "O(n + m)",
+        space: "O(n + m)",
+        bestFor: "Finding all occurrences, string periodicity"
+      }
+    },
+    uz: {
+      kmp: {
+        name: "Knuth-Morris-Pratt (KMP)",
+        desc: "KMP — chiqishlarni keraksiz taqqoslashlardan saqlash uchun prefiks funksiyasidan (LPS massivi) foydalanadigan chiziqli vaqtli satr moslash algoritmidir. Mos kelmaslik sodir bo'lganda, u LPS massividan foydalanib, namunani qanchalik siljishini aniqlaydi va oldinroq mos kelgan belgilarni o'tkazib yuboradi. Bu takrorlanuvchi ostki satrlarga ega namunalar uchun optimaldir.",
+        python: `def compute_lps(pattern):
+    m = len(pattern)
+    lps = [0] * m
+    length = 0
+    i = 1
+    
+    while i < m:
+        if pattern[i] == pattern[length]:
+            length += 1
+            lps[i] = length
+            i += 1
+        else:
+            if length != 0:
+                length = lps[length - 1]
+            else:
+                lps[i] = 0
+                i += 1
+    return lps
+
+def kmp_search(text, pattern):
+    n = len(text)
+    m = len(pattern)
+    
+    if m == 0:
+        return []
+    
+    lps = compute_lps(pattern)
+    i = 0  # matn uchun indeks
+    j = 0  # namuna uchun indeks
+    matches = []
+    
+    while i < n:
+        if pattern[j] == text[i]:
+            i += 1
+            j += 1
+        
+        if j == m:
+            matches.append(i - j)
+            j = lps[j - 1]
+        elif i < n and pattern[j] != text[i]:
+            if j != 0:
+                j = lps[j - 1]
+            else:
+                i += 1
+    
+    return matches`,
+        time: "O(n + m)",
+        space: "O(m)",
+        bestFor: "Takrorlanuvchi prefikslar/sufikslarga ega namunalar"
+      },
+      'rabin-karp': {
+        name: "Rabin-Karp",
+        desc: "Rabin-Karp matndagi namunalarni topish uchun xeshdan foydalanadi. U namuna va matndagi bir xil uzunlikdagi har bir ostki satr uchun xesh qiymatlarini hisoblaydi. Xesh qiymatlari mos kelganda, mosligini tasdiqlash uchun belgidan belgiga taqqoslashni amalga oshiradi. Bu ko'p namuna qidiruvlari va katta alifbolar uchun samarali, lekin xesh to'qnashuvlari tufayli noto'g'ri ijobiy natijalarga sabab bo'lishi mumkin.",
+        python: `def rabin_karp_search(text, pattern, prime=101):
+    n = len(text)
+    m = len(pattern)
+    
+    if m == 0 or n < m:
+        return []
+    
+    # Xesh qiymatlarini hisoblash
+    pattern_hash = 0
+    text_hash = 0
+    h = 1
+    
+    # h = pow(d, m-1) % prime ni hisoblash
+    d = 256  # alifbodagi belgilar soni
+    for i in range(m - 1):
+        h = (h * d) % prime
+    
+    # Namuna va matnning birinchi oynasi uchun xeshni hisoblash
+    for i in range(m):
+        pattern_hash = (d * pattern_hash + ord(pattern[i])) % prime
+        text_hash = (d * text_hash + ord(text[i])) % prime
+    
+    matches = []
+    for i in range(n - m + 1):
+        # Xesh qiymatlari mos kelishini tekshiring
+        if pattern_hash == text_hash:
+            # Belgilarni bittadan tekshiring
+            if text[i:i + m] == pattern:
+                matches.append(i)
+        
+        # Keyingi oyna uchun xeshni hisoblang
+        if i < n - m:
+            text_hash = (d * (text_hash - ord(text[i]) * h) + ord(text[i + m])) % prime
+            # Salbiy xeshni boshqarish
+            if text_hash < 0:
+                text_hash += prime
+    
+    return matches`,
+        time: "O(n + m) o'rtacha, O(nm) eng yomon",
+        space: "O(1)",
+        bestFor: "Ko'p namuna qidiruvlari, plagiatni aniqlash"
+      },
+      'z-algo': {
+        name: "Z-algoritmi",
+        desc: "Z-algoritmi Z-massivini quradi, bu yerda Z[i] i dan boshlanadigan va satr prefiksiga mos keladigan eng uzun ostki satr uzunligini ifodalaydi. Namuna moslash uchun biz namuna + '$' + matn ni birlashtiramiz va Z-massivini hisoblaymiz. Z[i] namuna uzunligiga teng bo'lgan pozitsiyalar mosliklarni ko'rsatadi. Uni amalga oshirish oddiy va chiziqli vaqt murakkabligiga ega.",
+        python: `def compute_z_array(s):
+    n = len(s)
+    z = [0] * n
+    l, r = 0, 0
+    
+    for i in range(1, n):
+        if i <= r:
+            z[i] = min(r - i + 1, z[i - l])
+        
+        while i + z[i] < n and s[z[i]] == s[i + z[i]]:
+            z[i] += 1
+        
+        if i + z[i] - 1 > r:
+            l, r = i, i + z[i] - 1
+    
+    return z
+
+def z_algorithm_search(text, pattern):
+    if not pattern:
+        return []
+    
+    combined = pattern + '$' + text
+    z = compute_z_array(combined)
+    m = len(pattern)
+    matches = []
+    
+    for i in range(m + 1, len(z)):
+        if z[i] == m:
+            matches.append(i - m - 1)
+    
+    return matches`,
+        time: "O(n + m)",
+        space: "O(n + m)",
+        bestFor: "Barcha hodisalarni topish, satr davriyligi"
+      }
+    }
+  };
+
+  // Update UI based on selected algorithm
+  const updateAlgorithmUI = () => {
+    const algo = algoSelect.value;
+    const lang = localStorage.getItem('app-lang') || 'en';
+    const config = algorithms[lang][algo] || algorithms.en[algo];
+    
+    descDiv.textContent = config.desc;
+    codeDiv.textContent = config.python;
+    timeComplexityDiv.textContent = config.time;
+    spaceComplexityDiv.textContent = config.space;
+    bestForDiv.textContent = config.bestFor;
+  };
+
+  // Render text visualization
+  const renderTextVisualization = (text, pattern, highlights = {}) => {
+    let html = '<div style="font-family:monospace; font-size:16px; line-height:1.8;">';
+    
+    // Render text with highlights
+    html += '<div><strong>Text:</strong></div>';
+    html += '<div style="margin:10px 0; padding:10px; background:#1a1a2e; border-radius:8px;">';
+    for (let i = 0; i < text.length; i++) {
+      let bgColor = '#1a1a2e';
+      let color = 'white';
+      
+      if (highlights.match && highlights.match.includes(i)) {
+        bgColor = '#00c853'; // Green for matches
+        color = 'black';
+      } else if (highlights.current === i) {
+        bgColor = '#ffab00'; // Amber for current
+        color = 'black';
+      } else if (highlights.mismatch === i) {
+        bgColor = '#ff5252'; // Red for mismatch
+        color = 'white';
+      }
+      
+      html += `<span style="display:inline-block; width:24px; height:24px; text-align:center; line-height:24px; background:${bgColor}; color:${color}; margin:2px; border-radius:4px;">${text[i]}</span>`;
+    }
+    html += '</div>';
+    
+    // Render pattern with alignment
+    if (highlights.patternStart !== undefined) {
+      html += '<div><strong>Pattern:</strong></div>';
+      html += '<div style="margin:10px 0; padding:10px; background:#1a1a2e; border-radius:8px;">';
+      
+      // Add spacing for alignment
+      for (let i = 0; i < highlights.patternStart; i++) {
+        html += '<span style="display:inline-block; width:24px; height:24px; margin:2px;"></span>';
+      }
+      
+      for (let i = 0; i < pattern.length; i++) {
+        let bgColor = '#667eea';
+        let color = 'white';
+        
+        if (highlights.patternMatch && i < highlights.patternMatch.length && highlights.patternMatch[i]) {
+          bgColor = '#00c853';
+          color = 'black';
+        } else if (highlights.patternCurrent === i) {
+          bgColor = '#ffab00';
+          color = 'black';
+        } else if (highlights.patternMismatch === i) {
+          bgColor = '#ff5252';
+          color = 'white';
+        }
+        
+        html += `<span style="display:inline-block; width:24px; height:24px; text-align:center; line-height:24px; background:${bgColor}; color:${color}; margin:2px; border-radius:4px;">${pattern[i]}</span>`;
+      }
+      html += '</div>';
+    }
+    
+    html += '</div>';
+    canvasContainer.innerHTML = html;
+  };
+
+  // Sleep helper
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  // KMP simulation
+  const simulateKMP = async (text, pattern) => {
+    const n = text.length;
+    const m = pattern.length;
+    if (m === 0) return [];
+    
+    // Compute LPS array with visualization
+    const lps = Array(m).fill(0);
+    let length = 0;
+    let i = 1;
+    
+    while (i < m) {
+      if (pattern[i] === pattern[length]) {
+        length++;
+        lps[i] = length;
+        i++;
+      } else {
+        if (length !== 0) {
+          length = lps[length - 1];
+        } else {
+          lps[i] = 0;
+          i++;
+        }
+      }
+    }
+    
+    // Search phase
+    let textIdx = 0;
+    let patternIdx = 0;
+    const matches = [];
+    
+    while (textIdx < n) {
+      // Visualize current comparison
+      const highlights = {
+        current: textIdx,
+        patternCurrent: patternIdx,
+        patternStart: textIdx - patternIdx
+      };
+      
+      if (patternIdx < m && pattern[patternIdx] === text[textIdx]) {
+        patternIdx++;
+        textIdx++;
+        highlights.patternMatch = Array(patternIdx).fill(true);
+      } else {
+        if (patternIdx === m) {
+          matches.push(textIdx - patternIdx);
+          patternIdx = lps[patternIdx - 1];
+          // Highlight match
+          const matchHighlights = {
+            match: Array.from({length: m}, (_, j) => textIdx - m + j),
+            patternStart: textIdx - m
+          };
+          renderTextVisualization(text, pattern, matchHighlights);
+          await sleep(animationSpeed * 2);
+        } else if (textIdx < n && patternIdx < m && pattern[patternIdx] !== text[textIdx]) {
+          highlights.mismatch = textIdx;
+          highlights.patternMismatch = patternIdx;
+          renderTextVisualization(text, pattern, highlights);
+          await sleep(animationSpeed);
+          
+          if (patternIdx !== 0) {
+            patternIdx = lps[patternIdx - 1];
+          } else {
+            textIdx++;
+          }
+        }
+      }
+      
+      renderTextVisualization(text, pattern, highlights);
+      await sleep(animationSpeed);
+    }
+    
+    // Final check for match at end
+    if (patternIdx === m) {
+      matches.push(textIdx - patternIdx);
+      const matchHighlights = {
+        match: Array.from({length: m}, (_, j) => textIdx - m + j),
+        patternStart: textIdx - m
+      };
+      renderTextVisualization(text, pattern, matchHighlights);
+      await sleep(animationSpeed * 2);
+    }
+    
+    return matches;
+  };
+
+  // Rabin-Karp simulation
+  const simulateRabinKarp = async (text, pattern) => {
+    const n = text.length;
+    const m = pattern.length;
+    if (m === 0 || n < m) return [];
+    
+    const prime = 101;
+    const d = 256;
+    
+    // Calculate h = pow(d, m-1) % prime
+    let h = 1;
+    for (let i = 0; i < m - 1; i++) {
+      h = (h * d) % prime;
+    }
+    
+    // Calculate initial hash values
+    let patternHash = 0;
+    let textHash = 0;
+    for (let i = 0; i < m; i++) {
+      patternHash = (d * patternHash + pattern.charCodeAt(i)) % prime;
+      textHash = (d * textHash + text.charCodeAt(i)) % prime;
+    }
+    
+    const matches = [];
+    
+    for (let i = 0; i <= n - m; i++) {
+      // Visualize current window
+      const highlights = {
+        current: i,
+        patternStart: i
+      };
+      
+      // Check hash match
+      if (patternHash === textHash) {
+        // Verify character by character
+        let isMatch = true;
+        const patternMatch = [];
+        
+        for (let j = 0; j < m; j++) {
+          if (text[i + j] !== pattern[j]) {
+            isMatch = false;
+            highlights.mismatch = i + j;
+            highlights.patternMismatch = j;
+            patternMatch.push(false);
+          } else {
+            patternMatch.push(true);
+          }
+        }
+        
+        highlights.patternMatch = patternMatch;
+        renderTextVisualization(text, pattern, highlights);
+        await sleep(animationSpeed);
+        
+        if (isMatch) {
+          matches.push(i);
+          // Highlight full match
+          const matchHighlights = {
+            match: Array.from({length: m}, (_, j) => i + j),
+            patternStart: i
+          };
+          renderTextVisualization(text, pattern, matchHighlights);
+          await sleep(animationSpeed * 2);
+        }
+      } else {
+        // Hash mismatch
+        highlights.mismatch = i;
+        renderTextVisualization(text, pattern, highlights);
+        await sleep(animationSpeed / 2);
+      }
+      
+      // Calculate hash for next window (except last iteration)
+      if (i < n - m) {
+        textHash = (d * (textHash - text.charCodeAt(i) * h) + text.charCodeAt(i + m)) % prime;
+        if (textHash < 0) textHash += prime;
+      }
+    }
+    
+    return matches;
+  };
+
+  // Z-algorithm simulation
+  const simulateZAlgorithm = async (text, pattern) => {
+    if (!pattern) return [];
+    
+    const combined = pattern + '$' + text;
+    const n = combined.length;
+    const z = Array(n).fill(0);
+    let l = 0, r = 0;
+    
+    // Compute Z-array
+    for (let i = 1; i < n; i++) {
+      if (i <= r) {
+        z[i] = Math.min(r - i + 1, z[i - l]);
+      }
+      
+      // Expand while characters match
+      while (i + z[i] < n && combined[z[i]] === combined[i + z[i]]) {
+        z[i]++;
+        
+        // Visualize Z-array computation
+        const tempCombined = combined.split('');
+        const highlights = {
+          current: i + z[i] - 1,
+          patternStart: 0
+        };
+        
+        // Highlight prefix comparison
+        renderTextVisualization(tempCombined.join(''), pattern, highlights);
+        await sleep(animationSpeed / 3);
+      }
+      
+      if (i + z[i] - 1 > r) {
+        l = i;
+        r = i + z[i] - 1;
+      }
+    }
+    
+    // Find matches
+    const m = pattern.length;
+    const matches = [];
+    
+    for (let i = m + 1; i < n; i++) {
+      if (z[i] === m) {
+        const matchPos = i - m - 1;
+        matches.push(matchPos);
+        
+        // Highlight match in original text
+        const matchHighlights = {
+          match: Array.from({length: m}, (_, j) => matchPos + j),
+          patternStart: matchPos
+        };
+        renderTextVisualization(text, pattern, matchHighlights);
+        await sleep(animationSpeed * 2);
+      }
+    }
+    
+    return matches;
+  };
+
+  // Run string matching algorithm
+  const runStringAlgorithm = async () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    runBtn.disabled = true;
+    
+    const text = textInput.value;
+    const pattern = patternInput.value;
+    
+    if (!text || !pattern) {
+      statusDiv.textContent = '❌ Please enter both text and pattern';
+      statusDiv.style.backgroundColor = 'rgba(255, 82, 82, 0.2)';
+      resultDiv.innerHTML = '<span style="color:#ff5252">Text and pattern cannot be empty</span>';
+      isAnimating = false;
+      runBtn.disabled = false;
+      return;
+    }
+    
+    if (pattern.length > text.length) {
+      statusDiv.textContent = '❌ Pattern longer than text';
+      statusDiv.style.backgroundColor = 'rgba(255, 82, 82, 0.2)';
+      resultDiv.innerHTML = '<span style="color:#ff5252">Pattern cannot be longer than text</span>';
+      isAnimating = false;
+      runBtn.disabled = false;
+      return;
+    }
+    
+    try {
+      let matches;
+      const algo = algoSelect.value;
+      
+      if (algo === 'kmp') {
+        matches = await simulateKMP(text, pattern);
+      } else if (algo === 'rabin-karp') {
+        matches = await simulateRabinKarp(text, pattern);
+      } else if (algo === 'z-algo') {
+        matches = await simulateZAlgorithm(text, pattern);
+      }
+      
+      if (matches.length > 0) {
+        statusDiv.textContent = `✅ Found ${matches.length} match(es)!`;
+        statusDiv.style.backgroundColor = 'rgba(0, 200, 83, 0.2)';
+        resultDiv.innerHTML = `<span style="color:#00c853">Matches at positions: [${matches.join(', ')}]</span>`;
+      } else {
+        statusDiv.textContent = '❌ No matches found';
+        statusDiv.style.backgroundColor = 'rgba(255, 82, 82, 0.2)';
+        resultDiv.innerHTML = '<span style="color:#ff5252">Pattern not found in text</span>';
+      }
+    } catch (error) {
+      statusDiv.textContent = '❌ Error during execution';
+      statusDiv.style.backgroundColor = 'rgba(255, 82, 82, 0.2)';
+      resultDiv.innerHTML = `<span style="color:#ff5252">${error.message}</span>`;
+    }
+    
+    isAnimating = false;
+    runBtn.disabled = false;
+  };
+
+  // Generate random text and pattern
+  const generateRandomText = () => {
+    const texts = [
+      "ABABDABACDABABCABCABCABD",
+      "THIS IS A SAMPLE TEXT FOR STRING MATCHING",
+      "ABCDEFGABCDEABCDABCABABA",
+      "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG",
+      "AAAAAABAAAAAABAAAAAAB"
+    ];
+    const patterns = [
+      "ABABCABAB",
+      "SAMPLE",
+      "ABCDE",
+      "FOX",
+      "AAAAAAB"
+    ];
+    
+    const randomText = texts[Math.floor(Math.random() * texts.length)];
+    const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
+    
+    textInput.value = randomText;
+    patternInput.value = randomPattern;
+    renderTextVisualization(randomText, randomPattern);
+  };
+
+  // Event Listeners
+  algoSelect.addEventListener('change', updateAlgorithmUI);
+  runBtn.addEventListener('click', runStringAlgorithm);
+  randomBtn.addEventListener('click', generateRandomText);
+
+  // Initialize
+  updateAlgorithmUI();
+  renderTextVisualization("ABABDABACDABABCABCABCABD", "ABABCABAB");
+
+  // Listen for language changes
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'app-lang') updateAlgorithmUI();
+  });
+})();
+</script>
+
+<!-- =============== ADVANCED SORTING SECTION =============== -->
+<div id="advanced-sorting" class="section">
+  <h2 data-i18n="advanced_sorting_title">Advanced Sorting Algorithms</h2>
+
+  <!-- ===== DETAILS & PYTHON CODE ===== -->
+  <div class="details">
+    <h3 data-i18n="details_heading">Algorithm Details</h3>
+    <p id="advanced-desc">
+      <!-- Dynamically updated based on selected algorithm -->
+    </p>
+    
+    <div class="python-code" style="margin-top:15px;">
+      <div class="code-header" data-i18n="py_heading">Python Implementation</div>
+      <pre id="advanced-python-code"></pre>
+    </div>
+    
+    <div class="row" style="margin-top:15px; padding:12px; background:#1a1a2e; border-radius:8px;">
+      <div style="display:flex; flex-wrap:wrap; gap:20px; flex:1;">
+        <div>
+          <strong data-i18n="time_complexity_label">Time Complexity:</strong>
+          <div id="time-complexity-adv" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+        <div>
+          <strong data-i18n="space_complexity_label">Space Complexity:</strong>
+          <div id="space-complexity-adv" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+        <div>
+          <strong data-i18n="best_for">Best For:</strong>
+          <div id="best-for-adv" style="margin-top:5px; font-family:monospace;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ALGORITHM SELECTION ===== -->
+  <div class="panel" style="margin-bottom:20px;">
+    <div class="row" style="flex-wrap:wrap; gap:15px;">
+      <label><strong data-i18n="select_algorithm">Select Algorithm:</strong></label>
+      <select id="sorting-algo" style="flex:1; min-width:200px;">
+        <option value="timsort">Timsort</option>
+        <option value="radix">Radix Sort</option>
+        <option value="counting">Counting Sort</option>
+      </select>
+      
+      <button id="run-advanced-sort" class="accent" style="padding:10px 24px; font-size:16px;">
+        <span data-i18n="btn_run_sort">Run Sorting</span>
+      </button>
+      <button id="random-advanced" style="padding:10px 24px; background:#6a5acd; border-color:#7a6add;">
+        <span data-i18n="btn_random_data">Random Data</span>
+      </button>
+      <button id="clear-advanced" class="bad" style="padding:10px 24px;">
+        <span data-i18n="btn_clear">Clear</span>
+      </button>
+    </div>
+    
+    <div class="row" style="margin-top:15px;">
+      <input type="text" id="advanced-input" placeholder="e.g., 64,34,25,12,22,11,90" style="flex:1; padding:10px; font-size:16px;">
+    </div>
+  </div>
+
+  <!-- ===== VISUALIZATION CANVAS ===== -->
+  <div class="panel" style="margin-top:20px;">
+    <canvas id="advanced-canvas" width="1100" height="450" style="background:#0b1021; border-radius:12px;"></canvas>
+  </div>
+
+  <!-- ===== RESULTS & FEEDBACK ===== -->
+  <div class="panel" style="margin-top:20px;">
+    <div class="row" style="justify-content:space-between; align-items:center;">
+      <h3 style="margin:0;" data-i18n="result_heading">Result</h3>
+      <div id="advanced-status" style="font-weight:bold; padding:8px 16px; border-radius:8px;"></div>
+    </div>
+    <div id="advanced-result" style="margin-top:15px; padding:15px; background:#1a1a2e; border-radius:8px; min-height:60px; font-size:18px; font-family:monospace;"></div>
+  </div>
+
+  <!-- ===== INSTRUCTIONS ===== -->
+  <div class="panel" style="margin-top:20px; background:#16213e; border-left:4px solid #f5d06f;">
+    <h3 style="margin:0 0 15px 0; color:#f5d06f;" data-i18n="instructions">How to Use</h3>
+    <ol style="padding-left:20px; line-height:1.6;">
+      <li data-i18n="adv_instr1">Enter comma-separated numbers or use "Random Data"</li>
+      <li data-i18n="adv_instr2">Select an algorithm from the dropdown</li>
+      <li data-i18n="adv_instr3">Click "Run Sorting" to see step-by-step visualization</li>
+      <li data-i18n="adv_instr4">Green bars = sorted, Yellow = current processing, Red = comparison</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+// ====================== ADVANCED SORTING SANDBOX ======================
+(() => {
+  const container = document.getElementById('advanced-sorting');
+  if (!container) return;
+
+  // State
+  let currentArray = [];
+  let isAnimating = false;
+  let animationSpeed = 200;
+
+  // DOM Elements
+  const algoSelect = container.querySelector('#sorting-algo');
+  const inputField = container.querySelector('#advanced-input');
+  const runBtn = container.querySelector('#run-advanced-sort');
+  const randomBtn = container.querySelector('#random-advanced');
+  const clearBtn = container.querySelector('#clear-advanced');
+  const canvas = container.querySelector('#advanced-canvas');
+  const ctx = canvas.getContext('2d');
+  const descDiv = container.querySelector('#advanced-desc');
+  const codeDiv = container.querySelector('#advanced-python-code');
+  const timeComplexityDiv = container.querySelector('#time-complexity-adv');
+  const spaceComplexityDiv = container.querySelector('#space-complexity-adv');
+  const bestForDiv = container.querySelector('#best-for-adv');
+  const statusDiv = container.querySelector('#advanced-status');
+  const resultDiv = container.querySelector('#advanced-result');
+
+  // Algorithm configurations
+  const algorithms = {
+    en: {
+      timsort: {
+        name: "Timsort",
+        desc: "Timsort is a hybrid stable sorting algorithm derived from merge sort and insertion sort. It's designed to perform well on many kinds of real-world data and is the default sorting algorithm in Python and Java (for objects). It identifies already sorted runs and merges them efficiently.",
+        python: `def timsort(arr):
+    # Python's built-in sort uses Timsort
+    return sorted(arr)
+    
+# Manual implementation is complex, but here's the concept:
+def insertion_sort(arr, left, right):
+    for i in range(left + 1, right + 1):
+        key = arr[i]
+        j = i - 1
+        while j >= left and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+def merge(arr, l, m, r):
+    len1, len2 = m - l + 1, r - m
+    left, right = [], []
+    for i in range(len1):
+        left.append(arr[l + i])
+    for i in range(len2):
+        right.append(arr[m + 1 + i])
+    
+    i = j = 0
+    k = l
+    while i < len1 and j < len2:
+        if left[i] <= right[j]:
+            arr[k] = left[i]
+            i += 1
+        else:
+            arr[k] = right[j]
+            j += 1
+        k += 1
+    
+    while i < len1:
+        arr[k] = left[i]
+        k += 1
+        i += 1
+    while j < len2:
+        arr[k] = right[j]
+        k += 1
+        j += 1
+
+def timsort_manual(arr):
+    n = len(arr)
+    MIN_MERGE = 32
+    
+    def calc_min_run(n):
+        r = 0
+        while n >= MIN_MERGE:
+            r |= n & 1
+            n >>= 1
+        return n + r
+    
+    min_run = calc_min_run(n)
+    
+    # Sort individual subarrays of size min_run
+    for start in range(0, n, min_run):
+        end = min(start + min_run - 1, n - 1)
+        insertion_sort(arr, start, end)
+    
+    # Merge subarrays
+    size = min_run
+    while size < n:
+        for left in range(0, n, 2 * size):
+            mid = min(n - 1, left + size - 1)
+            right = min((left + 2 * size - 1), (n - 1))
+            if mid < right:
+                merge(arr, left, mid, right)
+        size *= 2
+    
+    return arr`,
+        time: "O(n log n)",
+        space: "O(n)",
+        bestFor: "Real-world data with partially sorted sequences"
+      },
+      radix: {
+        name: "Radix Sort",
+        desc: "Radix Sort is a non-comparative integer sorting algorithm that sorts numbers by processing individual digits. It processes digits from least significant digit (LSD) to most significant digit (MSD) or vice versa. It uses counting sort as a subroutine to sort digits at each position.",
+        python: `def counting_sort_for_radix(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+    
+    # Store count of occurrences
+    for i in range(n):
+        index = arr[i] // exp
+        count[index % 10] += 1
+    
+    # Change count[i] to actual position
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+    
+    # Build output array
+    i = n - 1
+    while i >= 0:
+        index = arr[i] // exp
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+    
+    # Copy output to arr
+    for i in range(n):
+        arr[i] = output[i]
+
+def radix_sort(arr):
+    # Find maximum number to know number of digits
+    max_num = max(arr)
+    
+    # Do counting sort for every digit
+    exp = 1
+    while max_num // exp > 0:
+        counting_sort_for_radix(arr, exp)
+        exp *= 10
+    
+    return arr`,
+        time: "O(d × (n + k))",
+        space: "O(n + k)",
+        bestFor: "Integers with fixed number of digits (d)"
+      },
+      counting: {
+        name: "Counting Sort",
+        desc: "Counting Sort is a non-comparative sorting algorithm that works by counting the number of objects having distinct key values. It creates a count array to store the count of each unique object, then calculates the positions of each element in the output sequence. It's efficient when the range of input data (k) is not significantly greater than the number of elements (n).",
+        python: `def counting_sort(arr):
+    if not arr:
+        return arr
+        
+    # Find range of elements
+    max_val = max(arr)
+    min_val = min(arr)
+    range_val = max_val - min_val + 1
+    
+    # Initialize count array
+    count = [0] * range_val
+    output = [0] * len(arr)
+    
+    # Store count of each element
+    for num in arr:
+        count[num - min_val] += 1
+    
+    # Change count[i] to actual position
+    for i in range(1, range_val):
+        count[i] += count[i - 1]
+    
+    # Build output array
+    for i in range(len(arr) - 1, -1, -1):
+        output[count[arr[i] - min_val] - 1] = arr[i]
+        count[arr[i] - min_val] -= 1
+    
+    return output`,
+        time: "O(n + k)",
+        space: "O(k)",
+        bestFor: "Small range of integers (k ≈ n)"
+      }
+    },
+    uz: {
+      timsort: {
+        name: "Timsort",
+        desc: "Timsort — birlashtirish saralash va qo'shish saralashdan olingan gibrid barqaror saralash algoritmidir. U turli xil haqiqiy ma'lumotlarda yaxshi ishlash uchun mo'ljallangan bo'lib, Python va Java (obyektlar uchun) da standart saralash algoritmi sifatida ishlatiladi. Oldindan saralangan ketma-ketliklarni aniqlaydi va ularni samarali birlashtiradi.",
+        python: `def timsort(arr):
+    # Pythonning o'rnatilgan saralash funksiyasi Timsortdan foydalanadi
+    return sorted(arr)
+    
+# Qo'lda amalga oshirish murakkab, lekin konsepsiya shunday:
+def insertion_sort(arr, left, right):
+    for i in range(left + 1, right + 1):
+        key = arr[i]
+        j = i - 1
+        while j >= left and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+def merge(arr, l, m, r):
+    len1, len2 = m - l + 1, r - m
+    left, right = [], []
+    for i in range(len1):
+        left.append(arr[l + i])
+    for i in range(len2):
+        right.append(arr[m + 1 + i])
+    
+    i = j = 0
+    k = l
+    while i < len1 and j < len2:
+        if left[i] <= right[j]:
+            arr[k] = left[i]
+            i += 1
+        else:
+            arr[k] = right[j]
+            j += 1
+        k += 1
+    
+    while i < len1:
+        arr[k] = left[i]
+        k += 1
+        i += 1
+    while j < len2:
+        arr[k] = right[j]
+        k += 1
+        j += 1
+
+def timsort_manual(arr):
+    n = len(arr)
+    MIN_MERGE = 32
+    
+    def calc_min_run(n):
+        r = 0
+        while n >= MIN_MERGE:
+            r |= n & 1
+            n >>= 1
+        return n + r
+    
+    min_run = calc_min_run(n)
+    
+    # min_run hajmidagi alohida massivlarni saralash
+    for start in range(0, n, min_run):
+        end = min(start + min_run - 1, n - 1)
+        insertion_sort(arr, start, end)
+    
+    # Ostki massivlarni birlashtirish
+    size = min_run
+    while size < n:
+        for left in range(0, n, 2 * size):
+            mid = min(n - 1, left + size - 1)
+            right = min((left + 2 * size - 1), (n - 1))
+            if mid < right:
+                merge(arr, left, mid, right)
+        size *= 2
+    
+    return arr`,
+        time: "O(n log n)",
+        space: "O(n)",
+        bestFor: "Qisman saralangan ketma-ketliklarga ega haqiqiy ma'lumotlar"
+      },
+      radix: {
+        name: "Radix Sort",
+        desc: "Radix Sort — raqamlarni alohida qayta ishlab, sonlarni saralovchi taqqoslamaydigan butun sonlar saralash algoritmidir. U eng kam ahamiyatli raqamdan (LSD) eng ko'p ahamiyatli raqamgacha (MSD) yoki aksincha raqamlarni qayta ishlaydi. Har bir pozitsiyadagi raqamlarni saralash uchun hisoblash saralashidan foydalanadi.",
+        python: `def counting_sort_for_radix(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+    
+    # Hodisalar sonini saqlash
+    for i in range(n):
+        index = arr[i] // exp
+        count[index % 10] += 1
+    
+    # count[i] ni haqiqiy pozitsiyaga o'zgartirish
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+    
+    # Chiqish massivini yaratish
+    i = n - 1
+    while i >= 0:
+        index = arr[i] // exp
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+    
+    # Chiqishni arr ga nusxalash
+    for i in range(n):
+        arr[i] = output[i]
+
+def radix_sort(arr):
+    # Raqamlar sonini bilish uchun maksimal sonni topish
+    max_num = max(arr)
+    
+    # Har bir raqam uchun hisoblash saralashini bajaring
+    exp = 1
+    while max_num // exp > 0:
+        counting_sort_for_radix(arr, exp)
+        exp *= 10
+    
+    return arr`,
+        time: "O(d × (n + k))",
+        space: "O(n + k)",
+        bestFor: "Belgilangan raqamlar soniga ega butun sonlar (d)"
+      },
+      counting: {
+        name: "Counting Sort",
+        desc: "Hisoblash saralashi — har xil kalit qiymatlariga ega obyektlar sonini sanash orqali ishlovchi taqqoslamaydigan saralash algoritmidir. U har bir noyob obyektning sonini saqlash uchun hisoblash massivini yaratadi, so'ngra chiqish ketma-ketligidagi har bir elementning pozitsiyasini hisoblaydi. Kirish ma'lumotlarining diapazoni (k) elementlar sonidan (n) ancha katta bo'lmaganda samarali ishlaydi.",
+        python: `def counting_sort(arr):
+    if not arr:
+        return arr
+        
+    # Elementlarning diapazonini topish
+    max_val = max(arr)
+    min_val = min(arr)
+    range_val = max_val - min_val + 1
+    
+    # Hisoblash massivini ishga tushirish
+    count = [0] * range_val
+    output = [0] * len(arr)
+    
+    # Har bir elementning sonini saqlash
+    for num in arr:
+        count[num - min_val] += 1
+    
+    # count[i] ni haqiqiy pozitsiyaga o'zgartirish
+    for i in range(1, range_val):
+        count[i] += count[i - 1]
+    
+    # Chiqish massivini yaratish
+    for i in range(len(arr) - 1, -1, -1):
+        output[count[arr[i] - min_val] - 1] = arr[i]
+        count[arr[i] - min_val] -= 1
+    
+    return output`,
+        time: "O(n + k)",
+        space: "O(k)",
+        bestFor: "Kichik diapazonli butun sonlar (k ≈ n)"
+      }
+    }
+  };
+
+  // Update UI based on selected algorithm
+  const updateAlgorithmUI = () => {
+    const algo = algoSelect.value;
+    const lang = localStorage.getItem('app-lang') || 'en';
+    const config = algorithms[lang][algo] || algorithms.en[algo];
+    
+    descDiv.textContent = config.desc;
+    codeDiv.textContent = config.python;
+    timeComplexityDiv.textContent = config.time;
+    spaceComplexityDiv.textContent = config.space;
+    bestForDiv.textContent = config.bestFor;
+  };
+
+  // Initialize array
+  const initArray = () => {
+    const input = inputField.value.trim();
+    if (input) {
+      currentArray = input.split(',').map(s => {
+        const num = parseFloat(s.trim());
+        return isNaN(num) ? 0 : num;
+      }).filter(n => !isNaN(n));
+    } else {
+      currentArray = [64, 34, 25, 12, 22, 11, 90, 88, 76, 50, 42];
+    }
+    drawArray(currentArray);
+    resultDiv.innerHTML = '';
+    statusDiv.textContent = '';
+    statusDiv.style.backgroundColor = '';
+  };
+
+  // Draw array visualization
+  const drawArray = (arr, highlightIndices = {}, sortedIndices = new Set()) => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (arr.length === 0) return;
+    
+    const maxVal = Math.max(...arr, 1);
+    const barWidth = Math.min(60, (canvas.width - 100) / arr.length);
+    const barSpacing = 10;
+    const totalWidth = arr.length * (barWidth + barSpacing) - barSpacing;
+    const startX = (canvas.width - totalWidth) / 2;
+    const baseY = canvas.height - 50;
+    
+    arr.forEach((val, i) => {
+      const x = startX + i * (barWidth + barSpacing);
+      const h = (val / maxVal) * 300;
+      
+      // Determine color
+      let color = '#667eea'; // Default blue
+      if (sortedIndices.has(i)) color = '#00c853'; // Green for sorted
+      else if (highlightIndices.current === i) color = '#ffab00'; // Amber for current
+      else if (highlightIndices.comparison === i) color = '#ff5252'; // Red for comparison
+      
+      ctx.fillStyle = color;
+      ctx.fillRect(x, baseY - h, barWidth, h);
+      ctx.strokeStyle = '#0ff';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x, baseY - h, barWidth, h);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = '14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(Math.round(val), x + barWidth / 2, baseY - h - 10);
+      ctx.fillText(i, x + barWidth / 2, baseY + 20);
+    });
+  };
+
+  // Sleep helper
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  // Timsort simulation (simplified visualization)
+  const simulateTimsort = async (arr) => {
+    const sorted = [...arr].sort((a, b) => a - b);
+    const steps = Math.min(20, arr.length);
+    
+    for (let i = 1; i <= steps; i++) {
+      const progress = Math.floor((i / steps) * arr.length);
+      const currentSlice = [...arr].slice(0, progress).sort((a, b) => a - b);
+      const merged = [...currentSlice, ...arr.slice(progress)];
+      
+      const sortedIndices = new Set();
+      for (let j = 0; j < progress; j++) {
+        sortedIndices.add(j);
+      }
+      
+      drawArray(merged, {}, sortedIndices);
+      await sleep(animationSpeed);
+    }
+    
+    drawArray(sorted, {}, new Set(Array.from({length: arr.length}, (_, i) => i)));
+    return sorted;
+  };
+
+  // Radix sort simulation
+  const simulateRadixSort = async (arr) => {
+    if (arr.length === 0) return arr;
+    
+    // Handle negative numbers by offsetting
+    const minVal = Math.min(...arr);
+    const offset = minVal < 0 ? -minVal : 0;
+    const adjustedArr = arr.map(x => x + offset);
+    
+    const maxNum = Math.max(...adjustedArr);
+    let exp = 1;
+    let currentArr = [...adjustedArr];
+    
+    while (Math.floor(maxNum / exp) > 0) {
+      // Counting sort for current digit
+      const output = new Array(currentArr.length);
+      const count = new Array(10).fill(0);
+      
+      // Count occurrences
+      for (let i = 0; i < currentArr.length; i++) {
+        const digit = Math.floor(currentArr[i] / exp) % 10;
+        count[digit]++;
+      }
+      
+      // Calculate positions
+      for (let i = 1; i < 10; i++) {
+        count[i] += count[i - 1];
+      }
+      
+      // Build output array (stable sort)
+      for (let i = currentArr.length - 1; i >= 0; i--) {
+        const digit = Math.floor(currentArr[i] / exp) % 10;
+        output[count[digit] - 1] = currentArr[i];
+        count[digit]--;
+      }
+      
+      currentArr = [...output];
+      
+      // Visualize current state
+      const originalArr = currentArr.map(x => x - offset);
+      drawArray(originalArr, { current: -1 }, new Set());
+      await sleep(animationSpeed * 2);
+      
+      exp *= 10;
+    }
+    
+    return currentArr.map(x => x - offset);
+  };
+
+  // Counting sort simulation
+  const simulateCountingSort = async (arr) => {
+    if (arr.length === 0) return arr;
+    
+    const minVal = Math.min(...arr);
+    const maxVal = Math.max(...arr);
+    const range = maxVal - minVal + 1;
+    
+    // Create count array
+    const count = new Array(range).fill(0);
+    for (const num of arr) {
+      count[num - minVal]++;
+    }
+    
+    // Visualize count array creation
+    drawArray(arr, { current: -1 }, new Set());
+    await sleep(animationSpeed);
+    
+    // Build output array
+    const output = [];
+    for (let i = 0; i < range; i++) {
+      while (count[i] > 0) {
+        output.push(i + minVal);
+        count[i]--;
+        
+        // Visualize progressive building
+        const tempOutput = [...output, ...arr.slice(output.length)];
+        drawArray(tempOutput, { current: output.length - 1 }, new Set());
+        await sleep(animationSpeed / 2);
+      }
+    }
+    
+    return output;
+  };
+
+  // Run sorting algorithm
+  const runSorting = async () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    runBtn.disabled = true;
+    
+    initArray();
+    const algo = algoSelect.value;
+    let sortedArray;
+    
+    try {
+      if (algo === 'timsort') {
+        sortedArray = await simulateTimsort([...currentArray]);
+      } else if (algo === 'radix') {
+        // Check if all numbers are integers
+        const hasNonInteger = currentArray.some(x => !Number.isInteger(x));
+        if (hasNonInteger) {
+          throw new Error("Radix Sort requires integers");
+        }
+        sortedArray = await simulateRadixSort([...currentArray]);
+      } else if (algo === 'counting') {
+        // Check if numbers are within reasonable range
+        const range = Math.max(...currentArray) - Math.min(...currentArray);
+        if (range > 1000) {
+          throw new Error("Counting Sort works best with small ranges");
+        }
+        sortedArray = await simulateCountingSort([...currentArray]);
+      }
+      
+      statusDiv.textContent = '✅ Sorting completed!';
+      statusDiv.style.backgroundColor = 'rgba(0, 200, 83, 0.2)';
+      resultDiv.innerHTML = `<span style="color:#00c853">Sorted: [${sortedArray.join(', ')}]</span>`;
+    } catch (error) {
+      statusDiv.textContent = '❌ Error!';
+      statusDiv.style.backgroundColor = 'rgba(255, 82, 82, 0.2)';
+      resultDiv.innerHTML = `<span style="color:#ff5252">${error.message}</span>`;
+    }
+    
+    isAnimating = false;
+    runBtn.disabled = false;
+  };
+
+  // Generate random data
+  const generateRandomData = () => {
+    const algo = algoSelect.value;
+    let arr;
+    
+    if (algo === 'radix' || algo === 'counting') {
+      // Generate integers for radix/counting sort
+      arr = Array.from({length: 12}, () => Math.floor(Math.random() * 100));
+    } else {
+      // Generate floats for timsort
+      arr = Array.from({length: 12}, () => Math.floor(Math.random() * 100) + Math.random().toFixed(1));
+    }
+    
+    inputField.value = arr.join(', ');
+    initArray();
+  };
+
+  // Event Listeners
+  algoSelect.addEventListener('change', updateAlgorithmUI);
+  runBtn.addEventListener('click', runSorting);
+  randomBtn.addEventListener('click', generateRandomData);
+  clearBtn.addEventListener('click', () => {
+    inputField.value = '';
+    currentArray = [];
+    drawArray([]);
+    resultDiv.innerHTML = '';
+    statusDiv.textContent = '';
+    statusDiv.style.backgroundColor = '';
+  });
+
+  // Initialize
+  updateAlgorithmUI();
+  initArray();
+
+  // Listen for language changes
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'app-lang') updateAlgorithmUI();
+  });
+})();
+</script>
+
     <!-- ====================== TIME COMPLEXITY ====================== -->
     <div id="time-complexity" class="section">
       <h2 data-i18n="time_complexity_title">Time Complexity Sandbox</h2>
@@ -2213,6 +4478,8 @@ def oranges_rotting(grid):
     });
   }
 
+
+
   // Initialize
   initGrid();
   updateLanguage();
@@ -2505,6 +4772,45 @@ rotting_instr2: "Use \"Add Fresh/Rotten\" buttons to quickly place oranges",
 rotting_instr3: "Click \"Run Simulation\" to see minute-by-minute rotting process",
 rotting_instr4: "Green = Fresh, Red = Rotten, Black = Empty",
 rotting_instr5: "Result shows minutes needed or -1 if impossible",
+nav_advanced_sorting: "Advanced Sorting",
+advanced_sorting_title: "Advanced Sorting Algorithms",
+select_algorithm: "Select Algorithm:",
+btn_run_sort: "Run Sorting",
+btn_random_data: "Random Data",
+adv_instr1: "Enter comma-separated numbers or use \"Random Data\"",
+adv_instr2: "Select an algorithm from the dropdown",
+adv_instr3: "Click \"Run Sorting\" to see step-by-step visualization",
+adv_instr4: "Green bars = sorted, Yellow = current processing, Red = comparison",
+
+nav_string_algos: "String Matching",
+string_algos_title: "String Matching Algorithms",
+select_algorithm: "Select Algorithm:",
+btn_run_search: "Run Search",
+btn_random_text: "Random Text",
+text_input: "Text:",
+pattern_input: "Pattern:",
+str_instr1: "Enter text and pattern or use \"Random Text\"",
+str_instr2: "Select an algorithm from the dropdown",
+str_instr3: "Click \"Run Search\" to see step-by-step matching process",
+str_instr4: "Green = match found, Yellow = current comparison, Red = mismatch",
+
+nav_dp_algos: "Dynamic Programming",
+dp_algos_title: "Dynamic Programming Algorithms",
+select_algorithm: "Select Algorithm:",
+btn_run_dp: "Run Algorithm",
+btn_random_data: "Random Data",
+weights_input: "Weights:",
+values_input: "Values:",
+capacity_input: "Capacity:",
+string1_input: "String 1:",
+string2_input: "String 2:",
+dimensions_input: "Matrix Dimensions:",
+matrix_help: "For n matrices, provide n+1 dimensions",
+dp_instr1: "Select an algorithm from the dropdown",
+dp_instr2: "Enter required inputs or use \"Random Data\"",
+dp_instr3: "Click \"Run Algorithm\" to see step-by-step DP table construction",
+dp_instr4: "Green cells = optimal solution path, Blue = current computation",
+
       },
       uz: {
         title: "DSA Sandbox Pro",
@@ -2774,7 +5080,45 @@ rotting_instr1: "Katakchalarni bosib Bo'sh (⬛), Yangi (🍊) va Chirgatuvchi (
 rotting_instr2: "\"Yangi/Chirgatuvchi Qo'shish\" tugmalaridan foydalanib tezda apelsinlarni joylashtiring",
 rotting_instr3: "Daqiqalar bo'yicha chirish jarayonini ko'rish uchun \"Simulyatsiyani Ishga Tushirish\" tugmasini bosing",
 rotting_instr4: "Yashil = Yangi, Qizil = Chirgatuvchi, Qora = Bo'sh",
-rotting_instr5: "Natija kerakli daqiqalarni yoki agar iloji bo'lmasa -1 ni ko'rsatadi"
+rotting_instr5: "Natija kerakli daqiqalarni yoki agar iloji bo'lmasa -1 ni ko'rsatadi",
+nav_advanced_sorting: "Murakkab Saralash",
+advanced_sorting_title: "Murakkab Saralash Algoritmlari",
+select_algorithm: "Algoritmni tanlang:",
+btn_run_sort: "Saralashni Ishga Tushirish",
+btn_random_data: "Tasodifiy Ma'lumotlar",
+adv_instr1: "Vergul bilan ajratilgan raqamlarni kiriting yoki \"Tasodifiy Ma'lumotlar\"dan foydalaning",
+adv_instr2: "Pastdan algoritmni tanlang",
+adv_instr3: "Qadam-qadam vizualizatsiyani ko'rish uchun \"Saralashni Ishga Tushirish\" tugmasini bosing",
+adv_instr4: "Yashil ustunlar = saralangan, Sariq = joriy qayta ishlash, Qizil = taqqoslash",
+
+nav_string_algos: "Satr Moslash",
+string_algos_title: "Satr Moslash Algoritmlari",
+select_algorithm: "Algoritmni tanlang:",
+btn_run_search: "Qidiruvni Ishga Tushirish",
+btn_random_text: "Tasodifiy Matn",
+text_input: "Matn:",
+pattern_input: "Namuna:",
+str_instr1: "Matn va namunani kiriting yoki \"Tasodifiy Matn\"dan foydalaning",
+str_instr2: "Pastdan algoritmni tanlang",
+str_instr3: "Qadam-qadam moslash jarayonini ko'rish uchun \"Qidiruvni Ishga Tushirish\" tugmasini bosing",
+str_instr4: "Yashil = moslik topildi, Sariq = joriy taqqoslash, Qizil = mos kelmaslik",
+
+nav_dp_algos: "Dinamik Dasturlash",
+dp_algos_title: "Dinamik Dasturlash Algoritmlari",
+select_algorithm: "Algoritmni tanlang:",
+btn_run_dp: "Algoritmni Ishga Tushirish",
+btn_random_data: "Tasodifiy Ma'lumotlar",
+weights_input: "Og'irliklar:",
+values_input: "Qiymatlar:",
+capacity_input: "Sig'im:",
+string1_input: "Satr 1:",
+string2_input: "Satr 2:",
+dimensions_input: "Matritsa O'lchamlari:",
+matrix_help: "n ta matritsa uchun n+1 ta o'lcham kiriting",
+dp_instr1: "Pastdan algoritmni tanlang",
+dp_instr2: "Kerakli ma'lumotlarni kiriting yoki \"Tasodifiy Ma'lumotlar\"dan foydalaning",
+dp_instr3: "Qadam-qadam DP jadvalini qurishni ko'rish uchun \"Algoritmni Ishga Tushirish\" tugmasini bosing",
+dp_instr4: "Yashil kataklar = optimal yechim yo'li, Ko'k = joriy hisoblash"
       }
     };
 
@@ -2846,7 +5190,10 @@ rotting_instr5: "Natija kerakli daqiqalarni yoki agar iloji bo'lmasa -1 ni ko'rs
       { id: 'time-complexity', title: T('nav_time_complexity'), keywords: 'big o time complexity growth rate' },
       { id: 'space-complexity', title: T('nav_space_complexity'), keywords: 'space memory auxiliary stack' },
       { id: 'complexity', title: T('nav_complexity'), keywords: 'race comparison big o visualization' },
-      { id: 'rotting', title: T('nav_rotting'), keywords: 'rotting oranges bfs grid simulation' }
+      { id: 'rotting', title: T('nav_rotting'), keywords: 'rotting oranges bfs grid simulation' },
+      { id: 'advanced-sorting', title: T('nav_advanced_sorting'), keywords: 'timsort radix counting advanced sort' },
+      { id: 'string-algos', title: T('nav_string_algos'), keywords: 'kmp rabin-karp z-algorithm string matching' },
+      { id: 'dp-algos', title: T('nav_dp_algos'), keywords: 'knapsack lcs matrix chain multiplication dynamic programming' }
     ];
 
     function debounce(func, wait) {
